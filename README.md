@@ -21,8 +21,16 @@ public/shots/            real screenshots of the live apps, 800px JPEGs
 public/                  CNAME, robots.txt, sitemap.xml
 ```
 
-**Adding a project** is one entry in `projects.ts` plus (for a live one) a screenshot: capture
-the site at 1280×800, resize to 800px wide, drop it in `public/shots/`.
+**Adding a project** is one entry in `projects.ts` plus (for a live one) a screenshot —
+`npm run shots -- <name>` retakes it (or all of them with no argument) using the system Chrome,
+including the per-site persuasion some apps need (Delulu Beats' sound gate, CorrelateAI's
+intro). One caveat: on a network with TLS inspection (Cisco Umbrella and friends) headless
+Chrome rejects the intercepted certificates, so run it from a normal connection.
+
+**Today at the arcade** on the home page is the live Shut The Cube daily leaderboard, fetched
+from `api.victorsaly.com` after the page paints. The section starts hidden and only appears
+when real entries arrive, so offline — or if the API is down — the page reads as if it were
+never there. Player names are player-chosen text and are rendered with `textContent` only.
 
 ## Design
 

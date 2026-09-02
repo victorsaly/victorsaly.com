@@ -1,0 +1,100 @@
+---
+/*
+ * Today at the arcade: the live daily leaderboards for Shut The Cube,
+ * fetched from api.victorsaly.com after the page paints.
+ *
+ * The page is static and must stay honest offline, so this section starts
+ * [hidden] and only appears once real entries arrive — if the API is
+ * unreachable, or every board is empty, the page reads exactly as it did
+ * without it. Player names are chosen by players: they go through
+ * textContent only, never markup.
+ */
+const modes = [
+  { key: 'beginner', label: 'Beginner' },
+  { key: 'medium', label: 'Medium' },
+  { key: 'ninja', label: 'Ninja' },
+];
+---
+<div class="daily reveal" id="daily" hidden>
+  <div class="daily-head">
+    <h3 class="daily-title">Today at the arcade</h3>
+    <span class="daily-date" id="daily-date"></span>
+  </div>
+  <div class="daily-grid">
+    {modes.map((m) => (
+      <div class="daily-board" data-mode={m.key}>
+        <h4>{m.label}</h4>
+        <ol class="daily-entries"></ol>
+      </div>
+    ))}
+  </div>
+  <p class="daily-cta">
+    <a href="https://shutthecube.com">Play today&rsquo;s board &rarr;</a>
+    <span class="daily-note">One board, shared by everyone, until midnight UTC.</span>
+  </p>
+</div>
+
+<script>
+  const API = 'https://api.victorsaly.com';
+  const section = document.getElementById('daily');
+
+  async function board(mode: string, period: string) {
+    const res = await fetch(
+      `${API}/v1/board?game=shutthecube&mode=${mode}&period=${period}&limit=3`
+    );
+    if (!res.ok) throw new Error('unavailable');
+    return (await res.json()).entries as {
+      rank: number; name: string; score: number; won: number; rolls: number;
+    }[];
+  }
+
+  async function load() {
+    if (!section) return;
+    const period = new Date().toISOString().slice(0, 10);
+    const boards = section.querySelectorAll<HTMLElement>('.daily-board');
+    const results = await Promise.all(
+      Array.from(boards, (el) => board(el.dataset.mode!, period).catch(() => null))
+    );
+    if (!results.some((r) => r && r.length)) return; // nothing to show — stay hidden
+
+    boards.forEach((el, i) => {
+      const list = el.querySelector('.daily-entries')!;
+      const entries = results[i];
+      if (!entries || entries.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'daily-empty';
+        li.textContent = 'No scores yet — be first';
+        list.append(li);
+        return;
+      }
+      for (const e of entries) {
+        const li = document.createElement('li');
+        const name = document.createElement('span');
+        name.className = 'daily-name';
+        name.textContent = e.name;
+        const score = document.createElement('span');
+        score.className = 'daily-score';
+        score.textContent = String(e.score);
+        li.append(name, score);
+        if (e.won) {
+          const shut = document.createElement('span');
+          shut.className = 'daily-shut';
+          shut.textContent = 'shut it';
+          li.append(shut);
+        }
+        list.append(li);
+      }
+    });
+
+    const date = document.getElementById('daily-date');
+    if (date) {
+      date.textContent = new Date().toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'long', timeZone: 'UTC',
+      });
+    }
+    section.hidden = false;
+    section.classList.add('in'); // it appears after the reveal pass has run
+  }
+
+  load().catch(() => {});
+</script>

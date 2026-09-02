@@ -4,6 +4,7 @@ import Scene from '../components/Scene.astro';
 import Ticker from '../components/Ticker.astro';
 import Card from '../components/Card.astro';
 import Row from '../components/Row.astro';
+import DailyBoards from '../components/DailyBoards.astro';
 import { live, repos } from '../data/projects';
 ---
 <Base
@@ -37,6 +38,8 @@ import { live, repos } from '../data/projects';
         Free browser games and tools. No account needed to play; signing in only puts your name on
         the shared daily leaderboard. <a href="/privacy">Privacy policy</a>.
       </p>
+
+      <DailyBoards />
 
       <ol class="cards">
         {live.map((project, index) => <Card project={project} index={index} />)}
