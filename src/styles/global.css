@@ -3,9 +3,47 @@
  *
  * One loud periwinkle, big display type, mono micro-labels, and a little
  * hand-drawn motion. Dark is the arcade at night; light is the same room
- * with the blinds open. Everything animates in CSS, nothing loads at
- * runtime except two font files, and reduced-motion turns it all off.
+ * with the blinds open. Everything animates in CSS, every asset (fonts
+ * included) is served from this origin, and reduced-motion turns it all off.
  */
+
+/* Self-hosted faces (from Fontshare, ITF Free Font License) — the site loads
+   nothing from a CDN at runtime, same rule as everything it links to. */
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/clash-display-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/clash-display-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Switzer;
+  src: url("/fonts/switzer-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Switzer;
+  src: url("/fonts/switzer-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Switzer;
+  src: url("/fonts/switzer-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   color-scheme: light dark;
