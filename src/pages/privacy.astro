@@ -1,32 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy — Victor Saly Arcade</title>
-<meta name="description" content="What Victor Saly Arcade stores when you sign in, what it does not, and how to delete it. No email address is collected and nothing is shared with anyone.">
-<link rel="canonical" href="https://victorsaly.com/privacy">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Karla:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/style.css">
-<style>
-  .policy h2 { font-size: 1.15rem; margin: 2rem 0 .5rem; }
-  .policy h2:first-of-type { margin-top: 1rem; }
-  .policy p, .policy li { max-width: 62ch; color: var(--ink-2); line-height: 1.65; }
-  .policy ul { padding-left: 1.1rem; }
-  .policy li { margin: .35rem 0; }
-  .policy .updated { color: var(--muted); font-size: .88rem; }
-  .policy table { border-collapse: collapse; margin: .8rem 0; font-size: .93rem; }
-  .policy th, .policy td { text-align: left; padding: .5rem .8rem .5rem 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
-  .policy th { color: var(--ink); font-weight: 600; }
-</style>
-</head>
-<body>
-
-<a class="skip" href="#policy">Skip to the policy</a>
-
-<div class="page">
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="Privacy Policy — Victor Saly Arcade"
+  description="What Victor Saly Arcade stores when you sign in, what it does not, and how to delete it. No email address is collected and nothing is shared with anyone."
+  path="/privacy"
+>
 
   <header class="intro">
     <p class="kicker"><a href="/">Victor Saly Arcade</a></p>
@@ -38,7 +17,7 @@
     <p class="updated">Last updated 2 September 2026</p>
   </header>
 
-  <main id="policy" class="policy">
+  <main id="main" class="policy">
 
     <h2>The short version</h2>
     <p>You can play every game completely without an account, and nothing you do leaves your device.
@@ -78,7 +57,7 @@
 
     <p>The record of moves exists so that a submitted score can be checked against the board it
       claims to come from. It is what keeps invented scores off the leaderboard, and it contains
-      nothing about you — only which tiles were played.</p>
+      nothing about you &mdash; only which tiles were played.</p>
 
     <p>We do <strong>not</strong> store your email address, your Google profile picture, or any
       Google access or refresh token. We do not use advertising, we do not sell or share data with
@@ -87,7 +66,7 @@
     <h2>What is public</h2>
     <p>Your display name and your scores appear on the leaderboard, which anyone can open. Nothing
       else about you is shown. Please do not choose a display name you would rather strangers did not
-      see — you can change it at any time from the leaderboard.</p>
+      see &mdash; you can change it at any time from the leaderboard.</p>
 
     <h2>Deleting your data</h2>
     <p>Open the leaderboard inside any game and choose <strong>Delete my data</strong>. This
@@ -118,7 +97,7 @@
       <li><strong>Google</strong> handles sign-in, under its own privacy policy.</li>
     </ul>
     <p>Each may process limited technical information such as IP address and request logs in order to
-      deliver the service. The games themselves load no third-party scripts at runtime — signing in
+      deliver the service. The games themselves load no third-party scripts at runtime &mdash; signing in
       works by sending your browser to Google and back, not by embedding Google's code in the page.</p>
 
     <h2>Changes</h2>
@@ -127,11 +106,16 @@
 
   </main>
 
-  <footer>
-    <p><a href="/">Victor Saly Arcade</a> · <a href="mailto:info@victorsaly.com">info@victorsaly.com</a></p>
-  </footer>
+</Base>
 
-</div>
-
-</body>
-</html>
+<style>
+  .updated { color: var(--muted); font-size: .88rem; margin: .8rem 0 0; }
+  .policy h2 { font-size: 1.15rem; margin: 2rem 0 .5rem; }
+  .policy h2:first-of-type { margin-top: 1.5rem; }
+  .policy p, .policy li { max-width: 62ch; color: var(--ink-2); line-height: 1.65; }
+  .policy ul { padding-left: 1.1rem; }
+  .policy li { margin: .35rem 0; }
+  .policy table { border-collapse: collapse; margin: .8rem 0; font-size: .93rem; }
+  .policy th, .policy td { text-align: left; padding: .5rem .8rem .5rem 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .policy th { color: var(--ink); font-weight: 600; }
+</style>

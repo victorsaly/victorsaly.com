@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import Scene from '../components/Scene.astro';
+import Ticker from '../components/Ticker.astro';
+import Card from '../components/Card.astro';
+import Row from '../components/Row.astro';
+import { live, repos } from '../data/projects';
+---
+<Base
+  title="Victor Saly — games, learning tools, and small useful things"
+  description="I build small web things: browser games, learning tools for my kids, and utilities that solve one problem well. Most of them are free, most of them work offline, and all of them are here."
+  path="/"
+>
+
+  <header class="intro has-scene">
+    <p class="kicker reveal">Victor Saly &mdash; London &middot; small web things</p>
+    <h1 class="reveal" style="--i:1">I build small web things that do <span class="plate-word">one job</span> well.</h1>
+    <p class="lede reveal" style="--i:2">Games, learning tools, and utilities. Most of them started as something my kids asked for. Most are free, work offline, and need no account. They are all below, live ones first.</p>
+    <ul class="links reveal" style="--i:3">
+      <li><a href="#work">See the work &darr;</a></li>
+      <li><a href="https://github.com/victorsaly">GitHub</a></li>
+      <li><a href="mailto:info@victorsaly.com">Say hello</a></li>
+    </ul>
+    <Scene />
+  </header>
+
+  <Ticker />
+
+  <main id="main">
+
+    <section class="band" id="work">
+      <div class="band-head reveal">
+        <span class="band-index">01</span>
+        <h2 class="band-title">Victor Saly Arcade &mdash; play or use right now</h2>
+      </div>
+      <p class="band-note reveal">
+        Free browser games and tools. No account needed to play; signing in only puts your name on
+        the shared daily leaderboard. <a href="/privacy">Privacy policy</a>.
+      </p>
+
+      <ol class="cards">
+        {live.map((project, index) => <Card project={project} index={index} />)}
+      </ol>
+    </section>
+
+    <section class="band" id="also">
+      <div class="band-head reveal">
+        <span class="band-index">02</span>
+        <h2 class="band-title">Also built</h2>
+      </div>
+      <p class="band-note reveal">Finished enough to read, without a live link &mdash; desktop apps, tools, and things made with the kids.</p>
+
+      <ul class="rows">
+        {repos.map((project) => <Row project={project} />)}
+      </ul>
+    </section>
+
+    <section class="band note-band">
+      <div class="band-head reveal">
+        <span class="band-index">03</span>
+        <h2 class="band-title">How these get made</h2>
+      </div>
+      <div class="note-plate reveal">
+        <p class="prose">A weekend is enough to finish something small &mdash; and finish it properly.</p>
+        <p class="prose-detail">Nearly all of this is built with an AI pair &mdash; I decide what it should be and why, and review every line that lands. Real tests, real accessibility, no analytics, no accounts, nothing loaded from a CDN at runtime. The constraint I keep is that each one has to work with the network off.</p>
+      </div>
+    </section>
+
+  </main>
+
+</Base>

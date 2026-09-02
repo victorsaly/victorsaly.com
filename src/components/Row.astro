@@ -1,0 +1,22 @@
+---
+import type { RepoProject } from '../data/projects';
+
+interface Props {
+  project: RepoProject;
+}
+const { project } = Astro.props;
+---
+<li class="row reveal">
+  <span class="row-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><path d={project.icon}></path></svg>
+  </span>
+  <h3>
+    {project.links.map((l, i) => (
+      <>{i > 0 && ' & '}<a href={l.href}>{l.label}</a></>
+    ))}
+  </h3>
+  <p>{project.description}</p>
+  <ul class="meta">
+    {project.tech.map((t) => <li>{t}</li>)}
+  </ul>
+</li>

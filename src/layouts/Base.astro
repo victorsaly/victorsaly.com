@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** canonical path, e.g. "/" or "/privacy" */
+  path: string;
+}
+const { title, description, path } = Astro.props;
+const canonical = new URL(path, Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+
+<meta property="og:type" content="website">
+<meta property="og:url" content={canonical}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta name="twitter:card" content="summary">
+
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efe8">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0d18">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23a8aeff'/><text y='73' x='50' text-anchor='middle' font-size='60' font-weight='700' font-family='Avenir Next,Futura,sans-serif' fill='%230a0d18'>V</text></svg>">
+
+<!-- Theme + JS flag, before first paint so neither mode nor the scroll
+     reveals ever flash. An explicit choice is stored; otherwise the OS
+     preference applies through the media query in the stylesheet. -->
+<script is:inline>
+(function(){var d=document.documentElement;d.classList.add('js');
+try{var p=localStorage.getItem('theme-pref');
+if(p==='light'||p==='dark'){d.classList.add('mode-'+p);}}catch(e){}})();
+</script>
+
+<!-- Fonts load without blocking first paint: preloaded as style, flipped to
+     stylesheet on arrival. display=swap means real text immediately in the
+     fallback face. -->
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="preload" as="style" href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=switzer@400,500,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=switzer@400,500,600&display=swap"></noscript>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to the content</a>
+
+<div class="page">
+
+  <nav class="bar" aria-label="Site">
+    <a class="wordmark" href="/"><span class="dot" aria-hidden="true"></span>Victor Saly</a>
+    <ul class="bar-links">
+      <li><a href="/#work">Arcade</a></li>
+      <li class="hide-sm"><a href="/#also">Also built</a></li>
+      <li><a href="mailto:info@victorsaly.com">Contact</a></li>
+      <li>
+        <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <span class="sun" aria-hidden="true">&#9788;</span>
+          <span class="moon" aria-hidden="true">&#9789;</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <p>Built in London. <a href="https://github.com/victorsaly">Source for everything on GitHub</a>.</p>
+    <p><a href="/privacy">Privacy policy</a> &middot; <a href="mailto:info@victorsaly.com">info@victorsaly.com</a></p>
+  </footer>
+
+</div>
+
+<script is:inline>
+/* Theme toggle: work out what is showing now, flip it, remember the choice. */
+document.getElementById('theme-toggle').addEventListener('click', function () {
+  var d = document.documentElement;
+  var dark = d.classList.contains('mode-dark') ||
+    (!d.classList.contains('mode-light') && matchMedia('(prefers-color-scheme: dark)').matches);
+  d.classList.toggle('mode-dark', !dark);
+  d.classList.toggle('mode-light', dark);
+  try { localStorage.setItem('theme-pref', dark ? 'light' : 'dark'); } catch (e) {}
+});
+
+/* Scroll reveals. Each .reveal fades up once as it enters; --i staggers
+   siblings that arrive together. */
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (e) { io.observe(e); });
+})();
+</script>
+
+</body>
+</html>

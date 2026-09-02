@@ -7,38 +7,47 @@ my kids, and a few utilities.
 
 ## What this is
 
-One hand-written page. No framework, no build step, no dependencies — the repository *is* the
-deployed artifact. A shelf of project cards has no state and no routing, so a build would only
-add a dependency tree and an upgrade treadmill to a page that changes a few times a year.
+A small [Astro](https://astro.build) site that builds to plain static HTML — the browser still
+gets zero framework JavaScript. Astro is here for maintainability, not features: the projects
+live in one typed data file, and the markup lives in components instead of being repeated.
 
 ```
-index.html      the page
-style.css       the whole design
-CNAME           custom domain for GitHub Pages
-robots.txt      + sitemap.xml
+src/data/projects.ts     every project — add or edit an entry here and you're done
+src/components/          Card (live projects), Row (repo projects), Scene, Ticker
+src/layouts/Base.astro   head, nav, footer, theme + reveal scripts
+src/pages/               index.astro and privacy.astro
+src/styles/global.css    the whole design
+public/shots/            real screenshots of the live apps, 800px JPEGs
+public/                  CNAME, robots.txt, sitemap.xml
 ```
+
+**Adding a project** is one entry in `projects.ts` plus (for a live one) a screenshot: capture
+the site at 1280×800, resize to 800px wide, drop it in `public/shots/`.
 
 ## Design
 
-The projects supply the colour, so the page stays quiet and lets them read as distinct things
-rather than variations on one house style.
+An arcade sign, hand-painted. Big display type, mono micro-labels, one loud periwinkle, and a
+little hand-drawn motion — the playful confidence of sites like pleurat.com, in this site's own
+hand.
 
-- **Cool ink and paper, one indigo accent.** Deliberately unlike either game's palette — Shut The
-  Cube is deep forest and ember, Delulu Beats is its own world. The shelf is not another exhibit.
-- **Fraunces for names, Karla for everything else.** Both games use a rounded display face that
-  reads as *a product*; a serif here reads as *a person*, which is what a personal site is.
-- **Light and dark both defined.** Every colour is a token declared in `:root`, redefined once
-  under `prefers-color-scheme: dark`. Nothing is coloured outside that scheme.
+- **One loud periwinkle.** Highlight plates, buttons, and the die that's about to score. Dark is
+  the arcade at night; light is the same room with the blinds open. Every colour is a token in
+  `:root`; a toggle stores an explicit choice, otherwise the OS preference applies.
+- **Clash Display for headlines, Switzer for reading, the system mono for labels.** The mono
+  micro-caps (kickers, chips, the ticker) do the wayfinding so the display face can be loud.
+- **Motion is hand-made and cheap.** The hero scene is inline SVG moved by CSS keyframes — tiles
+  shut, dice bob, notes drift. Scroll reveals are one small IntersectionObserver. Everything
+  respects `prefers-reduced-motion`, and without JS the page is simply visible.
 - **Live projects first.** The only ordering that matters to a visitor is whether they can use the
   thing right now, so that is the split — playable above, readable below.
 
 ## Local preview
 
-No tooling required. Any static server works:
-
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+npm install
+npm run dev        # live-reloading dev server
+npm run build      # static site into dist/
+npm run preview    # serve the built dist/
 ```
 
 ## Deployment
