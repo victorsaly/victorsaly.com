@@ -13,13 +13,17 @@ live in one typed data file, and the markup lives in components instead of being
 
 ```
 src/data/projects.ts     every project — add or edit an entry here and you're done
-src/components/          Card (live projects), Row (repo projects), Scene, Ticker
+src/components/          Card (live projects), Row (repo projects), Scene, Ticker, DailyBoards
 src/layouts/Base.astro   head, nav, footer, theme + reveal scripts
-src/pages/               index.astro and privacy.astro
+src/pages/               index, privacy, 404, and work/[slug] (one page per live project)
 src/styles/global.css    the whole design
 public/shots/            real screenshots of the live apps, 800px JPEGs
-public/                  CNAME, robots.txt, sitemap.xml
+public/                  CNAME, robots.txt, sitemap.xml, og.png, fonts/
 ```
+
+Each live project also gets a page at `/work/<slug>` — the story paragraphs live in the same
+`projects.ts` entry, its screenshot doubles as that page's social card, and new slugs need a
+line in `public/sitemap.xml`.
 
 **Adding a project** is one entry in `projects.ts` plus (for a live one) a screenshot —
 `npm run shots -- <name>` retakes it (or all of them with no argument) using the system Chrome,

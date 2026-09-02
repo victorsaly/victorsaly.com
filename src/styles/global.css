@@ -662,6 +662,91 @@ a:hover { color: var(--accent-hover); }
 }
 .card:hover .meta li { border-color: var(--line); }
 
+.card-more {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  margin-top: .1rem;
+}
+.card-more span { display: inline-block; transition: transform .32s var(--spring); }
+.card-more:hover { color: var(--accent); }
+.card-more:hover span { transform: translateX(4px); }
+
+/* ---------- project pages ---------- */
+
+.work-intro { padding-bottom: clamp(1.8rem, 4vw, 2.6rem); }
+
+.links a.go {
+  background: var(--plate);
+  color: var(--plate-ink);
+  border-color: var(--plate);
+}
+.links a.go:hover { filter: brightness(1.06); }
+
+.work-shot {
+  margin: 0;
+  max-width: 860px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: var(--band);
+}
+.work-shot img { width: 100%; height: auto; display: block; }
+
+.work-body {
+  display: grid;
+  gap: 2rem 4rem;
+  padding: clamp(2rem, 5vw, 3rem) 0 0;
+}
+@media (min-width: 860px) {
+  .work-body { grid-template-columns: minmax(0, 7fr) minmax(0, 3fr); }
+}
+
+.work-story p {
+  margin: 0 0 1.15rem;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+.work-story p:first-child {
+  color: var(--ink);
+  font-size: 1.08rem;
+}
+
+.work-facts .band-title { margin: 1.7rem 0 .7rem; }
+.work-facts .band-title:first-child { margin-top: .2rem; }
+.work-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  font-size: .95rem;
+}
+
+.work-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .6rem 1.5rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: .76rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.work-nav a { text-decoration: none; color: var(--muted); }
+.work-nav a:hover { color: var(--accent); }
+.work-nav span { display: inline-block; transition: transform .32s var(--spring); }
+.work-nav a:hover span:first-child { transform: translateX(-4px); }
+.work-nav a:hover span:last-child { transform: translateX(4px); }
+
 /* ---------- secondary rows ---------- */
 
 .rows { list-style: none; margin: 0; padding: 0; }

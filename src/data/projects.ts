@@ -8,12 +8,16 @@
  */
 
 export interface LiveProject {
+  slug: string;
   title: string;
   url: string;
   host: string;
+  repo: string;
   shot: string;
   shotAlt: string;
   description: string;
+  /** the longer read on /work/<slug> — one string per paragraph */
+  story: string[];
   tech: string[];
 }
 
@@ -32,53 +36,88 @@ export interface RepoProject {
 
 export const live: LiveProject[] = [
   {
+    slug: 'delulu-beats',
     title: 'Delulu Beats',
     url: 'https://delulubeats.com',
     host: 'delulubeats.com',
+    repo: 'https://github.com/victorsaly/delulubeats',
     shot: '/shots/delulubeats.jpg',
     shotAlt: 'The Delulu Beats home screen: a dark grid of nine ear-training games',
     description:
       'Nine full-screen games for colour, pitch, duration, rhythm, spatial memory and melody — see it, hear it, remember it, then dial it back in. Plus Beat Lab, a browser studio for building and downloading your own loop. Everything is synthesised in the Web Audio API; there is a seeded daily challenge shared by everyone.',
+    story: [
+      'Nine games about noticing things. Afterimage shows you five colours, one at a time, then asks you to rebuild each on a slider. Sine Language plays five tones and sends you to find them again by ear. Second Sense asks you to hold a button for exactly as long as the interval you just heard — no clock anywhere. The others work rhythm, spatial memory and melody the same way: see it or hear it, then dial it back in from memory. You will be worse at them than you expect, and that is most of the fun.',
+      'The site is played by ear, so sound is a first-class citizen: every tone, tick and beat is synthesised live in the Web Audio API — nothing is a sample, nothing is loaded at runtime. Beat Lab takes the same synth engine and turns it into a small browser studio, where you can build a loop and download the result.',
+      'Each day seeds one shared challenge, and daily scores go to the arcade leaderboard — where the server rebuilds the day’s challenge from the same seed and re-scores your answers before believing a number. Like everything here it was built with an AI pair, with every line reviewed, and it works with the network off.',
+    ],
     tech: ['Next.js', 'TypeScript', 'Web Audio', 'Canvas'],
   },
   {
+    slug: 'shut-the-cube',
     title: 'Shut The Cube',
     url: 'https://shutthecube.com',
     host: 'shutthecube.com',
+    repo: 'https://github.com/victorsaly/shutTheCube',
     shot: '/shots/shutthecube.jpg',
     shotAlt: 'The Shut The Cube menu: beginner, medium and ninja boards on deep green',
     description:
       'The pub dice game Shut the Box, plus a nine-row variant of my own where a matching column of tiles collapses together for a bonus. Every tile plays its own note on a pentatonic scale, so a good move sounds deliberate. Installs as an app, plays with no network, keeps no account.',
+    story: [
+      'Shut the Box is a pub dice game older than anyone can prove: roll two dice, shut tiles that sum to the roll, clear the board and the box is yours. Beginner is that game, played straight. Medium is a variant of my own — nine rows stacked, where shutting a full matching column collapses it together for a bonus — and Ninja is the same board against a thirty-second turn clock.',
+      'The game is tuned for feel. Every tile plays its own note on a pentatonic scale, so a good move sounds deliberate and a great turn plays a phrase; the board answers you rather than just updating. It installs as an app, plays entirely offline, and keeps no account.',
+      'The daily board is the shared bit: everyone in the world rolls the same dice on the same board until midnight UTC. Daily scores rank on the arcade leaderboard, and a score is never taken on trust — the game records every turn, and the server replays the dice from the day’s seed and recomputes the score before accepting it. Signing in is a plain Google redirect that asks for a name and nothing else; there is no email scope at all.',
+    ],
     tech: ['Vue 3', 'Vite', 'PWA', 'Web Audio'],
   },
   {
+    slug: 'correlateai',
     title: 'CorrelateAI',
     url: 'https://correlateai.victorsaly.com',
     host: 'correlateai.victorsaly.com',
+    repo: 'https://github.com/victorsaly/correlateAI',
     shot: '/shots/correlateai.jpg',
     shotAlt: 'CorrelateAI showing a spurious correlation between air quality and phone subscriptions',
     description:
       'Pulls real economic series from the FRED and World Bank APIs and hunts for correlations that have no business existing. A toy with a serious point about how easy it is to find a convincing relationship in real data. Built end to end in an afternoon.',
+    story: [
+      'CorrelateAI pulls real series — interest rates, air quality, phone subscriptions, dozens more — from sources like the Federal Reserve’s FRED and World Bank Open Data, then hunts for pairs that move together despite having no business doing so. It will happily show you Beijing air quality tracking mobile phone subscriptions at a correlation strong enough to put in a slide deck.',
+      'That is the point. Real data is full of convincing relationships that mean nothing, and the fastest way to internalise it is to watch a machine mass-produce them from sources you trust. Each result says which series it used and where they came from, so you can check that the absurdity is genuine.',
+      'It was also a speed experiment: built end to end in one afternoon with an AI pair. The lesson from that half was less about the tooling and more about scope — an afternoon is enough when the thing only has one job.',
+    ],
     tech: ['React', 'TypeScript', 'FRED API', 'World Bank API'],
   },
   {
+    slug: 'feedme-ai',
     title: 'FeedMe AI',
     url: 'https://feedmeai.victorsaly.com',
     host: 'feedmeai.victorsaly.com',
+    repo: 'https://github.com/victorsaly/feedmeAI',
     shot: '/shots/feedmeai.jpg',
     shotAlt: 'FeedMe AI asking for a photo of your fridge to suggest a recipe',
     description:
       'Tell it what is actually in the fridge and it suggests something you can cook tonight. It works from the ingredients you already have rather than the ones a recipe wishes you had, which is the only part of meal planning I have ever found genuinely hard.',
+    story: [
+      'Every recipe site starts from a dish and hands you a shopping list. FeedMe starts from the other end: photograph what is actually in the fridge, and it works out what you can cook tonight from that. In my experience the ingredients you already have are the only genuinely hard part of meal planning, so that is the whole product.',
+      'You take a photo of the fridge, the pantry, or a pile of ingredients on the counter; it identifies what it sees and suggests dishes that need nothing you do not have, or nearly nothing. Recipes you like can be kept, and there is a page of example photos showing what kind of picture works best.',
+      'It is deliberately small. No meal plans, no macros, no social feed — one question, answered as well as I can make a model answer it.',
+    ],
     tech: ['React', 'TypeScript', 'AI'],
   },
   {
+    slug: 'lilis-story-world',
     title: "Lili's Story World",
     url: 'https://victorsaly.github.io/LilianaBlog/',
     host: 'victorsaly.github.io',
+    repo: 'https://github.com/victorsaly/LilianaBlog',
     shot: '/shots/lili.jpg',
     shotAlt: "Lili's Story World: an illustrated storybook hero with read-aloud buttons",
     description:
       'An illustrated read-along storybook site for a young dyslexic author — my daughter. It reads aloud with the current word highlighted, gives each character its own voice, and pairs every paragraph with its own artwork. Built around what actually helps her read, not around what looks good in a demo.',
+    story: [
+      'My daughter writes and draws stories. She is also dyslexic, which makes reading her own work back harder than writing it was. This site is where her stories live, built so that reading them is something the site helps with instead of something it assumes.',
+      'Every story reads itself aloud while the words light up one by one, so eye and ear stay in the same place — the single thing that most helps her follow a page. Each character speaks in their own voice, and every paragraph is paired with her artwork, because the pictures are half the story.',
+      'The design decisions all come from watching what actually helps her read, not from what demos well. It is also the project on this page I care about most: she is the author, I am just the publisher.',
+    ],
     tech: ['Astro', 'Text to speech', 'Accessibility'],
   },
 ];

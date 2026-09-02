@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import { live } from '../../data/projects';
+
+export function getStaticPaths() {
+  return live.map((project, index) => ({
+    params: { slug: project.slug },
+    props: { project, index },
+  }));
+}
+
+const { project, index } = Astro.props;
+const num = String(index + 1).padStart(2, '0');
+const prev = live[(index - 1 + live.length) % live.length];
+const next = live[(index + 1) % live.length];
+---
+<Base
+  title={`${project.title} — Victor Saly`}
+  description={project.description}
+  path={`/work/${project.slug}`}
+  image={project.shot}
+  imageAlt={project.shotAlt}
+>
+
+  <header class="intro work-intro">
+    <p class="kicker reveal"><a href="/#work">Victor Saly Arcade</a> &middot; {num}</p>
+    <h1 class="reveal" style="--i:1">{project.title}</h1>
+    <p class="lede reveal" style="--i:2">{project.description}</p>
+    <ul class="links reveal" style="--i:3">
+      <li><a class="go" href={project.url}>Open {project.host} &rarr;</a></li>
+      <li><a href={project.repo}>Source on GitHub</a></li>
+    </ul>
+  </header>
+
+  <main id="main">
+
+    <figure class="work-shot reveal">
+      <img src={project.shot} alt={project.shotAlt} width="800" height="500" decoding="async">
+    </figure>
+
+    <div class="work-body">
+      <section class="work-story reveal">
+        {project.story.map((p) => <p>{p}</p>)}
+      </section>
+      <aside class="work-facts reveal" style="--i:1">
+        <h2 class="band-title">Built with</h2>
+        <ul class="meta">
+          {project.tech.map((t) => <li>{t}</li>)}
+        </ul>
+        <h2 class="band-title">Links</h2>
+        <ul class="work-links">
+          <li><a href={project.url}>{project.host}</a></li>
+          <li><a href={project.repo}>GitHub repository</a></li>
+        </ul>
+      </aside>
+    </div>
+
+    <nav class="work-nav reveal" aria-label="More projects">
+      <a href={`/work/${prev.slug}`}><span aria-hidden="true">&larr;</span> {prev.title}</a>
+      <a href="/#work">All projects</a>
+      <a href={`/work/${next.slug}`}>{next.title} <span aria-hidden="true">&rarr;</span></a>
+    </nav>
+
+  </main>
+
+</Base>

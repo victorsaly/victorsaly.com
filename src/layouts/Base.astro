@@ -6,9 +6,14 @@ interface Props {
   description: string;
   /** canonical path, e.g. "/" or "/privacy" */
   path: string;
+  /** social-card image path; the site-wide og.png unless a page has a better one */
+  image?: string;
+  imageAlt?: string;
 }
-const { title, description, path } = Astro.props;
+const { title, description, path, image = '/og.png', imageAlt } = Astro.props;
 const canonical = new URL(path, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+const ogAlt = imageAlt ?? 'Victor Saly — small web things that do one job well. victorsaly.com';
 ---
 <!doctype html>
 <html lang="en">
@@ -24,12 +29,10 @@ const canonical = new URL(path, Astro.site).href;
 <meta property="og:url" content={canonical}>
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
-<meta property="og:image" content={new URL('/og.png', Astro.site).href}>
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Victor Saly — small web things that do one job well. victorsaly.com">
+<meta property="og:image" content={ogImage}>
+<meta property="og:image:alt" content={ogAlt}>
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content={new URL('/og.png', Astro.site).href}>
+<meta name="twitter:image" content={ogImage}>
 
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efe8">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0d18">
@@ -93,9 +96,14 @@ document.getElementById('theme-toggle').addEventListener('click', function () {
 });
 
 /* Scroll reveals. Each .reveal fades up once as it enters; --i staggers
-   siblings that arrive together. */
+   siblings that arrive together. Anything already in the viewport is
+   revealed synchronously first — the observer's callback is asynchronous,
+   and above-the-fold content must never wait on it. */
 (function () {
   var els = document.querySelectorAll('.reveal');
+  els.forEach(function (e) {
+    if (e.getBoundingClientRect().top < window.innerHeight) e.classList.add('in');
+  });
   if (!('IntersectionObserver' in window)) {
     els.forEach(function (e) { e.classList.add('in'); });
     return;
@@ -105,7 +113,7 @@ document.getElementById('theme-toggle').addEventListener('click', function () {
       if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
     });
   }, { rootMargin: '0px 0px -8% 0px' });
-  els.forEach(function (e) { io.observe(e); });
+  els.forEach(function (e) { if (!e.classList.contains('in')) io.observe(e); });
 })();
 </script>
 

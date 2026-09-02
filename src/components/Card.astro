@@ -22,4 +22,5 @@ const num = String(index + 1).padStart(2, '0');
   <ul class="meta">
     {project.tech.map((t) => <li>{t}</li>)}
   </ul>
+  <a class="card-more" href={`/work/${project.slug}`}>About this build <span aria-hidden="true">&rarr;</span></a>
 </li>
