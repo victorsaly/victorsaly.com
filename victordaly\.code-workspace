@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../games/dialed"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../shutthebox_upgrade/shutTheCube"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "victorsaly.com"
+	}
+}

@@ -10,7 +10,6 @@ export function getStaticPaths() {
 }
 
 const { project, index } = Astro.props;
-const num = String(index + 1).padStart(2, '0');
 const prev = live[(index - 1 + live.length) % live.length];
 const next = live[(index + 1) % live.length];
 ---
@@ -22,11 +21,14 @@ const next = live[(index + 1) % live.length];
   imageAlt={project.shotAlt}
 >
 
+  <!-- Nothing above the fold is a scroll reveal here: the screenshot and
+       title arrive by view transition from the home page and must already
+       be in place when it lands. -->
   <header class="intro work-intro">
-    <p class="kicker reveal"><a href="/#work">Victor Saly Arcade</a> &middot; {num}</p>
-    <h1 class="reveal" style="--i:1">{project.title}</h1>
-    <p class="lede reveal" style="--i:2">{project.description}</p>
-    <ul class="links reveal" style="--i:3">
+    <p class="crumb"><a href="/#work"><span aria-hidden="true">&larr;</span> Victor Saly Arcade</a></p>
+    <h1 style={`view-transition-name: title-${project.slug}`}>{project.title}</h1>
+    <p class="lede">{project.description}</p>
+    <ul class="links">
       <li><a class="go" href={project.url}>Open {project.host} &rarr;</a></li>
       <li><a href={project.repo}>Source on GitHub</a></li>
     </ul>
@@ -34,8 +36,11 @@ const next = live[(index + 1) % live.length];
 
   <main id="main">
 
-    <figure class="work-shot reveal">
-      <img src={project.shot} alt={project.shotAlt} width="800" height="500" decoding="async">
+    <figure class="work-shot">
+      <img
+        src={project.shot} alt={project.shotAlt} width="800" height="500" decoding="async"
+        style={`view-transition-name: shot-${project.slug}`}
+      >
     </figure>
 
     <div class="work-body">
@@ -43,11 +48,11 @@ const next = live[(index + 1) % live.length];
         {project.story.map((p) => <p>{p}</p>)}
       </section>
       <aside class="work-facts reveal" style="--i:1">
-        <h2 class="band-title">Built with</h2>
+        <h2>Built with</h2>
         <ul class="meta">
           {project.tech.map((t) => <li>{t}</li>)}
         </ul>
-        <h2 class="band-title">Links</h2>
+        <h2>Links</h2>
         <ul class="work-links">
           <li><a href={project.url}>{project.host}</a></li>
           <li><a href={project.repo}>GitHub repository</a></li>

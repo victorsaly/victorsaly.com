@@ -4,7 +4,7 @@
  * One loud periwinkle, big display type, mono micro-labels, and a little
  * hand-drawn motion. Dark is the arcade at night; light is the same room
  * with the blinds open. Everything animates in CSS, every asset (fonts
- * included) is served from this origin, and reduced-motion turns it all off.
+ * included) is served from this origin, and reduced-motion stops the movement.
  */
 
 /* Self-hosted faces (from Fontshare, ITF Free Font License) — the site loads
@@ -62,15 +62,24 @@
   --plate-ink: #14161f;
   --band: #e9e7de;           /* alternating section ground */
   --ghost: rgba(20, 22, 31, .07);
+
+  /* Elevation is declared once per theme: in daylight a card is a soft
+     shadow on paper and its border is transparent; at night the shadow
+     would vanish into the ground, so the edge is a line instead. */
+  --edge: transparent;
   --shadow: 0 1px 2px rgba(20, 22, 31, .05), 0 14px 32px -20px rgba(20, 22, 31, .35);
+  --shadow-up: 0 2px 4px rgba(20, 22, 31, .05), 0 22px 44px -22px rgba(20, 22, 31, .45);
 
   --display: "Clash Display", "Avenir Next", Futura, system-ui, sans-serif;
   --body: Switzer, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
 
-  --ease: cubic-bezier(.22, 1, .36, 1);
-  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  /* strong ease-out for anything entering or responding; the spring is
+     reserved for the few playful wiggles (plate-word, row icon) */
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --spring: cubic-bezier(.3, 1.22, .5, 1);
   --lift: -3px;
+  --press: .97;
 }
 
 /* dark (arcade at night) — one block, applied by class from the head script,
@@ -89,7 +98,9 @@
   --plate-ink: #0a0d18;
   --band: #0e1122;
   --ghost: rgba(237, 238, 246, .06);
-  --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 14px 32px -20px rgba(0, 0, 0, .9);
+  --edge: var(--line);
+  --shadow: none;
+  --shadow-up: none;
 }
 @media (prefers-color-scheme: dark) {
   :root:not(.mode-light):not(.mode-dark) {
@@ -106,13 +117,36 @@
     --plate-ink: #0a0d18;
     --band: #0e1122;
     --ghost: rgba(237, 238, 246, .06);
-    --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 14px 32px -20px rgba(0, 0, 0, .9);
+    --edge: var(--line);
+    --shadow: none;
+    --shadow-up: none;
   }
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--line) transparent;
+  -webkit-tap-highlight-color: transparent;
+  accent-color: var(--accent);
+  caret-color: var(--accent);
+}
+
+/* The one authored moment: a click on a card carries its screenshot and
+   title into the project page, and back. Cross-document view transitions
+   need no JS; browsers without them simply navigate. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+::view-transition-old(root), ::view-transition-new(root) {
+  animation-duration: .26s;
+  animation-timing-function: var(--ease);
+}
+::view-transition-group(*) {
+  animation-duration: .42s;
+  animation-timing-function: var(--ease);
+}
 
 body {
   margin: 0;
@@ -124,6 +158,14 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+p { text-wrap: pretty; }
+
+/* Pressable things answer on touch-down, never double-tap-zoom, and don't
+   select their own label on a long press. Hover styles are gated to real
+   pointers throughout so a tap never leaves a stuck hover state. */
+a, button { touch-action: manipulation; }
+button, .links a, .theme-btn, .meta li, .card-more, .work-nav a { user-select: none; -webkit-user-select: none; }
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--accent-hover); }
@@ -150,9 +192,9 @@ a:hover { color: var(--accent-hover); }
 .skip:focus { left: 0; }
 
 .page {
-  max-width: 68rem;
+  max-width: 70rem;
   margin: 0 auto;
-  padding: 0 clamp(1.2rem, 5vw, 2.75rem);
+  padding: 0 max(clamp(1.2rem, 5vw, 2.75rem), env(safe-area-inset-left), env(safe-area-inset-right));
 }
 
 /* ---------- top bar ---------- */
@@ -181,11 +223,6 @@ a:hover { color: var(--accent-hover); }
   width: .55em; height: .55em;
   border-radius: 50%;
   background: var(--plate);
-  animation: pip 2.6s var(--ease) infinite;
-}
-@keyframes pip {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.35); }
 }
 
 .bar-links {
@@ -199,8 +236,8 @@ a:hover { color: var(--accent-hover); }
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.bar-links a { color: var(--muted); text-decoration: none; }
-.bar-links a:hover { color: var(--ink); }
+.bar-links a { color: var(--muted); text-decoration: none; transition: color .15s; }
+@media (hover: hover) and (pointer: fine) { .bar-links a:hover { color: var(--ink); } }
 @media (max-width: 560px) { .bar-links .hide-sm { display: none; } }
 
 .theme-btn {
@@ -214,12 +251,21 @@ a:hover { color: var(--accent-hover); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: .95rem;
-  line-height: 1;
-  transition: transform .32s var(--spring), border-color .2s;
-  padding: 0 0 .1rem;
+  padding: 0;
+  transition: transform .16s var(--ease), border-color .15s;
 }
-.theme-btn:hover { transform: rotate(20deg) scale(1.08); border-color: var(--accent); }
+.theme-btn svg {
+  width: 1rem; height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (hover: hover) and (pointer: fine) {
+  .theme-btn:hover { border-color: var(--accent); transform: scale(1.06); }
+}
+.theme-btn:active { transform: scale(var(--press)); }
 .theme-btn .moon { display: none; }
 .mode-dark .theme-btn .moon { display: block; }
 .mode-dark .theme-btn .sun { display: none; }
@@ -240,30 +286,33 @@ a:hover { color: var(--accent-hover); }
     grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
     align-items: center;
   }
-  .intro.has-scene .scene { grid-column: 2; grid-row: 1 / span 4; }
+  .intro.has-scene .scene { grid-column: 2; grid-row: 1 / span 3; }
 }
-
-.kicker {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: .74rem;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.kicker a { color: inherit; text-decoration: none; }
-.kicker a:hover { color: var(--ink); }
 
 .intro h1 {
   font-family: var(--display);
   font-weight: 600;
-  font-size: clamp(2.4rem, 6.4vw, 4.4rem);
-  line-height: 1.04;
-  letter-spacing: -.02em;
+  font-size: clamp(2.6rem, 6.6vw, 5rem);
+  line-height: 1;
+  letter-spacing: -.025em;
   text-wrap: balance;
   margin: 0;
-  max-width: 16ch;
+  max-width: 15ch;
+}
+
+/* the way back up: a real link, not a label */
+.crumb {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.crumb a { color: var(--muted); text-decoration: none; transition: color .15s; }
+.crumb a span { display: inline-block; transition: transform .2s var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  .crumb a:hover { color: var(--ink); }
+  .crumb a:hover span { transform: translateX(-3px); }
 }
 
 /* a word set on the loud plate, tilted a touch off square */
@@ -274,13 +323,15 @@ a:hover { color: var(--accent-hover); }
   padding: 0 .18em .04em;
   border-radius: .14em;
   transform: rotate(-1.6deg);
-  transition: transform .4s var(--spring);
+  transition: transform .3s var(--spring);
 }
-.intro h1:hover .plate-word { transform: rotate(1.2deg) scale(1.03); }
+@media (hover: hover) and (pointer: fine) {
+  .intro h1:hover .plate-word { transform: rotate(1.2deg) scale(1.03); }
+}
 
 .lede {
   margin: 0;
-  font-size: clamp(1.02rem, 1.8vw, 1.14rem);
+  font-size: clamp(1.06rem, 1.9vw, 1.2rem);
   color: var(--ink-2);
   max-width: 52ch;
 }
@@ -306,15 +357,18 @@ a:hover { color: var(--accent-hover); }
   border: 1px solid var(--line);
   background: var(--card);
   border-radius: 100px;
-  padding: .55rem 1.05rem;
-  transition: transform .32s var(--spring), border-color .2s, background .2s, color .2s;
+  padding: .6rem 1.1rem;
+  transition: transform .18s var(--ease), border-color .15s, background-color .15s, color .15s;
 }
-.links a:hover {
-  transform: translateY(var(--lift));
-  background: var(--plate);
-  color: var(--plate-ink);
-  border-color: var(--plate);
+@media (hover: hover) and (pointer: fine) {
+  .links a:hover {
+    transform: translateY(var(--lift));
+    background: var(--plate);
+    color: var(--plate-ink);
+    border-color: var(--plate);
+  }
 }
+.links a:active { transform: scale(var(--press)); }
 
 /* ---------- hero scene ---------- */
 
@@ -378,42 +432,44 @@ a:hover { color: var(--accent-hover); }
 
 /* ---------- bands ---------- */
 
-.band { padding: clamp(3rem, 8vw, 5.5rem) 0 0; }
+.band {
+  margin-top: clamp(3rem, 8vw, 5.5rem);
+  padding-top: clamp(1.6rem, 3vw, 2.2rem);
+  border-top: 1px solid var(--line);
+}
 
 .band-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 1rem;
-  margin: 0 0 .6rem;
-}
-.band-head::after {
-  content: "";
-  flex: 1;
-  border-top: 1px solid var(--line);
-  transform: translateY(-.35em);
+  justify-content: space-between;
+  gap: .4rem 1.5rem;
+  margin: 0 0 .5rem;
 }
 
+/* section headings speak in the display face; the mono voice is kept for
+   the small facts beside them */
 .band-title {
-  font-family: var(--mono);
-  font-size: .74rem;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--ink);
   margin: 0;
 }
-.band-index {
+.band-count {
   font-family: var(--mono);
   font-size: .74rem;
-  color: var(--plate);
-  letter-spacing: .1em;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-:root:not(.mode-dark) .band-index { color: var(--accent); }
 
 .band-note {
-  margin: 0 0 1.8rem;
-  color: var(--muted);
-  font-size: .93rem;
+  margin: 0 0 2rem;
+  color: var(--ink-2);
+  font-size: 1rem;
   max-width: 58ch;
 }
 
@@ -496,6 +552,7 @@ a:hover { color: var(--accent-hover); }
   margin-left: auto;
   font-family: var(--mono);
   font-size: .84rem;
+  font-variant-numeric: tabular-nums;
   color: var(--ink);
 }
 .daily-shut {
@@ -529,33 +586,48 @@ a:hover { color: var(--accent-hover); }
   display: grid;
   gap: 1.1rem;
 }
-@media (min-width: 760px) { .cards { grid-template-columns: 1fr 1fr; } }
+/* the newest build leads at full width, the rest pair up — five cards, no orphan */
+@media (min-width: 760px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .cards .card:first-child { grid-column: 1 / -1; }
+}
 
 .card {
   --pad-x: clamp(1.3rem, 3vw, 1.8rem);
   position: relative;
   overflow: hidden;
   background: var(--card);
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: 16px;
-  padding: 0 var(--pad-x) 1.5rem;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: .85rem;
-  transition: transform .38s var(--spring), border-color .25s;
+  transition: transform .22s var(--ease), border-color .2s, box-shadow .22s var(--ease);
 }
-.card:hover { transform: translateY(var(--lift)); border-color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { transform: translateY(var(--lift)); box-shadow: var(--shadow-up); }
+  .mode-dark .card:hover { border-color: var(--accent); }
+  @media (prefers-color-scheme: dark) {
+    :root:not(.mode-light):not(.mode-dark) .card:hover { border-color: var(--accent); }
+  }
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  padding: .9rem var(--pad-x) 1.5rem;
+}
 
 /* a real screenshot of the live thing, bleeding to the card edges */
 .card-shot {
   display: block;
   position: relative;
-  margin: 0 calc(-1 * var(--pad-x)) .35rem;
+  margin: 0;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   background: var(--band);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 .card-shot img {
   width: 100%;
@@ -563,26 +635,50 @@ a:hover { color: var(--accent-hover); }
   object-fit: cover;
   object-position: top center;
   display: block;
-  transition: transform .55s var(--ease);
+  transition: transform .4s var(--ease);
 }
-.card:hover .card-shot img { transform: scale(1.035); }
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .card-shot img { transform: scale(1.03); }
+}
 
-/* the numeral rides the screenshot, on a tilted plate */
-.card-num {
+/* where it lives, on a tilted plate riding the screenshot */
+.card-tag {
   position: absolute;
   top: .8rem;
   left: .8rem;
   font-family: var(--mono);
-  font-size: .72rem;
-  letter-spacing: .08em;
+  font-size: .68rem;
+  letter-spacing: .06em;
   background: var(--plate);
   color: var(--plate-ink);
   border-radius: 6px;
-  padding: .2rem .55rem;
+  padding: .22rem .6rem;
   transform: rotate(-2deg);
-  transition: transform .32s var(--spring);
+  transition: transform .2s var(--spring);
 }
-.card:hover .card-num { transform: rotate(1.5deg) scale(1.06); }
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .card-tag { transform: rotate(1.5deg) scale(1.04); }
+}
+
+/* the lead card lies on its side: picture left, words right */
+@media (min-width: 760px) {
+  .card.feature { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); }
+  .card.feature .card-shot {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 100%;
+    border-bottom: 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .card.feature .card-shot img { position: absolute; inset: 0; }
+  .card.feature .card-body {
+    justify-content: center;
+    padding: clamp(1.6rem, 3.5vw, 2.6rem) clamp(1.6rem, 3.5vw, 2.6rem);
+    gap: 1rem;
+  }
+  .card.feature h3 { font-size: clamp(1.7rem, 2.8vw, 2.2rem); }
+  .card.feature p { font-size: 1.02rem; }
+}
 
 .card-head {
   display: flex;
@@ -608,13 +704,15 @@ a:hover { color: var(--accent-hover); }
   background-position: 0 96%;
   transition: background-size .3s var(--ease), color .2s;
 }
-.card h3 a:hover, .row h3 a:hover {
-  color: var(--accent);
-  background-size: 100% .48em;
-  background-position: 0 88%;
+@media (hover: hover) and (pointer: fine) {
+  .card h3 a:hover, .row h3 a:hover {
+    color: var(--accent);
+    background-size: 100% .48em;
+    background-position: 0 88%;
+  }
+  :root:not(.mode-dark) .card h3 a:hover,
+  :root:not(.mode-dark) .row h3 a:hover { color: var(--ink); }
 }
-:root:not(.mode-dark) .card h3 a:hover,
-:root:not(.mode-dark) .row h3 a:hover { color: var(--ink); }
 
 /* arrow that leans into the hover */
 .card h3 a::after, .row h3 a::after {
@@ -623,15 +721,10 @@ a:hover { color: var(--accent-hover); }
   font-size: .68em;
   margin-left: .35em;
   color: var(--accent);
-  transition: transform .32s var(--spring);
+  transition: transform .2s var(--ease);
 }
-.card:hover h3 a::after, .row:hover h3 a::after { transform: translate(4px, -4px); }
-
-.host {
-  font-family: var(--mono);
-  font-size: .72rem;
-  color: var(--muted);
-  letter-spacing: .02em;
+@media (hover: hover) and (pointer: fine) {
+  .card:hover h3 a::after, .row:hover h3 a::after { transform: translate(3px, -3px); }
 }
 
 .card p, .row p {
@@ -660,8 +753,6 @@ a:hover { color: var(--accent-hover); }
   padding: .18rem .6rem;
   white-space: nowrap;
 }
-.card:hover .meta li { border-color: var(--line); }
-
 .card-more {
   font-family: var(--mono);
   font-size: .72rem;
@@ -671,9 +762,11 @@ a:hover { color: var(--accent-hover); }
   color: var(--muted);
   margin-top: .1rem;
 }
-.card-more span { display: inline-block; transition: transform .32s var(--spring); }
-.card-more:hover { color: var(--accent); }
-.card-more:hover span { transform: translateX(4px); }
+.card-more span { display: inline-block; transition: transform .2s var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  .card-more:hover { color: var(--accent); }
+  .card-more:hover span { transform: translateX(4px); }
+}
 
 /* ---------- project pages ---------- */
 
@@ -684,12 +777,12 @@ a:hover { color: var(--accent-hover); }
   color: var(--plate-ink);
   border-color: var(--plate);
 }
-.links a.go:hover { filter: brightness(1.06); }
+@media (hover: hover) and (pointer: fine) { .links a.go:hover { filter: brightness(1.06); } }
 
 .work-shot {
   margin: 0;
   max-width: 860px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -716,8 +809,16 @@ a:hover { color: var(--accent-hover); }
   font-size: 1.08rem;
 }
 
-.work-facts .band-title { margin: 1.7rem 0 .7rem; }
-.work-facts .band-title:first-child { margin-top: .2rem; }
+.work-facts h2 {
+  font-family: var(--mono);
+  font-size: .74rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.7rem 0 .7rem;
+}
+.work-facts h2:first-child { margin-top: .2rem; }
 .work-links {
   list-style: none;
   margin: 0;
@@ -741,11 +842,13 @@ a:hover { color: var(--accent-hover); }
   letter-spacing: .07em;
   text-transform: uppercase;
 }
-.work-nav a { text-decoration: none; color: var(--muted); }
-.work-nav a:hover { color: var(--accent); }
-.work-nav span { display: inline-block; transition: transform .32s var(--spring); }
-.work-nav a:hover span:first-child { transform: translateX(-4px); }
-.work-nav a:hover span:last-child { transform: translateX(4px); }
+.work-nav a { text-decoration: none; color: var(--muted); transition: color .15s; }
+.work-nav span { display: inline-block; transition: transform .2s var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  .work-nav a:hover { color: var(--accent); }
+  .work-nav a:hover span:first-child { transform: translateX(-4px); }
+  .work-nav a:hover span:last-child { transform: translateX(4px); }
+}
 
 /* ---------- secondary rows ---------- */
 
@@ -758,10 +861,10 @@ a:hover { color: var(--accent-hover); }
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  transition: transform .32s var(--spring);
+  transition: transform .22s var(--ease);
 }
 .row:first-child { border-top: 1px solid var(--line); }
-.row:hover { transform: translateX(6px); }
+@media (hover: hover) and (pointer: fine) { .row:hover { transform: translateX(6px); } }
 
 /* a little hand-drawn icon where a numeral used to sit */
 .row-icon {
@@ -771,9 +874,11 @@ a:hover { color: var(--accent-hover); }
   width: 27px;
   height: 27px;
   color: var(--muted);
-  transition: color .2s, transform .32s var(--spring);
+  transition: color .15s, transform .25s var(--spring);
 }
-.row:hover .row-icon { color: var(--accent); transform: rotate(-5deg); }
+@media (hover: hover) and (pointer: fine) {
+  .row:hover .row-icon { color: var(--accent); transform: rotate(-5deg); }
+}
 .row-icon svg {
   width: 100%;
   height: 100%;
@@ -796,7 +901,7 @@ a:hover { color: var(--accent-hover); }
 .note-band .note-plate {
   background: var(--band);
   border: 1px solid var(--line-soft);
-  border-radius: 20px;
+  border-radius: 16px;
   padding: clamp(1.8rem, 5vw, 3rem);
 }
 .note-band .prose {
@@ -838,14 +943,25 @@ footer p { margin: 0; }
 
 .js .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease);
-  transition-delay: calc(var(--i, 0) * 70ms);
+  transform: translateY(14px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
+  transition-delay: calc(var(--i, 0) * 60ms);
 }
 .js .reveal.in { opacity: 1; transform: none; }
 
+/* Reduced motion means gentler, not none: the looping scene, the ticker
+   and every movement stop; colour and opacity changes stay so state is
+   still legible. */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  .scene *, .ticker span { animation: none !important; }
   html { scroll-behavior: auto; }
-  .js .reveal { opacity: 1; transform: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  :root { --lift: 0; --press: 1; }
+  .card, .card-shot img, .card-tag, .plate-word, .row, .row-icon,
+  .theme-btn, .links a, .card-more span, .work-nav span, .crumb a span,
+  .card h3 a::after, .row h3 a::after { transition-property: color, background-color, border-color, box-shadow; }
+  .card:hover, .card:hover .card-shot img, .card:hover .card-tag, .intro h1:hover .plate-word,
+  .row:hover, .row:hover .row-icon, .theme-btn:hover, .theme-btn:active, .links a:active,
+  .card-more:hover span, .work-nav a:hover span, .crumb a:hover span,
+  .card:hover h3 a::after, .row:hover h3 a::after { transform: none; }
 }

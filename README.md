@@ -47,9 +47,17 @@ hand.
   `:root`; a toggle stores an explicit choice, otherwise the OS preference applies.
 - **Clash Display for headlines, Switzer for reading, the system mono for labels.** The mono
   micro-caps (kickers, chips, the ticker) do the wayfinding so the display face can be loud.
+- **Elevation is declared once per theme.** In daylight a card is a soft shadow on paper with no
+  border; at night a shadow would vanish into the ground, so the edge is a 1px line instead. Never
+  both.
 - **Motion is hand-made and cheap.** The hero scene is inline SVG moved by CSS keyframes — tiles
-  shut, dice bob, notes drift. Scroll reveals are one small IntersectionObserver. Everything
-  respects `prefers-reduced-motion`, and without JS the page is simply visible.
+  shut, dice bob, notes drift. Scroll reveals are one small IntersectionObserver. Hover effects
+  are gated to real pointers, every pressable thing answers on touch-down, and nothing on a hover
+  takes longer than ~250ms. `prefers-reduced-motion` stops the movement but keeps colour and
+  opacity changes, and without JS the page is simply visible.
+- **One authored moment.** Clicking a card carries its screenshot and title into the project page
+  (and back) with a cross-document view transition — pure CSS (`@view-transition`), no JS, and
+  browsers without it just navigate.
 - **Live projects first.** The only ordering that matters to a visitor is whether they can use the
   thing right now, so that is the split — playable above, readable below.
 

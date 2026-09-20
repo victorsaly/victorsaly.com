@@ -6,21 +6,29 @@ interface Props {
   index: number;
 }
 const { project, index } = Astro.props;
-const num = String(index + 1).padStart(2, '0');
+/* The first card leads the grid at full width. The screenshot and title
+   carry view-transition names so they travel into /work/<slug> (see
+   global.css); the same names sit on that page's figure and h1. */
+const feature = index === 0;
 ---
-<li class="card reveal" style={`--i:${index % 2}`}>
+<li class:list={['card', 'reveal', { feature }]} style={`--i:${index % 2}`}>
   <!-- The screenshot repeats the title link, so keep it out of the tab order. -->
-  <a class="card-shot" href={project.url} tabindex="-1" aria-hidden="true">
-    <img src={project.shot} alt={project.shotAlt} width="800" height="500" loading="lazy" decoding="async">
-    <span class="card-num">{num}</span>
+  <a class="card-shot" href={`/work/${project.slug}`} tabindex="-1" aria-hidden="true">
+    <img
+      src={project.shot} alt={project.shotAlt} width="800" height="500"
+      loading={feature ? 'eager' : 'lazy'} decoding="async"
+      style={`view-transition-name: shot-${project.slug}`}
+    >
+    <span class="card-tag">{project.host}</span>
   </a>
-  <div class="card-head">
-    <h3><a href={project.url}>{project.title}</a></h3>
-    <span class="host">{project.host}</span>
+  <div class="card-body">
+    <div class="card-head">
+      <h3 style={`view-transition-name: title-${project.slug}`}><a href={project.url}>{project.title}</a></h3>
+    </div>
+    <p>{project.description}</p>
+    <ul class="meta">
+      {project.tech.map((t) => <li>{t}</li>)}
+    </ul>
+    <a class="card-more" href={`/work/${project.slug}`}>About this build <span aria-hidden="true">&rarr;</span></a>
   </div>
-  <p>{project.description}</p>
-  <ul class="meta">
-    {project.tech.map((t) => <li>{t}</li>)}
-  </ul>
-  <a class="card-more" href={`/work/${project.slug}`}>About this build <span aria-hidden="true">&rarr;</span></a>
 </li>
