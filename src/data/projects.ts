@@ -85,15 +85,17 @@ export const live: LiveProject[] = [
     host: 'correlateai.victorsaly.com',
     repo: 'https://github.com/victorsaly/correlateAI',
     shot: '/shots/correlateai.jpg',
-    shotAlt: 'CorrelateAI showing a spurious correlation between air quality and phone subscriptions',
+    shotAlt:
+      'CorrelateAI comparing US internet users with US forest area: a correlation of +0.91, circled as likely spurious because it collapses to -0.01 once the shared time trend is removed',
     description:
-      'Pulls real economic series from the FRED and World Bank APIs and hunts for correlations that have no business existing. A toy with a serious point about how easy it is to find a convincing relationship in real data. Built end to end in an afternoon.',
+      'Pick any two real public datasets and it tells you whether the correlation is real or a coincidence. Two things that rise over the same decades will almost always correlate, so it removes each series\u2019 time trend and checks whether the link survives. A toy with a serious point about how easy it is to find a convincing relationship in real data.',
     story: [
-      'CorrelateAI pulls real series — interest rates, air quality, phone subscriptions, dozens more — from sources like the Federal Reserve’s FRED and World Bank Open Data, then hunts for pairs that move together despite having no business doing so. It will happily show you Beijing air quality tracking mobile phone subscriptions at a correlation strong enough to put in a slide deck.',
-      'That is the point. Real data is full of convincing relationships that mean nothing, and the fastest way to internalise it is to watch a machine mass-produce them from sources you trust. Each result says which series it used and where they came from, so you can check that the absurdity is genuine.',
-      'It was also a speed experiment: built end to end in one afternoon with an AI pair. The lesson from that half was less about the tooling and more about scope — an afternoon is enough when the thing only has one job.',
+      'Two things that rise over the same decades will almost always correlate, whether or not they are related. CorrelateAI is built around that one fact. Pair any two of seventy-two real yearly series \u2014 World Bank, NOAA, Our World in Data, the U.S. Treasury, USGS earthquakes, sunspot counts and more \u2014 and it gives you the correlation, a p-value and a confidence interval, then does the thing most charts skip: it subtracts each series\u2019 straight-line trend and asks whether the relationship is still there.',
+      'US internet users against US forest area is the example it opens on. They correlate at +0.91, strongly enough to put in a slide. Remove the shared trend and it falls to \u22120.01. The verdict is written in plain words and circled in red like a marked-up draft, and there are five of them: not significant, likely spurious, direction flips without the trend, interpret with caution, and holds up after detrending. Every statistic is computed in your browser from source-linked data, and the rules that choose the verdict are tested.',
+      'It started as a speed experiment: the first version was built end to end in one afternoon with an AI pair, and it was a machine mass-producing absurd matches. This version keeps the joke and adds the half that was missing: how to tell a coincidence from the real thing. Every result has a link you can share, a Gallery of notable pairs comes with a note on multiple comparisons, and pairs with enough shared years get their own indexable page.',
+      'It is deliberately upfront about what it cannot do. The p-value assumes each year is independent of the last, which yearly series rarely are, so the p-values run somewhat optimistic and the page says so. A correlation that holds up still says nothing about cause. The data refreshes weekly from public sources that need no API key, and if a source fails the last good copy is kept rather than a saved pair quietly disappearing.',
     ],
-    tech: ['React', 'TypeScript', 'FRED API', 'World Bank API'],
+    tech: ['React', 'TypeScript', 'Recharts', 'Public data'],
   },
   {
     slug: 'feedme-ai',
