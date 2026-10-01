@@ -1,99 +1,96 @@
 # victorsaly.com
 
-My personal site: a shelf of the things I have built — browser games, learning tools made with
-my kids, and a few utilities.
+My personal site: a shelf of the browser games, learning tools and utilities I have built, most of
+them free, offline-friendly and account-free.
 
-**[victorsaly.com](https://victorsaly.com/)**
+**Live: [victorsaly.com](https://victorsaly.com/)**
 
-## What this is
+![The victorsaly.com home page: "I build small web things that do one job well."](docs/images/home.png)
 
-A small [Astro](https://astro.build) site that builds to plain static HTML — the browser still
-gets zero framework JavaScript. Astro is here for maintainability, not features: the projects
-live in one typed data file, and the markup lives in components instead of being repeated.
+## What's on the shelf
 
-```
-src/data/projects.ts     every project — add or edit an entry here and you're done
-src/components/          Card (live projects), Row (repo projects), Scene, Ticker, DailyBoards
-src/layouts/Base.astro   head, nav, footer, theme + reveal scripts
-src/pages/               index, privacy, 404, and work/[slug] (one page per live project)
-src/styles/global.css    the whole design
-public/shots/            real screenshots of the live apps, 800px JPEGs
-public/                  CNAME, robots.txt, sitemap.xml, og.png, fonts/
-```
+### Live projects
 
-Each live project also gets a page at `/work/<slug>` — the story paragraphs live in the same
-`projects.ts` entry, its screenshot doubles as that page's social card, and new slugs need a
-line in `public/sitemap.xml`.
+Each one links to the live app and has its own write-up at `/work/<slug>` on the site.
 
-**Adding a project** is one entry in `projects.ts` plus (for a live one) a screenshot —
-`npm run shots -- <name>` retakes it (or all of them with no argument) using the system Chrome,
-including the per-site persuasion some apps need (Delulu Beats' sound gate, CorrelateAI's
-intro). One caveat: on a network with TLS inspection (Cisco Umbrella and friends) headless
-Chrome rejects the intercepted certificates, so run it from a normal connection.
+| | Project | What it is |
+|---|---|---|
+| <img src="public/shots/delulubeats.jpg" width="220" alt="Delulu Beats"> | **[Delulu Beats](https://delulubeats.com)**<br>[about](https://victorsaly.com/work/delulu-beats) · [source](https://github.com/victorsaly/delulubeats) | Nine ear- and eye-training games (colour, pitch, duration, rhythm, spatial memory, melody) plus Beat Lab, a loop builder. All sound is synthesised with the Web Audio API; seeded daily challenge. |
+| <img src="public/shots/shutthecube.jpg" width="220" alt="Shut The Cube"> | **[Shut The Cube](https://shutthecube.com)**<br>[about](https://victorsaly.com/work/shut-the-cube) · [source](https://github.com/victorsaly/shutTheCube) | The pub dice game Shut the Box, plus a nine-row variant where matching columns collapse for a bonus. Installable PWA, plays offline, daily leaderboard. |
+| <img src="public/shots/correlateai.jpg" width="220" alt="CorrelateAI"> | **[CorrelateAI](https://correlateai.victorsaly.com)**<br>[about](https://victorsaly.com/work/correlateai) · [source](https://github.com/victorsaly/correlateAI) | Pulls real series from FRED and World Bank data and finds correlations that mean nothing, to show how easy spurious relationships are to find. |
+| <img src="public/shots/feedmeai.jpg" width="220" alt="FeedMe AI"> | **[FeedMe AI](https://feedmeai.victorsaly.com)**<br>[about](https://victorsaly.com/work/feedme-ai) · [source](https://github.com/victorsaly/feedmeAI) | Photograph what's in the fridge, get something to cook tonight, and carry the few missing items through to a shopping list. |
+| <img src="public/shots/liliart.jpg" width="220" alt="LiliArt"> | **[LiliArt](https://liliart.victorsaly.com)**<br>[about](https://victorsaly.com/work/liliart) · [source](https://github.com/victorsaly/liliart-web) | Photograph the craft odds and ends on the table and get a project a child can make from them, one illustrated step at a time. |
+| <img src="public/shots/lili.jpg" width="220" alt="Lili's Story World"> | **[Lili's Story World](https://victorsaly.github.io/LilianaBlog/)**<br>[about](https://victorsaly.com/work/lilis-story-world) · [source](https://github.com/victorsaly/LilianaBlog) | An illustrated read-along storybook for a young dyslexic author: read-aloud with word highlighting and a voice per character. |
 
-**Today at the arcade** on the home page is the live Shut The Cube daily leaderboard, fetched
-from `api.victorsaly.com` after the page paints. The section starts hidden and only appears
-when real entries arrive, so offline — or if the API is down — the page reads as if it were
-never there. Player names are player-chosen text and are rendered with `textContent` only.
+### Also built (source only)
 
-## Design
+- **[PayBatch](https://github.com/victorsaly/batch-payment-app)** – offline desktop app (Electron) that builds UK bank bulk-payment files; encrypted at rest.
+- **[World Leaders Game](https://github.com/victorsaly/WorldLeadersGame)** – educational strategy game using real GDP data (.NET 8, Blazor Server, Azure OpenAI).
+- **[dbschema-markdown](https://github.com/victorsaly/dbschema-markdown)** – CLI that turns a database schema into markdown docs.
+- **[Oliver Math](https://github.com/victorsaly/OliverMath)** and **[Oliver Vocabulary](https://github.com/victorsaly/OliverVocabulary)** – speech-driven practice apps built with my son (Vue, Azure Speech).
+- **[Shut The Box (2018)](https://github.com/victorsaly/shutTheBox)** – the archived Vue 2 original that Shut The Cube replaced.
 
-An arcade sign, hand-painted. Big display type, mono micro-labels, one loud periwinkle, and a
-little hand-drawn motion — the playful confidence of sites like pleurat.com, in this site's own
-hand.
+## The site
 
-- **One loud periwinkle.** Highlight plates, buttons, and the die that's about to score. Dark is
-  the arcade at night; light is the same room with the blinds open. Every colour is a token in
-  `:root`; a toggle stores an explicit choice, otherwise the OS preference applies.
-- **Clash Display for headlines, Switzer for reading, the system mono for labels.** The mono
-  micro-caps (kickers, chips, the ticker) do the wayfinding so the display face can be loud.
-- **Elevation is declared once per theme.** In daylight a card is a soft shadow on paper with no
-  border; at night a shadow would vanish into the ground, so the edge is a 1px line instead. Never
-  both.
-- **Motion is hand-made and cheap.** The hero scene is inline SVG moved by CSS keyframes — tiles
-  shut, dice bob, notes drift. Scroll reveals are one small IntersectionObserver. Hover effects
-  are gated to real pointers, every pressable thing answers on touch-down, and nothing on a hover
-  takes longer than ~250ms. `prefers-reduced-motion` stops the movement but keeps colour and
-  opacity changes, and without JS the page is simply visible.
-- **One authored moment.** Clicking a card carries its screenshot and title into the project page
-  (and back) with a cross-document view transition — pure CSS (`@view-transition`), no JS, and
-  browsers without it just navigate.
-- **Live projects first.** The only ordering that matters to a visitor is whether they can use the
-  thing right now, so that is the split — playable above, readable below.
+<p>
+  <img src="docs/images/arcade.jpg" width="560" alt="The arcade section: project cards with screenshots">
+  <img src="docs/images/mobile.png" width="200" alt="The home page on a phone">
+</p>
 
-## Local preview
+- **Home page** – hero, a card per live project (live first), and a list of source-only projects.
+- **Today at the arcade** – the Shut The Cube daily leaderboard, fetched from `api.victorsaly.com`
+  after the page paints. The section stays hidden unless real entries arrive, so the page works
+  the same offline or if the API is down.
+- **Project pages** (`/work/<slug>`) – a longer write-up, screenshot and links for each live
+  project; Delulu Beats also has a short launch film. Cards and project pages are linked with a
+  CSS cross-document view transition.
+- **Light and dark themes** – follows the OS by default, with a toggle that remembers your choice.
+- **No client framework** – Astro builds plain static HTML; the only JavaScript is a few small scripts
+  (theme, scroll reveals, leaderboard).
+
+<img src="docs/images/project-page.jpg" width="640" alt="A project page: Delulu Beats">
+
+## Tech stack
+
+[Astro](https://astro.build) 5 (static output), TypeScript, hand-written CSS, self-hosted fonts
+(Clash Display, Switzer). Deployed to GitHub Pages with GitHub Actions.
+
+## Run locally
+
+Requires Node 20 (the version CI uses).
 
 ```bash
 npm install
-npm run dev        # live-reloading dev server
+npm run dev        # dev server with live reload
 npm run build      # static site into dist/
-npm run preview    # serve the built dist/
+npm run preview    # serve dist/
+npm run shots      # retake project screenshots (all, or: npm run shots -- <name>)
+```
+
+`npm run shots` drives your installed Google Chrome via puppeteer-core. No environment variables
+are needed.
+
+## Adding a project
+
+Everything on the shelf comes from one file, `src/data/projects.ts`. Add an entry to `live` or
+`repos`; for a live project also add a screenshot to `public/shots/` (800px wide JPEG, or use
+`npm run shots`) and a line for its `/work/<slug>` page in `public/sitemap.xml`.
+
+## Project structure
+
+```
+src/data/projects.ts     every project, as typed data
+src/components/          Card, Row, Scene, Ticker, DailyBoards
+src/layouts/Base.astro   head, nav, footer, theme and reveal scripts
+src/pages/               index, privacy, 404, work/[slug]
+src/styles/global.css    all styles; colours are tokens in :root
+public/                  CNAME, robots.txt, sitemap.xml, og.png, fonts/, shots/, film/
+scripts/shots.mjs        screenshot script
 ```
 
 ## Deployment
 
-Pushing to `main` publishes to GitHub Pages via
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
-
-**One-time setup:** in *Settings → Pages*, set **Source** to **GitHub Actions**.
-
-### Custom domain
-
-DNS for `victorsaly.com` is on Cloudflare. Point the apex at GitHub Pages with four `A` records:
-
-```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
-```
-
-Set the Cloudflare records to **DNS only** (grey cloud) until GitHub has issued the certificate,
-then proxying can be turned back on. In *Settings → Pages*, set the custom domain to
-`victorsaly.com` and enable **Enforce HTTPS** once it verifies.
-
-## Later
-
-This repo is also the intended home for the arcade: both games served from `/play/` on this
-origin, so a shared hub can read their stats, plus a leaderboard on Cloudflare Workers and D1.
-Nothing here is structured to make that harder.
+Pushing to `main` builds the site and publishes it to GitHub Pages via
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) (Pages source: GitHub Actions). The
+custom domain is set by `public/CNAME`; DNS is on Cloudflare, with the apex pointed at GitHub Pages'
+`A` records.
