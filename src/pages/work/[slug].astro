@@ -45,6 +45,20 @@ const next = live[(index + 1) % live.length];
 
     <div class="work-body">
       <section class="work-story reveal">
+        {project.film && (
+          <figure class="work-film">
+            <video
+              src={project.film}
+              poster={project.filmPoster}
+              controls
+              playsinline
+              preload="none"
+              width="1080"
+              height="1920"
+            ></video>
+            {project.filmCaption && <figcaption>{project.filmCaption}</figcaption>}
+          </figure>
+        )}
         {project.story.map((p) => <p>{p}</p>)}
       </section>
       <aside class="work-facts reveal" style="--i:1">

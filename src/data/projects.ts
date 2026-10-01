@@ -15,6 +15,12 @@ export interface LiveProject {
   repo: string;
   shot: string;
   shotAlt: string;
+  /** an optional launch film on /work/<slug>, shown at phone width.
+   *  `film` is a 9:16 mp4 in public/film/; `filmPoster` is its first frame,
+   *  and nothing downloads until someone presses play. */
+  film?: string;
+  filmPoster?: string;
+  filmCaption?: string;
   description: string;
   /** the longer read on /work/<slug> — one string per paragraph */
   story: string[];
@@ -43,6 +49,9 @@ export const live: LiveProject[] = [
     repo: 'https://github.com/victorsaly/delulubeats',
     shot: '/shots/delulubeats.jpg',
     shotAlt: 'The Delulu Beats home screen: a dark grid of nine ear-training games',
+    film: '/film/delulubeats.mp4',
+    filmPoster: '/film/delulubeats.jpg',
+    filmCaption: 'Twenty seconds of it, narrated. The tone you hear in it is the game actually sounding.',
     description:
       'Nine full-screen games for colour, pitch, duration, rhythm, spatial memory and melody — see it, hear it, remember it, then dial it back in. Plus Beat Lab, a browser studio for building and downloading your own loop. Everything is synthesised in the Web Audio API; there is a seeded daily challenge shared by everyone.',
     story: [
@@ -102,6 +111,26 @@ export const live: LiveProject[] = [
       'You take a photo of the fridge, the pantry, or a pile of ingredients on the counter; it identifies what it sees and suggests dishes that need nothing you do not have, or nearly nothing. Pick one and it writes the recipe out in full, then walks you through it a step at a time for when your hands are covered in flour. Anything you like can be kept.',
       'What it could not do until recently is the other half of the job: the things you are still short of. Any line in a recipe now goes onto a shopping list with one tap, tagged with the dish that wanted it, and a single button searches the whole list at once and regroups the answers by supermarket — so the question stops being “where do I buy eggs” and becomes “which shop has most of my list, and for how much”. You say which country you are in, and each result links into that shop’s own search rather than a price-comparison page.',
       'A list is only useful if it is on the phone in the shop as well as the laptop that made it, which meant an account — so it signs in with the same plain Google redirect as the arcade sites: a name, no email scope, nothing else asked for. That also got every API key out of the browser, where the first version had left one in plain sight. The vision, recipe and shopping calls all run in a small Cloudflare Worker now, with a daily cap so a passer-by cannot spend the quota. It is still deliberately small — no meal plans, no macros, no social feed — just one question followed all the way through.',
+      'Two things landed later that matter more than they sound. It reads how much of something there is now, not just that it is there, so a small piece of chicken gets a single-serving idea rather than a recipe sized for a Sunday roast. And it installs: the shopping list lives on the phone and gets read in a supermarket, which is precisely where the signal goes, so the app and the list now open with no connection at all.',
+    ],
+    tech: ['React', 'TypeScript', 'AI', 'Cloudflare Workers'],
+  },
+  {
+    slug: 'liliart',
+    title: 'LiliArt',
+    url: 'https://liliart.victorsaly.com',
+    host: 'liliart.victorsaly.com',
+    repo: 'https://github.com/victorsaly/liliart-web',
+    shot: '/shots/liliart.jpg',
+    shotAlt:
+      'LiliArt asking "What can we make?", with two big buttons to photograph or choose a picture of your odds and ends',
+    description:
+      'Photograph the odds and ends on the table \u2014 tubes, lids, scraps, odd socks \u2014 and it works out what a child could make from them. The ideas only use what is actually there, the steps arrive one at a time with a picture of each, and when it is finished you photograph what you made.',
+    story: [
+      'The same question as FeedMe AI pointed at a different cupboard: not what can I cook, but what can I make. There was an earlier version of this as a phone app; this is the same idea rebuilt for the web, so a link is all it takes to open it. The look is carried over from that app on purpose \u2014 the same magenta, the same thick frame round the camera, the same two enormous buttons \u2014 because the person pressing them is a child and is usually holding something sticky.',
+      'Quantity turned out to be the whole trick. The first version read a photo for names only, so one cardboard tube and six cardboard tubes produced exactly the same suggestions. It counts them now, and the count survives all the way to the idea: one tube is a rocket, six are a marble run, and anything a craft needs more of than you have is listed as something to go and find rather than quietly assumed.',
+      'Then it gets out of the way. A craft opens one step at a time, full screen, with the screen asked to stay awake, and each step carries a picture of that step actually being done \u2014 hands mid-job, the thing half-built \u2014 because what helps at step four is seeing step four, not seeing the finished article. Anything involving scissors or heat is marked plainly as a grown-up\u2019s part.',
+      'At the end it asks for a photo of what was actually made, which is the part the app used to forget the moment it happened. That turns the Kept tab from a list of ideas you liked into a shelf of things you built, each one sitting beside the drawing of what it was meant to look like. It installs to a home screen and the shelf works with no internet at all; the AI key lives in a Cloudflare Worker with a daily cap so a passer-by cannot spend it, and every prompt carries the same house rules \u2014 no oven, nothing sharp without an adult, nothing to eat.',
     ],
     tech: ['React', 'TypeScript', 'AI', 'Cloudflare Workers'],
   },

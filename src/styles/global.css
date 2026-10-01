@@ -790,6 +790,33 @@ a:hover { color: var(--accent-hover); }
 }
 .work-shot img { width: 100%; height: auto; display: block; }
 
+/* A 9:16 launch film, shown at phone width — the app is phone-shaped, so
+   full-bleed would be wrong. Floated beside the story where there is room;
+   it stacks above the text on a narrow screen. `preload="none"` means the
+   file only leaves the server when somebody presses play. */
+.work-film {
+  margin: 0 0 1.4rem;
+  max-width: 300px;
+}
+.work-film video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  background: #0c0d12;
+  box-shadow: var(--shadow);
+}
+.work-film figcaption {
+  margin-top: .6rem;
+  font-size: .82rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+@media (min-width: 620px) {
+  .work-film { float: right; margin: .2rem 0 1.1rem 2rem; }
+}
+
 .work-body {
   display: grid;
   gap: 2rem 4rem;
