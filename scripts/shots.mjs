@@ -10,6 +10,8 @@
  *
  * File names must match the `shot` paths in src/data/projects.ts.
  */
+
+/* global document -- page.evaluate callbacks run in the page, not in Node */
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';

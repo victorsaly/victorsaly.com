@@ -16,10 +16,12 @@ export interface LiveProject {
   shot: string;
   shotAlt: string;
   /** an optional launch film on /work/<slug>, shown at phone width.
-   *  `film` is a 9:16 mp4 in public/film/; `filmPoster` is its first frame,
+   *  `film` is a 9:16 mp4 in public/film/; `filmPoster` is its first frame;
+   *  `filmCaptions` is its WebVTT captions, required with a film (a test checks),
    *  and nothing downloads until someone presses play. */
   film?: string;
   filmPoster?: string;
+  filmCaptions?: string;
   filmCaption?: string;
   description: string;
   /** the longer read on /work/<slug> — one string per paragraph */
@@ -51,6 +53,7 @@ export const live: LiveProject[] = [
     shotAlt: 'The Delulu Beats home screen: a dark grid of nine ear-training games',
     film: '/film/delulubeats.mp4',
     filmPoster: '/film/delulubeats.jpg',
+    filmCaptions: '/film/delulubeats.vtt',
     filmCaption: 'Twenty seconds of it, narrated. The tone you hear in it is the game actually sounding.',
     description:
       'Nine full-screen games for colour, pitch, duration, rhythm, spatial memory and melody — see it, hear it, remember it, then dial it back in. Plus Beat Lab, a browser studio for building and downloading your own loop. Everything is synthesised in the Web Audio API; there is a seeded daily challenge shared by everyone.',

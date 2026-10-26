@@ -3,15 +3,18 @@ import Base from '../../layouts/Base.astro';
 import { live } from '../../data/projects';
 
 export function getStaticPaths() {
+  // The list wraps: the first project's "previous" is the last one, and the other way round.
   return live.map((project, index) => ({
     params: { slug: project.slug },
-    props: { project, index },
+    props: {
+      project,
+      prev: live.at(index - 1) ?? project,
+      next: live[(index + 1) % live.length] ?? project,
+    },
   }));
 }
 
-const { project, index } = Astro.props;
-const prev = live[(index - 1 + live.length) % live.length];
-const next = live[(index + 1) % live.length];
+const { project, prev, next } = Astro.props;
 ---
 <Base
   title={`${project.title} — Victor Saly`}
@@ -55,7 +58,9 @@ const next = live[(index + 1) % live.length];
               preload="none"
               width="1080"
               height="1920"
-            ></video>
+            >
+              <track kind="captions" src={project.filmCaptions} srclang="en" label="English" default />
+            </video>
             {project.filmCaption && <figcaption>{project.filmCaption}</figcaption>}
           </figure>
         )}

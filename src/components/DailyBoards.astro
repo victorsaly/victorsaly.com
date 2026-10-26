@@ -53,7 +53,10 @@ const modes = [
     const period = new Date().toISOString().slice(0, 10);
     const boards = section.querySelectorAll<HTMLElement>('.daily-board');
     const results = await Promise.all(
-      Array.from(boards, (el) => board(el.dataset.mode!, period).catch(() => null))
+      Array.from(boards, (el) => {
+        const mode = el.dataset['mode'];
+        return mode ? board(mode, period).catch(() => null) : Promise.resolve(null);
+      })
     );
     if (!results.some((r) => r && r.length)) return; // nothing to show — stay hidden
 
