@@ -8,8 +8,9 @@ web
 
 ## Stack
 
-Astro 7, static output, TypeScript strict, hand-written CSS, no client framework. Hosting moves from GitHub
-Pages to a Cloudflare Worker with static assets in a later slice, to match blog.victorsaly.com.
+Astro 7, static output, TypeScript strict, hand-written CSS, no client framework. Hosted on GitHub Pages,
+deployed on every push to `main`. Moving to a Cloudflare Worker like the blog was considered and set aside
+(2026-10-26).
 
 ## Who it is for
 
@@ -26,7 +27,8 @@ about the day job than that one line; LinkedIn, linked from the masthead and the
 
 Live projects (each has a page at `/work/<slug>`): Delulu Beats, Shut The Cube, CorrelateAI, FeedMe AI,
 LiliArt, Lili's Story World, Oliver Math, and the Agentic Blog with Roadbook, the framework under it.
-Source-only projects are listed without a page. Lab_Agents stays off until it is finished.
+Source-only projects are listed without a page. Lab_Agents stays off until it is finished. Each project is a
+Markdown file in `src/content/work/`; the home page also shows the newest three posts from the blog's feed.
 
 ## What must stay true
 
