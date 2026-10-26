@@ -1,0 +1,29 @@
+# Why: every pull request is held to the same gate as blog.victorsaly.com: lint, types, tests and a full
+# build. A push to main deploys straight to the live site, so nothing should reach main without passing here.
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, types, tests, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npm run build
