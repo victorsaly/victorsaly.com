@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,mjs,js,astro,css,json,yml,yaml}\"",
     "typecheck": "astro check",
     "test": "vitest run",
-    "shots": "node scripts/shots.mjs"
+    "shots": "node scripts/shots.mjs",
+    "og": "node scripts/og.mjs"
   },
   "dependencies": {
     "astro": "^7.4.2"
