@@ -1,9 +1,12 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { live } from './projects';
 
+// fileURLToPath, not .pathname: a pathname is percent-encoded, so a checkout under a folder with a space
+// in its name would make every file look missing.
 const publicFile = (path: string): string =>
-  new URL(`../../public${path}`, import.meta.url).pathname;
+  fileURLToPath(new URL(`../../public${path}`, import.meta.url));
 
 describe('live projects', () => {
   it('each has its own slug', () => {

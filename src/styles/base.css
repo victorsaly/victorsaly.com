@@ -1,0 +1,312 @@
+/* The whole site's stylesheet, in the same hand as blog.victorsaly.com: black ink on white paper, one
+   colour (marigold) on each project's title, structure drawn with spacing and ink rules in three weights.
+   No cards, no shadows, no gradients. Every face is served from this origin, like everything else here. */
+
+@import './tokens.css';
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url('/fonts/atkinson-hyperlegible-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url('/fonts/atkinson-hyperlegible-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url('/fonts/atkinson-hyperlegible-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Lexend is one variable file for every weight. */
+@font-face {
+  font-family: 'Lexend';
+  src: url('/fonts/lexend.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  font-size: var(--size-body);
+  line-height: var(--leading);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
+
+/* The frame: header, footer and every page share one width and one side margin. */
+.frame {
+  width: 100%;
+  max-width: var(--wide);
+  margin-inline: auto;
+  /* Never less than the notch: on a phone held sideways the safe area can be wider than the margin. */
+  padding-inline: max(var(--pad), env(safe-area-inset-left))
+    max(var(--pad), env(safe-area-inset-right));
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  margin: 0 0 var(--space-3);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--size-title);
+}
+
+h2 {
+  font-size: var(--size-h2);
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 var(--space-3);
+  max-width: var(--measure);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-thickness: 0.15em;
+}
+
+:focus-visible {
+  outline: var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+::selection {
+  background: var(--mark);
+  color: var(--mark-ink);
+}
+
+code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* The one colour: marigold under black text (12.7:1), carried across a line break. */
+mark {
+  background: var(--mark);
+  color: var(--mark-ink);
+  padding: 0.05em 0.2em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* A label: bold capitals standing on a strong rule, naming the block beneath it. */
+.label {
+  font-size: var(--size-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: var(--leading-tight);
+  margin: 0;
+  padding-bottom: var(--space-2);
+  border-bottom: var(--rule-strong) solid var(--ink);
+  max-width: none;
+}
+
+/* A control: a bordered box with a word (and sometimes an icon), the same everywhere. Filled when it is
+   on, or when it is the one thing to do. */
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  min-width: var(--tap);
+  padding: 0 0.875rem;
+  border: var(--rule-width) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--size-small);
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    transform var(--duration-press) var(--ease-out);
+}
+
+.control:hover {
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .control:hover {
+    background: var(--hover);
+  }
+}
+
+.control:active {
+  transform: scale(0.97);
+}
+
+.control svg {
+  flex: none;
+}
+
+.control[aria-pressed='true'],
+.control.filled,
+.control[aria-pressed='true']:hover,
+.control.filled:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    transition: none;
+  }
+  .control:active {
+    transform: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.quiet {
+  color: var(--quiet);
+}
+
+.small {
+  font-size: var(--size-small);
+}
+
+/* A page head: a heavy rule, the name set large, and one line of what is below. */
+.page-head {
+  padding-top: var(--space-6);
+}
+
+.page-head > :first-child {
+  padding-top: var(--space-4);
+  border-top: var(--rule-heavy) solid var(--ink);
+}
+
+.display {
+  margin: 0;
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+}
+
+/* A screen: a real screenshot in a hairline ink frame. No radius, no shadow. */
+.screen {
+  display: block;
+  border: var(--rule-width) solid var(--ink);
+  background: var(--field);
+}
+
+.screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+}
+
+/* Facts: a short table of what a project is, one hairline per row. */
+.facts {
+  margin: 0;
+  border-top: var(--rule-width) solid var(--ink);
+}
+
+.facts > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-block: 0.625rem;
+  border-bottom: var(--rule-width) solid var(--rule);
+  font-size: var(--size-small);
+  line-height: 1.45;
+}
+
+.facts dt {
+  font-weight: 700;
+}
+
+.facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* The screen travels from its plate to its page when a reader opens one: the one authored motion on the
+   site, and only because they asked for it. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-group(*) {
+    animation-duration: 360ms;
+    animation-timing-function: var(--ease-in-out);
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 200ms;
+  }
+}

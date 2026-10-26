@@ -1,13 +1,12 @@
 ---
 /*
- * Today at the arcade: the live daily leaderboards for Shut The Cube,
- * fetched from api.victorsaly.com after the page paints.
+ * Today's boards: the live daily leaderboards for Shut The Cube, fetched from api.victorsaly.com after the
+ * page paints, on that game's page.
  *
- * The page is static and must stay honest offline, so this section starts
- * [hidden] and only appears once real entries arrive — if the API is
- * unreachable, or every board is empty, the page reads exactly as it did
- * without it. Player names are chosen by players: they go through
- * textContent only, never markup.
+ * The page is static and must stay honest offline, so this section starts [hidden] and only appears once
+ * real entries arrive. If the API is unreachable, or every board is empty, the page reads exactly as it
+ * did without it. Player names are chosen by players: they go through textContent only, never markup.
+ * The rows are made by the script, so their styles are global under .daily.
  */
 const modes = [
   { key: 'beginner', label: 'Beginner' },
@@ -16,46 +15,115 @@ const modes = [
 ];
 ---
 
-<div class="daily reveal" id="daily" hidden>
-  <div class="daily-head">
-    <h3 class="daily-title">Today at the arcade</h3>
-    <span class="daily-date" id="daily-date"></span>
-  </div>
+<section class="daily" id="daily" aria-labelledby="daily-label" hidden>
+  <h2 class="label" id="daily-label">
+    Today's boards <span class="quiet" id="daily-date"></span>
+  </h2>
   <div class="daily-grid">
     {
       modes.map((m) => (
         <div class="daily-board" data-mode={m.key}>
-          <h4>{m.label}</h4>
+          <h3>{m.label}</h3>
           <ol class="daily-entries" />
         </div>
       ))
     }
   </div>
-  <p class="daily-cta">
-    <a href="https://shutthecube.com">Play today&rsquo;s board &rarr;</a>
-    <span class="daily-note">One board, shared by everyone, until midnight UTC.</span>
+  <p class="small quiet daily-note">
+    One board, shared by everyone, until midnight UTC. <a href="https://shutthecube.com"
+      >Play today's board</a
+    >.
   </p>
-</div>
+</section>
+
+<style is:global>
+  .daily {
+    margin-top: var(--space-6);
+  }
+  .daily-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+  }
+  .daily-board h3 {
+    margin: 0;
+    padding-bottom: var(--space-2);
+    font-size: 1.0625rem;
+    border-bottom: var(--rule-width) solid var(--ink);
+  }
+  .daily-entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: rank;
+  }
+  .daily-entries li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+    border-bottom: var(--rule-width) solid var(--rule);
+    font-size: var(--size-small);
+    counter-increment: rank;
+  }
+  .daily-entries li::before {
+    content: counter(rank);
+    width: 1.25rem;
+    color: var(--quiet);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .daily-entries .daily-empty {
+    color: var(--quiet);
+  }
+  .daily-entries .daily-empty::before {
+    content: none;
+  }
+  .daily-name {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .daily-score {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .daily-shut {
+    color: var(--quiet);
+  }
+  .daily-note {
+    margin: var(--space-3) 0 0;
+  }
+  @media (max-width: 40rem) {
+    .daily-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+  }
+</style>
 
 <script>
   const API = 'https://api.victorsaly.com';
   const section = document.getElementById('daily');
 
-  async function board(mode: string, period: string) {
+  interface Entry {
+    rank: number;
+    name: string;
+    score: number;
+    won: number;
+    rolls: number;
+  }
+
+  async function board(mode: string, period: string): Promise<Entry[]> {
     const res = await fetch(
       `${API}/v1/board?game=shutthecube&mode=${mode}&period=${period}&limit=3`,
     );
     if (!res.ok) throw new Error('unavailable');
-    return (await res.json()).entries as {
-      rank: number;
-      name: string;
-      score: number;
-      won: number;
-      rolls: number;
-    }[];
+    return ((await res.json()) as { entries: Entry[] }).entries;
   }
 
-  async function load() {
+  async function load(): Promise<void> {
     if (!section) return;
     const period = new Date().toISOString().slice(0, 10);
     const boards = section.querySelectorAll<HTMLElement>('.daily-board');
@@ -65,15 +133,16 @@ const modes = [
         return mode ? board(mode, period).catch(() => null) : Promise.resolve(null);
       }),
     );
-    if (!results.some((r) => r && r.length)) return; // nothing to show — stay hidden
+    if (!results.some((r) => r && r.length)) return; // nothing to show: stay hidden
 
     boards.forEach((el, i) => {
-      const list = el.querySelector('.daily-entries')!;
+      const list = el.querySelector('.daily-entries');
+      if (!list) return;
       const entries = results[i];
       if (!entries || entries.length === 0) {
         const li = document.createElement('li');
         li.className = 'daily-empty';
-        li.textContent = 'No scores yet — be first';
+        li.textContent = 'No scores yet. Be first.';
         list.append(li);
         return;
       }
@@ -105,7 +174,6 @@ const modes = [
       });
     }
     section.hidden = false;
-    section.classList.add('in'); // it appears after the reveal pass has run
   }
 
   load().catch(() => {});
