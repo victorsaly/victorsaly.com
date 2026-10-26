@@ -1,0 +1,139 @@
+---
+/*
+ * The footer closes every page under a heavy rule, as on the blog: the name, where it is made, one plain
+ * line about the work, then the links a visitor expects at the bottom: the work, the writing, where the
+ * code lives, and how to get in touch. The bottom line carries the privacy policy.
+ */
+---
+
+<footer class="site-footer">
+  <div class="frame top">
+    <div class="line">
+      <a class="brand" href="/"><span class="block" aria-hidden="true"></span>Victor Saly</a>
+      <p class="where">Made in London.</p>
+      <p class="small quiet">
+        Hobby apps, built in my own time as personal work. Most of it is free, works offline and
+        needs no account. The source for everything is on <a href="https://github.com/victorsaly"
+          >GitHub</a
+        >.
+      </p>
+    </div>
+    <nav aria-labelledby="footer-work">
+      <p class="head" id="footer-work">Work</p>
+      <ul>
+        <li><a href="/">All projects</a></li>
+        <li><a href="/#also">Also built</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="footer-elsewhere">
+      <p class="head" id="footer-elsewhere">Elsewhere</p>
+      <ul>
+        <li><a href="https://blog.victorsaly.com">Writing</a></li>
+        <li><a href="https://github.com/victorsaly" rel="me">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/victorsaly" rel="me">LinkedIn</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="footer-contact">
+      <p class="head" id="footer-contact">Contact</p>
+      <ul>
+        <li><a href="mailto:info@victorsaly.com">info@victorsaly.com</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="base">
+    <div class="frame small quiet">
+      <p>Victor Saly</p>
+      <a href="/privacy">Privacy policy</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-6);
+    border-top: var(--rule-heavy) solid var(--ink);
+  }
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+  }
+  .line {
+    flex: 2 1 22rem;
+    min-width: 0;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: var(--tap);
+    margin-bottom: var(--space-2);
+    font-size: var(--size-h2);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .brand:hover {
+    text-decoration: underline;
+  }
+  .block {
+    width: 14px;
+    height: 14px;
+    background: var(--ink);
+  }
+  .where {
+    margin: 0 0 var(--space-3);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .line .small {
+    margin: 0;
+    max-width: 28rem;
+  }
+  nav {
+    flex: 1 1 9rem;
+  }
+  .head {
+    margin: 0 0 var(--space-2);
+    font-size: var(--size-label);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li a {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  li a:hover {
+    text-decoration: underline;
+  }
+  .base {
+    border-top: var(--rule-width) solid var(--ink);
+  }
+  .base .frame {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0 var(--space-4);
+    padding-block: var(--space-2);
+  }
+  .base p {
+    margin: 0;
+  }
+  .base a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+  }
+</style>

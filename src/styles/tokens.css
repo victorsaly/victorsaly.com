@@ -1,0 +1,128 @@
+/* Copied from blog.victorsaly.com (site/src/styles/tokens.css) so the two sites read as one author. Change
+   both together. */
+
+/* Why: every colour, size and rhythm on the site lives here and nowhere else. Monochrome by design:
+   black on white, soft white on charcoal, and one colour, marigold, that marks the message, list titles and
+   search matches. Structure is drawn with ink rules in three weights, like a printed page. The type is
+   chosen for a dyslexic reader and a distracted one: large, open, well spaced, short lines, and a switch
+   to a second face built for reading proficiency. */
+
+:root {
+  /* colour */
+  --paper: #ffffff;
+  --ink: #000000;
+  --quiet: #595959; /* 7:1 on white */
+  --rule: #d4d4d4;
+  --field: #f3f3f3;
+  --hover: #f2f2f2; /* the faint fill under a control the pointer is on */
+  --skeleton: #e6e6e6; /* grey rows that hold the place of an answer or a result still on its way */
+  --mark: #ffc400; /* the one colour; black text on it reads at 12.7:1 */
+  --mark-ink: #000000;
+  --drawing-filter: none; /* drawings are black ink on white */
+  --drawing-filter-on-ink: invert(1); /* an icon on a filled (inverted) control */
+  /* Icons are ink on a white square. The blend lets the square take the colour behind it, so it never
+     shows as a box on a hover fill or on the charcoal of dark mode. */
+  --drawing-blend: multiply;
+  --drawing-blend-on-ink: screen;
+  /* A drawing is a print, ink on paper, and is never inverted: inverting a linocut turns faces dark and
+     hair white. In dark mode it keeps its paper, dimmed so it does not glare, with a paper margin. */
+  --print-paper: #ffffff;
+  --print-pad: 0;
+  --print-filter: none;
+
+  /* type */
+  --font-read: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-switch: 'Lexend', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font: var(--font-read);
+  --size-body: 1.1875rem; /* 19px */
+  --size-small: 0.9375rem; /* 15px */
+  --size-message: clamp(1.375rem, 1.1rem + 1.4vw, 1.75rem); /* 22px on a phone, 28px on a desk */
+  --size-title: 2.25rem; /* 36px */
+  --size-display: clamp(
+    2.75rem,
+    1.6rem + 4.2vw,
+    5rem
+  ); /* a post title: 44px on a phone, 80px on a desk */
+  --size-label: 0.9375rem; /* 15px, bold capitals above a rule */
+  --tracking-label: 0.08em;
+  --tracking-display: -0.03em;
+  --size-h2: 1.5rem; /* 24px */
+  --leading: 1.6;
+  --leading-tight: 1.25;
+  --measure: 45ch; /* about 70 characters of Atkinson a line; ch is the width of a zero */
+  --tracking-message: -0.005em;
+
+  /* rhythm */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+  --gutter: 1.25rem;
+  --wide: 80rem; /* 1280px: the frame for the header, the footer and the wide pages */
+  --pad: clamp(1.25rem, 3vw, 2.5rem); /* the frame's side margin: 20px on a phone, 40px on a desk */
+  --rail: 15rem; /* a side column beside the text on a desk */
+  --dock: 28.75rem; /* 460px: the Ask and Search panel docked on the right */
+  --tap: 2.75rem; /* 44px minimum target */
+
+  /* edges */
+  --rule-width: 1px; /* a hairline between rows */
+  --rule-strong: 3px; /* above every section heading and label */
+  --rule-heavy: 8px; /* opens the big moments: masthead, cover, footer */
+  --focus: 3px solid var(--ink);
+  --focus-offset: 3px;
+
+  /* motion: only when the reader asked for it */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-panel: 220ms;
+  --duration-press: 160ms;
+  --ease-in-out: cubic-bezier(
+    0.77,
+    0,
+    0.175,
+    1
+  ); /* something moving across the page, like the tour */
+  --duration-travel: 520ms; /* the tour's ink running from one station to the next */
+
+  color-scheme: light dark;
+}
+
+:root[data-font='switch'] {
+  --font: var(--font-switch);
+  --leading: 1.7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #1c1c1c; /* charcoal, not black: pure black under white text glares at night */
+    --ink: #e6e6e6; /* soft white, 13.4:1 on charcoal */
+    --quiet: #a8a8a8; /* 7.2:1 on charcoal */
+    --rule: #3a3a3a;
+    --drawing-filter: invert(1) brightness(0.9); /* icons: soft white lines, like the text */
+    --drawing-filter-on-ink: none;
+    --drawing-blend: screen;
+    --drawing-blend-on-ink: multiply;
+    --print-pad: 0.75rem;
+    --print-filter: brightness(0.85);
+    --field: #252525;
+    --hover: #2c2c2c;
+    --skeleton: #333333;
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #1c1c1c;
+  --ink: #e6e6e6;
+  --quiet: #a8a8a8;
+  --rule: #3a3a3a;
+  --drawing-filter: invert(1) brightness(0.9);
+  --drawing-filter-on-ink: none;
+  --drawing-blend: screen;
+  --drawing-blend-on-ink: multiply;
+  --print-pad: 0.75rem;
+  --print-filter: brightness(0.85);
+  --field: #252525;
+  --hover: #2c2c2c;
+  --skeleton: #333333;
+}

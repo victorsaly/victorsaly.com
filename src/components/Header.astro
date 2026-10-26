@@ -1,0 +1,181 @@
+---
+/*
+ * The header, in the blog's hand: the name, the two places to go (the work here, the writing on the blog),
+ * and the two switches a reader may want before reading anything, the font for a dyslexic reader and the
+ * theme for a tired one. Each switch says in words what it turns on and in aria-pressed whether it is on.
+ * It stays at the top as you scroll on a desk. A phone has too little height to give up, so there it
+ * scrolls away, the switches show their icons only (their words stay for screen readers) and the two
+ * sections sit on a line of their own. Few enough items that no menu is needed.
+ */
+interface Props {
+  /** canonical path of the page, so the current section is marked */
+  path: string;
+}
+
+const { path } = Astro.props;
+const onWork = path === '/' || path.startsWith('/work');
+---
+
+<header class="site-header">
+  <div class="frame bar">
+    <a class="name" href="/">
+      <span class="block" aria-hidden="true"></span>
+      Victor Saly
+    </a>
+    <nav class="sections" aria-label="Sections">
+      <a href="/" aria-current={onWork ? 'page' : undefined}>Work</a>
+      <a href="https://blog.victorsaly.com">Writing</a>
+    </nav>
+    <div class="switches">
+      <button type="button" class="control" id="font-switch" aria-pressed="false">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20">
+          <text
+            x="10"
+            y="15"
+            text-anchor="middle"
+            font-size="14"
+            font-weight="700"
+            fill="currentColor">Aa</text
+          >
+        </svg>
+        <span class="word">Lexend</span>
+      </button>
+      <button type="button" class="control" id="theme-switch" aria-pressed="false">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2"></circle>
+          <path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"></path>
+        </svg>
+        <span class="word">Dark</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: var(--rule-width) solid var(--ink);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) 0.375rem;
+    padding-block: var(--space-2);
+  }
+  .name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: var(--tap);
+    margin-right: var(--space-3);
+    font-size: 1.375rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .name:hover {
+    text-decoration: underline;
+  }
+  .block {
+    width: 14px;
+    height: 14px;
+    background: var(--ink);
+  }
+  .sections {
+    flex: 1;
+    display: flex;
+  }
+  .sections a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 0.75rem;
+    font-size: 1.0625rem;
+    text-decoration: none;
+  }
+  .sections a:hover {
+    text-decoration: underline;
+  }
+  .sections a[aria-current='page'] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: var(--rule-strong);
+    text-underline-offset: 6px;
+  }
+  .switches {
+    display: flex;
+    gap: 0.375rem;
+  }
+
+  /* A phone: the name and the switches on the first line, the sections under them. */
+  @media (max-width: 34rem) {
+    .site-header {
+      position: static;
+    }
+    .switches .word {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .switches .control {
+      padding: 0;
+    }
+    .name {
+      flex: 1;
+      margin-right: 0;
+    }
+    .sections {
+      order: 3;
+      flex-basis: 100%;
+      margin-left: -0.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Two switches, stored per browser and restored by the layout before first paint.
+  const root = document.documentElement;
+  const remember = (key: string, value: string | null): void => {
+    try {
+      if (value === null) localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch {
+      /* private window or storage blocked: the switch still works for this page */
+    }
+  };
+
+  const font = document.getElementById('font-switch');
+  const syncFont = (): void => {
+    font?.setAttribute('aria-pressed', String(root.dataset['font'] === 'switch'));
+  };
+  font?.addEventListener('click', () => {
+    const on = root.dataset['font'] !== 'switch';
+    if (on) root.dataset['font'] = 'switch';
+    else delete root.dataset['font'];
+    remember('font', on ? 'switch' : null);
+    syncFont();
+  });
+  syncFont();
+
+  const theme = document.getElementById('theme-switch');
+  const prefersDark = (): boolean => matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = (): boolean =>
+    root.dataset['theme'] === 'dark' || (root.dataset['theme'] === undefined && prefersDark());
+  const syncTheme = (): void => {
+    theme?.setAttribute('aria-pressed', String(isDark()));
+  };
+  theme?.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    root.dataset['theme'] = next;
+    remember('theme', next);
+    syncTheme();
+  });
+  syncTheme();
+</script>

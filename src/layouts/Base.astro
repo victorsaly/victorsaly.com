@@ -1,5 +1,12 @@
 ---
-import '../styles/global.css';
+/*
+ * One layout for every page: what a search engine or a link preview reads, the self-hosted faces, the
+ * reader's font and theme choices restored before first paint (so nothing flashes), the skip link, the
+ * header and the footer. Pages add only content, inside their own <main id="main">.
+ */
+import '../styles/base.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -13,17 +20,19 @@ interface Props {
 const { title, description, path, image = '/og.png', imageAlt } = Astro.props;
 const canonical = new URL(path, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
-const ogAlt = imageAlt ?? 'Victor Saly — small web things that do one job well. victorsaly.com';
+const ogAlt = imageAlt ?? 'Victor Saly: the things I have built. victorsaly.com';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="author" content="Victor Saly" />
+    <link rel="me" href="https://www.linkedin.com/in/victorsaly" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Victor Saly" />
@@ -35,128 +44,56 @@ const ogAlt = imageAlt ?? 'Victor Saly — small web things that do one job well
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
 
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efe8" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0d18" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1c1c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23a8aeff'/><text y='73' x='50' text-anchor='middle' font-size='60' font-weight='700' font-family='Avenir Next,Futura,sans-serif' fill='%230a0d18'>V</text></svg>"
-    />
-
-    <!-- Theme + JS flag, before first paint so neither mode nor the scroll
-     reveals ever flash. An explicit choice is stored; otherwise the OS
-     preference applies through the media query in the stylesheet. -->
-    <script is:inline>
-      (function () {
-        var d = document.documentElement;
-        d.classList.add('js');
-        try {
-          var p = localStorage.getItem('theme-pref');
-          if (p === 'light' || p === 'dark') {
-            d.classList.add('mode-' + p);
-          }
-        } catch (e) {}
-      })();
-    </script>
-
-    <!-- Fonts are self-hosted (see global.css). Preload the two faces above the
-     fold — the display 600 in the headline and the body 400 — so the swap
-     from the fallback face is over almost before it starts. -->
     <link
       rel="preload"
       as="font"
       type="font/woff2"
-      href="/fonts/clash-display-600.woff2"
+      href="/fonts/atkinson-hyperlegible-400.woff2"
       crossorigin
     />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/switzer-400.woff2" crossorigin />
-  </head>
-  <body>
-    <a class="skip" href="#main">Skip to the content</a>
-
-    <div class="page">
-      <nav class="bar" aria-label="Site">
-        <a class="wordmark" href="/"><span class="dot" aria-hidden="true"></span>Victor Saly</a>
-        <ul class="bar-links">
-          <li><a href="/#work">Arcade</a></li>
-          <li class="hide-sm"><a href="/#also">Also built</a></li>
-          <li><a href="mailto:info@victorsaly.com">Contact</a></li>
-          <li>
-            <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode">
-              <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"
-                ><circle cx="12" cy="12" r="4"></circle><path
-                  d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"
-                ></path></svg
-              >
-              <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"
-                ><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg
-              >
-            </button>
-          </li>
-        </ul>
-      </nav>
-
-      <slot />
-
-      <footer>
-        <p>
-          Built in London. <a href="https://github.com/victorsaly"
-            >Source for everything on GitHub</a
-          >.
-        </p>
-        <p>
-          <a href="/privacy">Privacy policy</a> &middot; <a href="mailto:info@victorsaly.com"
-            >info@victorsaly.com</a
-          >
-        </p>
-      </footer>
-    </div>
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/atkinson-hyperlegible-700.woff2"
+      crossorigin
+    />
 
     <script is:inline>
-      /* Theme toggle: work out what is showing now, flip it, remember the choice. */
-      document.getElementById('theme-toggle').addEventListener('click', function () {
-        var d = document.documentElement;
-        var dark =
-          d.classList.contains('mode-dark') ||
-          (!d.classList.contains('mode-light') &&
-            matchMedia('(prefers-color-scheme: dark)').matches);
-        d.classList.toggle('mode-dark', !dark);
-        d.classList.toggle('mode-light', dark);
-        try {
-          localStorage.setItem('theme-pref', dark ? 'light' : 'dark');
-        } catch (e) {}
-      });
-
-      /* Scroll reveals. Each .reveal fades up once as it enters; --i staggers
-   siblings that arrive together. Anything already in the viewport is
-   revealed synchronously first — the observer's callback is asynchronous,
-   and above-the-fold content must never wait on it. */
-      (function () {
-        var els = document.querySelectorAll('.reveal');
-        els.forEach(function (e) {
-          if (e.getBoundingClientRect().top < window.innerHeight) e.classList.add('in');
-        });
-        if (!('IntersectionObserver' in window)) {
-          els.forEach(function (e) {
-            e.classList.add('in');
-          });
-          return;
-        }
-        var io = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('in');
-                io.unobserve(entry.target);
-              }
-            });
-          },
-          { rootMargin: '0px 0px -8% 0px' },
-        );
-        els.forEach(function (e) {
-          if (!e.classList.contains('in')) io.observe(e);
-        });
-      })();
+      // Restore the reader's font and theme choices before first paint. Stored per browser; failures are
+      // fine.
+      try {
+        const font = localStorage.getItem('font');
+        if (font === 'switch') document.documentElement.dataset.font = 'switch';
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
     </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header path={path} />
+    <slot />
+    <Footer />
   </body>
 </html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: var(--gutter);
+    top: -100%;
+    background: var(--paper);
+    padding: var(--space-2) var(--space-3);
+    border: var(--rule-width) solid var(--ink);
+  }
+  .skip:focus {
+    top: var(--space-2);
+    z-index: 11;
+  }
+</style>

@@ -1,92 +1,41 @@
 ---
+/*
+ * Not found: said plainly under the heavy rule, with the way back to the work and a way to report the
+ * broken link.
+ */
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="404 — Victor Saly" description="That page is not on the board." path="/404">
-  <header class="intro">
-    <!-- The board says it, so the heading doesn't have to shout: three
-         tiles reading 4-0-4, and the middle one keeps shutting itself. -->
-    <div class="scene board-404" aria-hidden="true">
-      <svg viewBox="0 0 320 160" role="presentation">
-        <rect x="30" y="126" width="260" height="12" rx="6" fill="var(--line)"></rect>
-        <g class="s-tile-1">
-          <rect
-            x="42"
-            y="40"
-            width="66"
-            height="84"
-            rx="10"
-            fill="var(--card)"
-            stroke="var(--ink)"
-            stroke-width="2.5"></rect>
-          <text
-            x="75"
-            y="96"
-            text-anchor="middle"
-            font-family="var(--display)"
-            font-weight="600"
-            font-size="40"
-            fill="var(--ink)">4</text
-          >
-        </g>
-        <g class="s-tile-3">
-          <rect
-            x="127"
-            y="40"
-            width="66"
-            height="84"
-            rx="10"
-            fill="var(--plate)"
-            stroke="var(--ink)"
-            stroke-width="2.5"></rect>
-          <text
-            x="160"
-            y="96"
-            text-anchor="middle"
-            font-family="var(--display)"
-            font-weight="600"
-            font-size="40"
-            fill="var(--plate-ink)">0</text
-          >
-        </g>
-        <g class="s-tile-4">
-          <rect
-            x="212"
-            y="40"
-            width="66"
-            height="84"
-            rx="10"
-            fill="var(--card)"
-            stroke="var(--ink)"
-            stroke-width="2.5"></rect>
-          <text
-            x="245"
-            y="96"
-            text-anchor="middle"
-            font-family="var(--display)"
-            font-weight="600"
-            font-size="40"
-            fill="var(--ink)">4</text
-          >
-        </g>
-      </svg>
-    </div>
-
-    <h1>This page got <span class="plate-word">shut</span>.</h1>
+<Base title="404 — Victor Saly" description="That page is not on the site." path="/404">
+  <header class="frame page-head head">
+    <h1 class="display">That page is not here.</h1>
     <p class="lede">
-      The tile you rolled for is not on the board — it may have moved, or it may never have existed.
-      Everything that is live sits on the home page.
+      It may have moved, or it may never have existed. Everything that is live sits on the home
+      page.
     </p>
-    <ul class="links">
-      <li><a href="/">Roll again &rarr;</a></li>
-      <li><a href="mailto:info@victorsaly.com">Report a broken link</a></li>
-    </ul>
   </header>
+  <main id="main" class="frame">
+    <p class="ways">
+      <a class="control filled" href="/">All the work</a>
+      <a class="control" href="mailto:info@victorsaly.com">Report a broken link</a>
+    </p>
+  </main>
 </Base>
 
 <style>
-  .board-404 {
-    max-width: 300px;
-    margin: 0.5rem 0 1rem;
+  .head {
+    padding-bottom: var(--space-4);
+  }
+  .display {
+    max-width: 14ch;
+  }
+  .lede {
+    margin: var(--space-4) 0 0;
+    font-size: 1.3125rem;
+  }
+  .ways {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
   }
 </style>
