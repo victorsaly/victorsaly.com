@@ -52,17 +52,20 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
 
 ## Tech stack
 
-[Astro](https://astro.build) 5 (static output), TypeScript, hand-written CSS, self-hosted fonts
+[Astro](https://astro.build) 7 (static output), TypeScript (strict), hand-written CSS, self-hosted fonts
 (Clash Display, Switzer). Deployed to GitHub Pages with GitHub Actions.
 
 ## Run locally
 
-Requires Node 20 (the version CI uses).
+Requires Node 22.23.4 or later (pinned in `.node-version`, which CI reads).
 
 ```bash
 npm install
 npm run dev        # dev server with live reload
-npm run build      # static site into dist/
+npm run build      # type check, then the static site into dist/
+npm run lint       # ESLint + Prettier check (npm run format fixes formatting)
+npm run typecheck  # astro check
+npm run test       # Vitest
 npm run preview    # serve dist/
 npm run shots      # retake project screenshots (all, or: npm run shots -- <name>)
 ```
@@ -74,7 +77,8 @@ are needed.
 
 Everything on the shelf comes from one file, `src/data/projects.ts`. Add an entry to `live` or
 `repos`; for a live project also add a screenshot to `public/shots/` (800px wide JPEG, or use
-`npm run shots`) and a line for its `/work/<slug>` page in `public/sitemap.xml`.
+`npm run shots`) and a line for its `/work/<slug>` page in `public/sitemap.xml`. A film needs a poster
+and WebVTT captions next to it in `public/film/`. `npm run test` checks all of these.
 
 ## Project structure
 

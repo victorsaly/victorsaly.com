@@ -16,10 +16,12 @@ export interface LiveProject {
   shot: string;
   shotAlt: string;
   /** an optional launch film on /work/<slug>, shown at phone width.
-   *  `film` is a 9:16 mp4 in public/film/; `filmPoster` is its first frame,
+   *  `film` is a 9:16 mp4 in public/film/; `filmPoster` is its first frame;
+   *  `filmCaptions` is its WebVTT captions, required with a film (a test checks),
    *  and nothing downloads until someone presses play. */
   film?: string;
   filmPoster?: string;
+  filmCaptions?: string;
   filmCaption?: string;
   description: string;
   /** the longer read on /work/<slug> — one string per paragraph */
@@ -51,7 +53,9 @@ export const live: LiveProject[] = [
     shotAlt: 'The Delulu Beats home screen: a dark grid of nine ear-training games',
     film: '/film/delulubeats.mp4',
     filmPoster: '/film/delulubeats.jpg',
-    filmCaption: 'Twenty seconds of it, narrated. The tone you hear in it is the game actually sounding.',
+    filmCaptions: '/film/delulubeats.vtt',
+    filmCaption:
+      'Twenty seconds of it, narrated. The tone you hear in it is the game actually sounding.',
     description:
       'Nine full-screen games for colour, pitch, duration, rhythm, spatial memory and melody — see it, hear it, remember it, then dial it back in. Plus Beat Lab, a browser studio for building and downloading your own loop. Everything is synthesised in the Web Audio API; there is a seeded daily challenge shared by everyone.',
     story: [
@@ -164,14 +168,18 @@ export const repos: RepoProject[] = [
     tech: ['Electron', 'Fintech', 'Offline first'],
   },
   {
-    links: [{ label: 'World Leaders Game', href: 'https://github.com/victorsaly/WorldLeadersGame' }],
+    links: [
+      { label: 'World Leaders Game', href: 'https://github.com/victorsaly/WorldLeadersGame' },
+    ],
     icon: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18z M3 12h18 M12 3c3 3.5 3 14.5 0 18 M12 3c-3 3.5-3 14.5 0 18',
     description:
       'An educational strategy game for twelve-year-olds: work up from peasant to world leader using real GDP data, with AI tutors and speech recognition. Written almost entirely by AI against a detailed instruction set, as an experiment in how far that goes.',
     tech: ['.NET 8', 'Blazor Server', 'Azure OpenAI'],
   },
   {
-    links: [{ label: 'dbschema-markdown', href: 'https://github.com/victorsaly/dbschema-markdown' }],
+    links: [
+      { label: 'dbschema-markdown', href: 'https://github.com/victorsaly/dbschema-markdown' },
+    ],
     icon: 'M4 4.5h16v15H4z M4 9.5h16 M10 9.5v10 M4 14.5h16',
     description:
       'Turns a database schema into readable markdown documentation. Small, boring, and it has saved me more hours than anything else on this page.',

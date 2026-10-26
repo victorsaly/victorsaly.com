@@ -10,6 +10,8 @@
  *
  * File names must match the `shot` paths in src/data/projects.ts.
  */
+
+/* global document -- page.evaluate callbacks run in the page, not in Node */
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -26,8 +28,7 @@ const SITES = {
 };
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'shots');
-const chrome =
-  process.env.CHROME ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const chrome = process.env.CHROME ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 const wanted = process.argv.slice(2);
 const names = wanted.length ? wanted : Object.keys(SITES);
@@ -54,14 +55,17 @@ try {
     await new Promise((r) => setTimeout(r, 3000));
 
     if (site.click) {
-      const clicked = await page.evaluate((pattern) => {
-        const re = new RegExp(pattern.source, pattern.flags);
-        const el = [...document.querySelectorAll('button, a, [role="button"], span, div')]
-          .reverse()
-          .find((e) => e.childElementCount === 0 && re.test(e.textContent.trim()));
-        if (el) el.click();
-        return Boolean(el);
-      }, { source: site.click.source, flags: site.click.flags });
+      const clicked = await page.evaluate(
+        (pattern) => {
+          const re = new RegExp(pattern.source, pattern.flags);
+          const el = [...document.querySelectorAll('button, a, [role="button"], span, div')]
+            .reverse()
+            .find((e) => e.childElementCount === 0 && re.test(e.textContent.trim()));
+          if (el) el.click();
+          return Boolean(el);
+        },
+        { source: site.click.source, flags: site.click.flags },
+      );
       if (!clicked) console.warn(`  ${name}: nothing matched ${site.click} — capturing as-is`);
       await new Promise((r) => setTimeout(r, site.settle ?? 2000));
     }
@@ -70,13 +74,23 @@ try {
     await page.screenshot({ path: raw });
     await page.close();
 
-    execFileSync('sips', [
-      '--resampleWidth', '800',
-      '-s', 'format', 'jpeg',
-      '-s', 'formatOptions', '85',
-      raw,
-      '--out', join(outDir, `${name}.jpg`),
-    ], { stdio: 'ignore' });
+    execFileSync(
+      'sips',
+      [
+        '--resampleWidth',
+        '800',
+        '-s',
+        'format',
+        'jpeg',
+        '-s',
+        'formatOptions',
+        '85',
+        raw,
+        '--out',
+        join(outDir, `${name}.jpg`),
+      ],
+      { stdio: 'ignore' },
+    );
     console.log(`✓ ${name}.jpg`);
   }
 } finally {
