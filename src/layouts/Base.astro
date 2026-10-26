@@ -70,7 +70,14 @@ const ogAlt = imageAlt ?? 'Victor Saly: the things I have built. victorsaly.com'
       try {
         const font = localStorage.getItem('font');
         if (font === 'switch') document.documentElement.dataset.font = 'switch';
-        const theme = localStorage.getItem('theme');
+        // The arcade design saved the theme as theme-pref; carry a returning visitor's choice over once.
+        let theme = localStorage.getItem('theme');
+        const legacy = localStorage.getItem('theme-pref');
+        if (theme === null && (legacy === 'light' || legacy === 'dark')) {
+          theme = legacy;
+          localStorage.setItem('theme', legacy);
+        }
+        if (legacy !== null) localStorage.removeItem('theme-pref');
         if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
       } catch {}
     </script>

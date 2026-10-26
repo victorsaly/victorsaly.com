@@ -177,5 +177,7 @@ const onWork = path === '/' || path.startsWith('/work');
     remember('theme', next);
     syncTheme();
   });
+  // With no saved choice the page follows the OS, so the switch must follow it too.
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
   syncTheme();
 </script>
