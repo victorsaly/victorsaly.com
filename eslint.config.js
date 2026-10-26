@@ -18,7 +18,10 @@ export default tseslint.config(
 
   // TypeScript, type-aware.
   ...tseslint.configs.strictTypeChecked.map((config) => ({ ...config, files: ['**/*.{ts,mts}'] })),
-  ...tseslint.configs.stylisticTypeChecked.map((config) => ({ ...config, files: ['**/*.{ts,mts}'] })),
+  ...tseslint.configs.stylisticTypeChecked.map((config) => ({
+    ...config,
+    files: ['**/*.{ts,mts}'],
+  })),
   {
     files: ['**/*.{ts,mts}'],
     languageOptions: {

@@ -16,6 +16,7 @@ export function getStaticPaths() {
 
 const { project, prev, next } = Astro.props;
 ---
+
 <Base
   title={`${project.title} — Victor Saly`}
   description={project.description}
@@ -23,12 +24,13 @@ const { project, prev, next } = Astro.props;
   image={project.shot}
   imageAlt={project.shotAlt}
 >
-
   <!-- Nothing above the fold is a scroll reveal here: the screenshot and
        title arrive by view transition from the home page and must already
        be in place when it lands. -->
   <header class="intro work-intro">
-    <p class="crumb"><a href="/#work"><span aria-hidden="true">&larr;</span> Victor Saly Arcade</a></p>
+    <p class="crumb">
+      <a href="/#work"><span aria-hidden="true">&larr;</span> Victor Saly Arcade</a>
+    </p>
     <h1 style={`view-transition-name: title-${project.slug}`}>{project.title}</h1>
     <p class="lede">{project.description}</p>
     <ul class="links">
@@ -38,32 +40,43 @@ const { project, prev, next } = Astro.props;
   </header>
 
   <main id="main">
-
     <figure class="work-shot">
       <img
-        src={project.shot} alt={project.shotAlt} width="800" height="500" decoding="async"
+        src={project.shot}
+        alt={project.shotAlt}
+        width="800"
+        height="500"
+        decoding="async"
         style={`view-transition-name: shot-${project.slug}`}
-      >
+      />
     </figure>
 
     <div class="work-body">
       <section class="work-story reveal">
-        {project.film && (
-          <figure class="work-film">
-            <video
-              src={project.film}
-              poster={project.filmPoster}
-              controls
-              playsinline
-              preload="none"
-              width="1080"
-              height="1920"
-            >
-              <track kind="captions" src={project.filmCaptions} srclang="en" label="English" default />
-            </video>
-            {project.filmCaption && <figcaption>{project.filmCaption}</figcaption>}
-          </figure>
-        )}
+        {
+          project.film && (
+            <figure class="work-film">
+              <video
+                src={project.film}
+                poster={project.filmPoster}
+                controls
+                playsinline
+                preload="none"
+                width="1080"
+                height="1920"
+              >
+                <track
+                  kind="captions"
+                  src={project.filmCaptions}
+                  srclang="en"
+                  label="English"
+                  default
+                />
+              </video>
+              {project.filmCaption && <figcaption>{project.filmCaption}</figcaption>}
+            </figure>
+          )
+        }
         {project.story.map((p) => <p>{p}</p>)}
       </section>
       <aside class="work-facts reveal" style="--i:1">
@@ -84,7 +97,5 @@ const { project, prev, next } = Astro.props;
       <a href="/#work">All projects</a>
       <a href={`/work/${next.slug}`}>{next.title} <span aria-hidden="true">&rarr;</span></a>
     </nav>
-
   </main>
-
 </Base>

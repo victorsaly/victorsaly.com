@@ -1,94 +1,131 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
+
 <Base
   title="Privacy Policy — Victor Saly Arcade"
   description="What Victor Saly Arcade stores when you sign in, what it does not, and how to delete it. No email address is collected and nothing is shared with anyone."
   path="/privacy"
 >
-
   <header class="intro">
     <p class="crumb"><a href="/"><span aria-hidden="true">&larr;</span> Victor Saly Arcade</a></p>
     <h1>Privacy Policy</h1>
-    <p class="lede">Victor Saly Arcade is the collection of free browser games at
+    <p class="lede">
+      Victor Saly Arcade is the collection of free browser games at
       <a href="https://shutthecube.com">shutthecube.com</a> and
       <a href="https://delulubeats.com">delulubeats.com</a>, and the shared leaderboard behind them.
-      This policy covers all of it.</p>
+      This policy covers all of it.
+    </p>
     <p class="updated">Last updated 2 September 2026</p>
   </header>
 
   <main id="main" class="policy">
-
     <h2>The short version</h2>
-    <p>You can play every game completely without an account, and nothing you do leaves your device.
+    <p>
+      You can play every game completely without an account, and nothing you do leaves your device.
       Signing in is optional and does exactly one thing: it puts a name next to your score on the
-      daily leaderboard. If you sign in we store an anonymous Google account identifier and a display
-      name. <strong>We never ask for or receive your email address.</strong> You can delete everything
-      from inside the game at any time, and it is gone immediately.</p>
+      daily leaderboard. If you sign in we store an anonymous Google account identifier and a
+      display name. <strong>We never ask for or receive your email address.</strong> You can delete everything
+      from inside the game at any time, and it is gone immediately.
+    </p>
 
     <h2>Who is responsible</h2>
-    <p>These games are made and run by Victor Saly, an individual developer based in London, United
+    <p>
+      These games are made and run by Victor Saly, an individual developer based in London, United
       Kingdom, who is the data controller for the purposes of UK and EU data protection law. You can
       reach me at <a href="mailto:info@victorsaly.com">info@victorsaly.com</a> about anything on this
-      page, including a request to see or delete your data.</p>
+      page, including a request to see or delete your data.
+    </p>
 
     <h2>Playing without signing in</h2>
-    <p>The games keep your progress, high scores, averages, win rates, streaks and display
+    <p>
+      The games keep your progress, high scores, averages, win rates, streaks and display
       preferences in your own browser's local storage. This stays on your device, is used only to
       make the games work between visits, and is never transmitted anywhere. No account is required
-      to play anything.</p>
+      to play anything.
+    </p>
     <p>You can clear it at any time through your browser's site-data or local-storage settings.</p>
 
     <h2>If you sign in to the leaderboard</h2>
-    <p>Signing in uses Google. We request only the <code>openid</code> and <code>profile</code>
-      scopes, which give us an opaque account identifier and a basic profile name. We do not request
-      the <code>email</code> scope, so we never receive your email address, and we request nothing
-      that would let us read anything else in your Google account.</p>
+    <p>
+      Signing in uses Google. We request only the <code>openid</code> and <code>profile</code>
+      scopes, which give us an opaque account identifier and a basic profile name. We do not request the
+      <code>email</code> scope, so we never receive your email address, and we request nothing that would
+      let us read anything else in your Google account.
+    </p>
 
     <p>What is stored on our server:</p>
     <table>
       <thead><tr><th>Data</th><th>Why</th></tr></thead>
       <tbody>
-        <tr><td>An opaque Google account identifier</td><td>To recognise you as the same player next time you sign in.</td></tr>
-        <tr><td>A display name</td><td>Shown next to your score. It starts as your Google first name and you can change it to anything.</td></tr>
-        <tr><td>Your scores</td><td>The score, whether you finished the board, how many turns it took, which daily board it was, and a record of the moves you played.</td></tr>
+        <tr
+          ><td>An opaque Google account identifier</td><td
+            >To recognise you as the same player next time you sign in.</td
+          ></tr
+        >
+        <tr
+          ><td>A display name</td><td
+            >Shown next to your score. It starts as your Google first name and you can change it to
+            anything.</td
+          ></tr
+        >
+        <tr
+          ><td>Your scores</td><td
+            >The score, whether you finished the board, how many turns it took, which daily board it
+            was, and a record of the moves you played.</td
+          ></tr
+        >
       </tbody>
     </table>
 
-    <p>The record of moves exists so that a submitted score can be checked against the board it
+    <p>
+      The record of moves exists so that a submitted score can be checked against the board it
       claims to come from. It is what keeps invented scores off the leaderboard, and it contains
-      nothing about you &mdash; only which tiles were played.</p>
+      nothing about you &mdash; only which tiles were played.
+    </p>
 
-    <p>We do <strong>not</strong> store your email address, your Google profile picture, or any
-      Google access or refresh token. We do not use advertising, we do not sell or share data with
-      anyone, and there are no third-party tracking cookies.</p>
+    <p>
+      We do <strong>not</strong> store your email address, your Google profile picture, or any Google
+      access or refresh token. We do not use advertising, we do not sell or share data with anyone, and
+      there are no third-party tracking cookies.
+    </p>
 
     <h2>What is public</h2>
-    <p>Your display name and your scores appear on the leaderboard, which anyone can open. Nothing
-      else about you is shown. Please do not choose a display name you would rather strangers did not
-      see &mdash; you can change it at any time from the leaderboard.</p>
+    <p>
+      Your display name and your scores appear on the leaderboard, which anyone can open. Nothing
+      else about you is shown. Please do not choose a display name you would rather strangers did
+      not see &mdash; you can change it at any time from the leaderboard.
+    </p>
 
     <h2>Deleting your data</h2>
-    <p>Open the leaderboard inside any game and choose <strong>Delete my data</strong>. This
+    <p>
+      Open the leaderboard inside any game and choose <strong>Delete my data</strong>. This
       immediately and permanently removes your account record and every score you have posted. There
-      is no waiting period, no soft delete, and no copy kept.</p>
+      is no waiting period, no soft delete, and no copy kept.
+    </p>
     <p>Signing out instead simply ends the session and leaves your scores in place.</p>
 
     <h2>Legal basis, retention and transfers</h2>
-    <p>Where UK or EU data protection law applies, the basis for storing your display name and scores
+    <p>
+      Where UK or EU data protection law applies, the basis for storing your display name and scores
       is your consent, given by choosing to sign in and withdrawn by deleting your data. Scores are
       kept until you delete them, because a leaderboard that forgets is not a leaderboard. You have
       the right to access, correct, export or erase your data, and to complain to the UK Information
-      Commissioner's Office.</p>
-    <p>The leaderboard runs on Cloudflare Workers and Cloudflare D1, and data may be processed on
+      Commissioner's Office.
+    </p>
+    <p>
+      The leaderboard runs on Cloudflare Workers and Cloudflare D1, and data may be processed on
       Cloudflare's global network, including outside the UK and EEA, under Cloudflare's own data
-      protection terms.</p>
+      protection terms.
+    </p>
 
     <h2>Children</h2>
-    <p>The games are suitable for all ages and can be played in full without an account. Signing in
+    <p>
+      The games are suitable for all ages and can be played in full without an account. Signing in
       requires a Google account, and Google applies its own minimum age requirements. We do not
       knowingly collect data from children below the age of digital consent in their country; if you
-      believe a child has signed in, email me and I will delete the record.</p>
+      believe a child has signed in, email me and I will delete the record.
+    </p>
 
     <h2>Other services involved</h2>
     <ul>
@@ -96,26 +133,60 @@ import Base from '../layouts/Base.astro';
       <li><strong>Cloudflare</strong> hosts this site and runs the leaderboard.</li>
       <li><strong>Google</strong> handles sign-in, under its own privacy policy.</li>
     </ul>
-    <p>Each may process limited technical information such as IP address and request logs in order to
-      deliver the service. The games themselves load no third-party scripts at runtime &mdash; signing in
-      works by sending your browser to Google and back, not by embedding Google's code in the page.</p>
+    <p>
+      Each may process limited technical information such as IP address and request logs in order to
+      deliver the service. The games themselves load no third-party scripts at runtime &mdash;
+      signing in works by sending your browser to Google and back, not by embedding Google's code in
+      the page.
+    </p>
 
     <h2>Changes</h2>
-    <p>If these games begin using analytics, advertising, or anything else that processes personal
-      information, this page will be updated before that change takes effect.</p>
-
+    <p>
+      If these games begin using analytics, advertising, or anything else that processes personal
+      information, this page will be updated before that change takes effect.
+    </p>
   </main>
-
 </Base>
 
 <style>
-  .updated { color: var(--muted); font-size: .88rem; margin: .8rem 0 0; }
-  .policy h2 { font-size: 1.15rem; margin: 2rem 0 .5rem; }
-  .policy h2:first-of-type { margin-top: 1.5rem; }
-  .policy p, .policy li { max-width: 62ch; color: var(--ink-2); line-height: 1.65; }
-  .policy ul { padding-left: 1.1rem; }
-  .policy li { margin: .35rem 0; }
-  .policy table { border-collapse: collapse; margin: .8rem 0; font-size: .93rem; }
-  .policy th, .policy td { text-align: left; padding: .5rem .8rem .5rem 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
-  .policy th { color: var(--ink); font-weight: 600; }
+  .updated {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0.8rem 0 0;
+  }
+  .policy h2 {
+    font-size: 1.15rem;
+    margin: 2rem 0 0.5rem;
+  }
+  .policy h2:first-of-type {
+    margin-top: 1.5rem;
+  }
+  .policy p,
+  .policy li {
+    max-width: 62ch;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .policy ul {
+    padding-left: 1.1rem;
+  }
+  .policy li {
+    margin: 0.35rem 0;
+  }
+  .policy table {
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.93rem;
+  }
+  .policy th,
+  .policy td {
+    text-align: left;
+    padding: 0.5rem 0.8rem 0.5rem 0;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .policy th {
+    color: var(--ink);
+    font-weight: 600;
+  }
 </style>

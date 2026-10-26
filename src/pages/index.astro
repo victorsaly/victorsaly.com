@@ -7,15 +7,21 @@ import Row from '../components/Row.astro';
 import DailyBoards from '../components/DailyBoards.astro';
 import { live, repos } from '../data/projects';
 ---
+
 <Base
   title="Victor Saly — games, learning tools, and small useful things"
   description="I build small web things: browser games, learning tools for my kids, and utilities that solve one problem well. Most of them are free, most of them work offline, and all of them are here."
   path="/"
 >
-
   <header class="intro has-scene">
-    <h1 class="reveal">I build small web things that do <span class="plate-word">one job</span> well.</h1>
-    <p class="lede reveal" style="--i:1">Games, learning tools, and utilities, made in London. Most of them started as something my kids asked for. Most are free, work offline, and need no account. They are all below, live ones first.</p>
+    <h1 class="reveal">
+      I build small web things that do <span class="plate-word">one job</span> well.
+    </h1>
+    <p class="lede reveal" style="--i:1">
+      Games, learning tools, and utilities, made in London. Most of them started as something my
+      kids asked for. Most are free, work offline, and need no account. They are all below, live
+      ones first.
+    </p>
     <ul class="links reveal" style="--i:2">
       <li><a href="#work">See the work &darr;</a></li>
       <li><a href="https://github.com/victorsaly">GitHub</a></li>
@@ -27,7 +33,6 @@ import { live, repos } from '../data/projects';
   <Ticker />
 
   <main id="main">
-
     <section class="band" id="work">
       <div class="band-head reveal">
         <h2 class="band-title">Victor Saly Arcade</h2>
@@ -50,7 +55,10 @@ import { live, repos } from '../data/projects';
         <h2 class="band-title">Also built</h2>
         <span class="band-count">{repos.length} repositories</span>
       </div>
-      <p class="band-note reveal">Finished enough to read, without a live link &mdash; desktop apps, tools, and things made with the kids.</p>
+      <p class="band-note reveal">
+        Finished enough to read, without a live link &mdash; desktop apps, tools, and things made
+        with the kids.
+      </p>
 
       <ul class="rows">
         {repos.map((project) => <Row project={project} />)}
@@ -62,11 +70,16 @@ import { live, repos } from '../data/projects';
         <h2 class="band-title">How these get made</h2>
       </div>
       <div class="note-plate reveal">
-        <p class="prose">A weekend is enough to finish something small &mdash; and finish it properly.</p>
-        <p class="prose-detail">Nearly all of this is built with an AI pair &mdash; I decide what it should be and why, and review every line that lands. Real tests, real accessibility, no analytics, no accounts, nothing loaded from a CDN at runtime. The constraint I keep is that each one has to work with the network off.</p>
+        <p class="prose">
+          A weekend is enough to finish something small &mdash; and finish it properly.
+        </p>
+        <p class="prose-detail">
+          Nearly all of this is built with an AI pair &mdash; I decide what it should be and why,
+          and review every line that lands. Real tests, real accessibility, no analytics, no
+          accounts, nothing loaded from a CDN at runtime. The constraint I keep is that each one has
+          to work with the network off.
+        </p>
       </div>
     </section>
-
   </main>
-
 </Base>

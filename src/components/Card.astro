@@ -11,24 +11,33 @@ const { project, index } = Astro.props;
    global.css); the same names sit on that page's figure and h1. */
 const feature = index === 0;
 ---
+
 <li class:list={['card', 'reveal', { feature }]} style={`--i:${index % 2}`}>
   <!-- The screenshot repeats the title link, so keep it out of the tab order. -->
   <a class="card-shot" href={`/work/${project.slug}`} tabindex="-1" aria-hidden="true">
     <img
-      src={project.shot} alt={project.shotAlt} width="800" height="500"
-      loading={feature ? 'eager' : 'lazy'} decoding="async"
+      src={project.shot}
+      alt={project.shotAlt}
+      width="800"
+      height="500"
+      loading={feature ? 'eager' : 'lazy'}
+      decoding="async"
       style={`view-transition-name: shot-${project.slug}`}
-    >
+    />
     <span class="card-tag">{project.host}</span>
   </a>
   <div class="card-body">
     <div class="card-head">
-      <h3 style={`view-transition-name: title-${project.slug}`}><a href={project.url}>{project.title}</a></h3>
+      <h3 style={`view-transition-name: title-${project.slug}`}>
+        <a href={project.url}>{project.title}</a>
+      </h3>
     </div>
     <p>{project.description}</p>
     <ul class="meta">
       {project.tech.map((t) => <li>{t}</li>)}
     </ul>
-    <a class="card-more" href={`/work/${project.slug}`}>About this build <span aria-hidden="true">&rarr;</span></a>
+    <a class="card-more" href={`/work/${project.slug}`}
+      >About this build <span aria-hidden="true">&rarr;</span></a
+    >
   </div>
 </li>
