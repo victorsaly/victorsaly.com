@@ -74,7 +74,7 @@ npm install
 npm run dev        # dev server with live reload
 npm run build      # type check, then the static site into dist/
 npm run preview    # serve dist/
-npm run lint       # ESLint + Prettier check (npm run format fixes formatting)
+npm run lint       # Astro types, then ESLint + Prettier (npm run format fixes formatting)
 npm run typecheck  # astro check
 npm run test       # Vitest
 npm run shots      # retake project screenshots (all, or: npm run shots -- <name>)
