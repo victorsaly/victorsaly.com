@@ -7,31 +7,36 @@
  */
 import Base from '../../layouts/Base.astro';
 import DailyBoards from '../../components/DailyBoards.astro';
-import { live } from '../../data/projects';
+import { render } from 'astro:content';
+import { getWork } from '../../lib/projects';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const live = await getWork();
   // The list wraps: the first project's "previous" is the last one, and the other way round.
-  return live.map((project, index) => ({
-    params: { slug: project.slug },
+  return live.map((entry, index) => ({
+    params: { slug: entry.id },
     props: {
-      project,
+      entry,
       number: index + 1,
-      prev: live.at(index - 1) ?? project,
-      next: live[(index + 1) % live.length] ?? project,
+      prev: live.at(index - 1) ?? entry,
+      next: live[(index + 1) % live.length] ?? entry,
     },
   }));
 }
 
-const { project, number, prev, next } = Astro.props;
+const { entry, number, prev, next } = Astro.props;
+const project = entry.data;
+const slug = entry.id;
+const { Content } = await render(entry);
 const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
 // The message is the description's first sentence, marked; the rest follows in plain type.
-const [message = project.description, ...rest] = project.description.split(/(?<=[.!?])\s+/);
+const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s+/);
 ---
 
 <Base
   title={`${project.title} — Victor Saly`}
-  description={project.description}
-  path={`/work/${project.slug}`}
+  description={project.summary}
+  path={`/work/${slug}`}
   image={project.shot}
   imageAlt={project.shotAlt}
 >
@@ -55,7 +60,7 @@ const [message = project.description, ...rest] = project.description.split(/(?<=
           width="800"
           height="500"
           decoding="async"
-          style={`view-transition-name: shot-${project.slug}`}
+          style={`view-transition-name: shot-${slug}`}
         />
       </div>
     </figure>
@@ -89,7 +94,7 @@ const [message = project.description, ...rest] = project.description.split(/(?<=
             </figure>
           )
         }
-        {project.story.map((paragraph) => <p>{paragraph}</p>)}
+        <Content />
       </section>
 
       <aside class="side" aria-labelledby="facts">
@@ -119,16 +124,16 @@ const [message = project.description, ...rest] = project.description.split(/(?<=
       </aside>
     </div>
 
-    {project.slug === 'shut-the-cube' && <DailyBoards />}
+    {slug === 'shut-the-cube' && <DailyBoards />}
 
     <nav class="more" aria-label="More projects">
-      <a class="prev" href={`/work/${prev.slug}`}>
+      <a class="prev" href={`/work/${prev.id}`}>
         <span class="small quiet">Previous</span>
-        <span class="t">{prev.title}</span>
+        <span class="t">{prev.data.title}</span>
       </a>
-      <a class="next" href={`/work/${next.slug}`}>
+      <a class="next" href={`/work/${next.id}`}>
         <span class="small quiet">Next</span>
-        <span class="t">{next.title}</span>
+        <span class="t">{next.data.title}</span>
       </a>
     </nav>
   </main>
@@ -177,10 +182,11 @@ const [message = project.description, ...rest] = project.description.split(/(?<=
     gap: var(--space-6);
     margin-top: var(--space-5);
   }
-  .story p {
+  /* The story is rendered from Markdown, so its paragraphs are reached with :global. */
+  .story :global(p) {
     margin: var(--space-3) 0 0;
   }
-  .story .label + p {
+  .story .label + :global(p) {
     margin-top: var(--space-4);
   }
   .film {

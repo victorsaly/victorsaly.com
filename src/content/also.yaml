@@ -1,0 +1,56 @@
+- id: paybatch
+  order: 10
+  links:
+    - label: PayBatch
+      href: https://github.com/victorsaly/batch-payment-app
+  summary: Offline desktop app that builds and exports UK bank bulk-payment files. Santander Connect
+    is live, Bacs Standard 18 is in beta. Encrypted at rest, and nothing ever leaves the machine —
+    which is the whole reason it exists.
+  tech:
+    - Electron
+    - Fintech
+    - Offline first
+- id: world-leaders-game
+  order: 20
+  links:
+    - label: World Leaders Game
+      href: https://github.com/victorsaly/WorldLeadersGame
+  summary: 'An educational strategy game for twelve-year-olds: work up from peasant to world leader
+    using real GDP data, with AI tutors and speech recognition. Written almost entirely by AI
+    against a detailed instruction set, as an experiment in how far that goes.'
+  tech:
+    - .NET 8
+    - Blazor Server
+    - Azure OpenAI
+- id: dbschema-markdown
+  order: 30
+  links:
+    - label: dbschema-markdown
+      href: https://github.com/victorsaly/dbschema-markdown
+  summary: Turns a database schema into readable markdown documentation. Small, boring, and it has
+    saved me more hours than anything else on this page.
+  tech:
+    - Node
+    - CLI
+- id: oliver-vocabulary
+  order: 40
+  links:
+    - label: Oliver Vocabulary
+      href: https://github.com/victorsaly/OliverVocabulary
+  summary: A speech-driven vocabulary practice app built with my son. He set the rules, I did the
+    typing. It talks, listens, and answers back using the Azure Speech API.
+  tech:
+    - Vue
+    - Azure Speech
+    - OpenAI
+- id: shut-the-box-2018
+  order: 50
+  links:
+    - label: Shut The Box (2018)
+      href: https://github.com/victorsaly/shutTheBox
+  summary: The original, and the reason Shut The Cube exists. Vue 2 and webpack 3, loading Tailwind
+    from an unversioned CDN URL — when that tag moved, the tile colours silently stopped existing
+    and the live game lost its styling. Kept here as the before picture.
+  tech:
+    - Vue 2
+    - Archived
