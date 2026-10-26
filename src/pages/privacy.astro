@@ -7,19 +7,19 @@ import Base from '../layouts/Base.astro';
   description="What Victor Saly Arcade stores when you sign in, what it does not, and how to delete it. No email address is collected and nothing is shared with anyone."
   path="/privacy"
 >
-  <header class="intro">
-    <p class="crumb"><a href="/"><span aria-hidden="true">&larr;</span> Victor Saly Arcade</a></p>
-    <h1>Privacy Policy</h1>
+  <header class="frame page-head head">
+    <p class="crumb small"><a href="/">All work</a></p>
+    <h1 class="display">Privacy Policy</h1>
     <p class="lede">
       Victor Saly Arcade is the collection of free browser games at
       <a href="https://shutthecube.com">shutthecube.com</a> and
       <a href="https://delulubeats.com">delulubeats.com</a>, and the shared leaderboard behind them.
       This policy covers all of it.
     </p>
-    <p class="updated">Last updated 2 September 2026</p>
+    <p class="small quiet">Last updated 2 September 2026</p>
   </header>
 
-  <main id="main" class="policy">
+  <main id="main" class="frame policy">
     <h2>The short version</h2>
     <p>
       You can play every game completely without an account, and nothing you do leaves your device.
@@ -149,44 +149,55 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  .updated {
-    color: var(--muted);
-    font-size: 0.88rem;
-    margin: 0.8rem 0 0;
+  /* A long read at reading width: section headings on a strong rule, tables on hairlines. */
+  .head {
+    padding-bottom: var(--space-5);
+  }
+  .crumb {
+    margin: 0 0 var(--space-3);
+  }
+  .crumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    margin-block: calc((var(--tap) - 1lh) / -2);
+    font-weight: 700;
+  }
+  .lede {
+    margin: var(--space-4) 0 var(--space-3);
+    font-size: 1.3125rem;
   }
   .policy h2 {
-    font-size: 1.15rem;
-    margin: 2rem 0 0.5rem;
+    max-width: var(--measure);
+    margin: var(--space-5) 0 var(--space-3);
+    padding-top: var(--space-3);
+    border-top: var(--rule-strong) solid var(--ink);
   }
   .policy h2:first-of-type {
-    margin-top: 1.5rem;
-  }
-  .policy p,
-  .policy li {
-    max-width: 62ch;
-    color: var(--ink-2);
-    line-height: 1.65;
+    margin-top: 0;
   }
   .policy ul {
-    padding-left: 1.1rem;
+    padding-left: 1.25rem;
   }
   .policy li {
-    margin: 0.35rem 0;
+    margin: var(--space-1) 0;
   }
   .policy table {
     border-collapse: collapse;
-    margin: 0.8rem 0;
-    font-size: 0.93rem;
+    width: 100%;
+    max-width: var(--measure);
+    margin: var(--space-3) 0;
+    font-size: var(--size-small);
   }
   .policy th,
   .policy td {
     text-align: left;
-    padding: 0.5rem 0.8rem 0.5rem 0;
-    border-bottom: 1px solid var(--line-soft);
     vertical-align: top;
+    padding: var(--space-2) var(--space-3) var(--space-2) 0;
+    border-bottom: var(--rule-width) solid var(--rule);
   }
   .policy th {
-    color: var(--ink);
-    font-weight: 600;
+    font-weight: 700;
+    border-bottom-color: var(--ink);
   }
 </style>

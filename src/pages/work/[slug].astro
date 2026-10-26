@@ -1,5 +1,12 @@
 ---
+/*
+ * A project's own page, built like a post on the blog: a heavy rule and the name set large, what it does
+ * as the page's one marigold mark, then the real screen at full width (it arrives here from its plate by
+ * view transition). Then the story at reading width, with the facts and the way in beside it, and the
+ * next and previous plates at the bottom. Shut The Cube also carries today's leaderboards.
+ */
 import Base from '../../layouts/Base.astro';
+import DailyBoards from '../../components/DailyBoards.astro';
 import { live } from '../../data/projects';
 
 export function getStaticPaths() {
@@ -8,13 +15,17 @@ export function getStaticPaths() {
     params: { slug: project.slug },
     props: {
       project,
+      number: index + 1,
       prev: live.at(index - 1) ?? project,
       next: live[(index + 1) % live.length] ?? project,
     },
   }));
 }
 
-const { project, prev, next } = Astro.props;
+const { project, number, prev, next } = Astro.props;
+const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
+// The message is the description's first sentence, marked; the rest follows in plain type.
+const [message = project.description, ...rest] = project.description.split(/(?<=[.!?])\s+/);
 ---
 
 <Base
@@ -24,38 +35,37 @@ const { project, prev, next } = Astro.props;
   image={project.shot}
   imageAlt={project.shotAlt}
 >
-  <!-- Nothing above the fold is a scroll reveal here: the screenshot and
-       title arrive by view transition from the home page and must already
-       be in place when it lands. -->
-  <header class="intro work-intro">
-    <p class="crumb">
-      <a href="/#work"><span aria-hidden="true">&larr;</span> Victor Saly Arcade</a>
+  <header class="frame page-head head">
+    <p class="crumb small">
+      <a href="/">All work</a>
+      <span aria-hidden="true"> / </span>
+      <span class="quiet">Project {String(number).padStart(2, '0')}</span>
     </p>
-    <h1 style={`view-transition-name: title-${project.slug}`}>{project.title}</h1>
-    <p class="lede">{project.description}</p>
-    <ul class="links">
-      <li><a class="go" href={project.url}>Open {project.host} &rarr;</a></li>
-      <li><a href={project.repo}>Source on GitHub</a></li>
-    </ul>
+    <h1 class="display">{project.title}</h1>
+    <p class="what"><mark>{message}</mark></p>
+    {rest.length > 0 && <p class="what-rest">{rest.join(' ')}</p>}
   </header>
 
-  <main id="main">
-    <figure class="work-shot">
-      <img
-        src={project.shot}
-        alt={project.shotAlt}
-        width="800"
-        height="500"
-        decoding="async"
-        style={`view-transition-name: shot-${project.slug}`}
-      />
+  <main id="main" class="frame">
+    <figure class="shot">
+      <div class="screen">
+        <img
+          src={project.shot}
+          alt={project.shotAlt}
+          width="800"
+          height="500"
+          decoding="async"
+          style={`view-transition-name: shot-${project.slug}`}
+        />
+      </div>
     </figure>
 
-    <div class="work-body">
-      <section class="work-story reveal">
+    <div class="body">
+      <section class="story" aria-labelledby="story">
+        <h2 class="label" id="story">The story</h2>
         {
           project.film && (
-            <figure class="work-film">
+            <figure class="film">
               <video
                 src={project.film}
                 poster={project.filmPoster}
@@ -73,29 +83,178 @@ const { project, prev, next } = Astro.props;
                   default
                 />
               </video>
-              {project.filmCaption && <figcaption>{project.filmCaption}</figcaption>}
+              {project.filmCaption && (
+                <figcaption class="small quiet">{project.filmCaption}</figcaption>
+              )}
             </figure>
           )
         }
-        {project.story.map((p) => <p>{p}</p>)}
+        {project.story.map((paragraph) => <p>{paragraph}</p>)}
       </section>
-      <aside class="work-facts reveal" style="--i:1">
-        <h2>Built with</h2>
-        <ul class="meta">
-          {project.tech.map((t) => <li>{t}</li>)}
-        </ul>
-        <h2>Links</h2>
-        <ul class="work-links">
-          <li><a href={project.url}>{project.host}</a></li>
-          <li><a href={project.repo}>GitHub repository</a></li>
-        </ul>
+
+      <aside class="side" aria-labelledby="facts">
+        <h2 class="label" id="facts">The facts</h2>
+        <dl class="facts">
+          <div>
+            <dt>Built with</dt>
+            <dd>{project.tech.join(', ')}</dd>
+          </div>
+          <div>
+            <dt>Runs at</dt>
+            <dd><a href={project.url}>{project.host}</a></dd>
+          </div>
+          <div>
+            <dt>Source</dt>
+            <dd><a href={project.repo}>{repoLabel}</a> on GitHub</dd>
+          </div>
+        </dl>
+        <p class="ways">
+          <a class="control filled" href={project.url}>
+            Open {project.host}
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M3 1h8v8M11 1 1 11" stroke="currentColor" stroke-width="1.75"></path>
+            </svg>
+          </a>
+        </p>
       </aside>
     </div>
 
-    <nav class="work-nav reveal" aria-label="More projects">
-      <a href={`/work/${prev.slug}`}><span aria-hidden="true">&larr;</span> {prev.title}</a>
-      <a href="/#work">All projects</a>
-      <a href={`/work/${next.slug}`}>{next.title} <span aria-hidden="true">&rarr;</span></a>
+    {project.slug === 'shut-the-cube' && <DailyBoards />}
+
+    <nav class="more" aria-label="More projects">
+      <a class="prev" href={`/work/${prev.slug}`}>
+        <span class="small quiet">Previous</span>
+        <span class="t">{prev.title}</span>
+      </a>
+      <a class="next" href={`/work/${next.slug}`}>
+        <span class="small quiet">Next</span>
+        <span class="t">{next.title}</span>
+      </a>
     </nav>
   </main>
 </Base>
+
+<style>
+  .head {
+    padding-bottom: var(--space-5);
+  }
+  /* The way back up sits on the heavy rule, where the blog puts its page labels. */
+  .crumb {
+    margin: 0 0 var(--space-3);
+    max-width: none;
+  }
+  .crumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    margin-block: calc((var(--tap) - 1lh) / -2);
+    font-weight: 700;
+  }
+  .what {
+    margin: var(--space-4) 0 0;
+    max-width: 38ch;
+    font-size: var(--size-message);
+    line-height: 1.35;
+    letter-spacing: var(--tracking-message);
+    font-weight: 700;
+  }
+  .what mark {
+    padding: 0.1em 0.2em;
+  }
+  .what-rest {
+    margin: var(--space-3) 0 0;
+    max-width: 60ch;
+    font-size: 1.1875rem;
+  }
+
+  .shot {
+    margin: 0;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: var(--space-6);
+    margin-top: var(--space-5);
+  }
+  .story p {
+    margin: var(--space-3) 0 0;
+  }
+  .story .label + p {
+    margin-top: var(--space-4);
+  }
+  .film {
+    float: right;
+    width: min(15rem, 45%);
+    margin: var(--space-4) 0 var(--space-3) var(--space-4);
+  }
+  .film video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--rule-width) solid var(--ink);
+    background: var(--ink);
+  }
+  .film figcaption {
+    margin-top: var(--space-2);
+    line-height: 1.45;
+  }
+  .side .facts {
+    margin-top: var(--space-4);
+    border-top: 0;
+  }
+  .ways {
+    margin: var(--space-4) 0 0;
+  }
+
+  .more {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: var(--space-6);
+    border-top: var(--rule-strong) solid var(--ink);
+  }
+  .more a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-block: var(--space-4);
+    text-decoration: none;
+  }
+  .more .next {
+    align-items: flex-end;
+    text-align: right;
+    border-left: var(--rule-width) solid var(--rule);
+  }
+  .more .t {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .more a:hover .t {
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+  }
+
+  @media (max-width: 52rem) {
+    .body {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-5);
+    }
+  }
+  @media (max-width: 34rem) {
+    .film {
+      float: none;
+      width: min(15rem, 100%);
+      margin: var(--space-4) 0 0;
+    }
+    .more {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .more .next {
+      align-items: flex-start;
+      text-align: left;
+      border-left: 0;
+      border-top: var(--rule-width) solid var(--rule);
+    }
+  }
+</style>
