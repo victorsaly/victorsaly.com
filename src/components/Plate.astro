@@ -7,21 +7,23 @@
  * On the catalogue the screens are printed in black and white, like the rest of the page; pointing at a
  * plate (or tabbing into it) brings its colour in. Its own page always shows it in colour.
  */
-import type { LiveProject } from '../data/projects';
+import type { WorkEntry } from '../lib/projects';
 
 interface Props {
-  project: LiveProject;
+  project: WorkEntry;
   number: number;
   /** the first plate is in the first screen, so its picture loads eagerly */
   first?: boolean;
 }
 
-const { project, number, first = false } = Astro.props;
-const page = `/work/${project.slug}`;
+const { project: entry, number, first = false } = Astro.props;
+const project = entry.data;
+const slug = entry.id;
+const page = `/work/${slug}`;
 const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
 ---
 
-<article class="plate" aria-labelledby={`plate-${project.slug}`}>
+<article class="plate" aria-labelledby={`plate-${slug}`}>
   <a class="screen" href={page} tabindex="-1" aria-hidden="true">
     <img
       src={project.shot}
@@ -30,15 +32,15 @@ const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
       height="500"
       loading={first ? 'eager' : 'lazy'}
       decoding="async"
-      style={`view-transition-name: shot-${project.slug}`}
+      style={`view-transition-name: shot-${slug}`}
     />
   </a>
   <div class="about">
     <p class="n" aria-hidden="true">{String(number).padStart(2, '0')}</p>
-    <h3 id={`plate-${project.slug}`}>
+    <h3 id={`plate-${slug}`}>
       <a href={page}><mark>{project.title}</mark></a>
     </h3>
-    <p class="what">{project.description}</p>
+    <p class="what">{project.summary}</p>
     <dl class="facts">
       <div>
         <dt>Built with</dt>

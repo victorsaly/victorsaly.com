@@ -25,6 +25,9 @@ const SITES = {
   correlateai: { url: 'https://correlateai.victorsaly.com', click: /skip intro/i, settle: 6000 },
   feedmeai: { url: 'https://feedmeai.victorsaly.com' },
   lili: { url: 'https://victorsaly.github.io/LilianaBlog/' },
+  liliart: { url: 'https://liliart.victorsaly.com' },
+  olivermath: { url: 'https://victorsaly.github.io/OliverMath/', click: /let's go/i, settle: 6000 },
+  agenticblog: { url: 'https://blog.victorsaly.com', scheme: 'light' },
 };
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'shots');
@@ -51,6 +54,10 @@ try {
     const site = SITES[name];
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
+    // A site that follows the OS theme is captured in the one its first-time visitors most likely see.
+    if (site.scheme) {
+      await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: site.scheme }]);
+    }
     await page.goto(site.url, { waitUntil: 'networkidle2', timeout: 60000 });
     await new Promise((r) => setTimeout(r, 3000));
 

@@ -2,11 +2,23 @@
 /*
  * The home page: whose work this is, in one heavy-ruled masthead, then the work itself as a catalogue of
  * plates, live projects first, each with its real screen. Then the projects with source only, as ruled
- * rows, and how all of it gets made. The first plate starts inside the first screen on a desk.
+ * rows, how all of it gets made, and the newest writing from the blog, where that is written up. The
+ * first plate starts inside the first screen on a desk.
  */
 import Base from '../layouts/Base.astro';
 import Plate from '../components/Plate.astro';
-import { live, repos } from '../data/projects';
+import { getAlso, getWork } from '../lib/projects';
+import { latestWriting } from '../lib/writing';
+
+const live = await getWork();
+const repos = await getAlso();
+const writing = await latestWriting();
+const dateFormat = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'Europe/London',
+});
 ---
 
 <Base
@@ -59,7 +71,7 @@ import { live, repos } from '../data/projects';
       </p>
       <ul class="rows">
         {
-          repos.map((project) => (
+          repos.map(({ data: project }) => (
             <li>
               <h3>
                 {project.links.map((link, i) => (
@@ -71,7 +83,7 @@ import { live, repos } from '../data/projects';
                   </>
                 ))}
               </h3>
-              <p class="what">{project.description}</p>
+              <p class="what">{project.summary}</p>
               <p class="small quiet">{project.tech.join(', ')}</p>
             </li>
           ))
@@ -91,6 +103,34 @@ import { live, repos } from '../data/projects';
         >.
       </p>
     </section>
+
+    {
+      writing.length > 0 && (
+        <section aria-labelledby="writing" class="writing">
+          <h2 class="label" id="writing">
+            Latest writing
+          </h2>
+          <ul class="rows">
+            {writing.map((post) => (
+              <li>
+                <h3>
+                  <a href={post.link}>
+                    <mark>{post.title}</mark>
+                  </a>
+                </h3>
+                <p class="what">{post.summary}</p>
+                <p class="small quiet">
+                  <time datetime={post.date.toISOString()}>{dateFormat.format(post.date)}</time>
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p class="small more">
+            <a href="https://blog.victorsaly.com/all">Everything on the blog</a>
+          </p>
+        </section>
+      )
+    }
   </main>
 </Base>
 
@@ -130,8 +170,22 @@ import { live, repos } from '../data/projects';
   }
 
   .also,
-  .made {
+  .made,
+  .writing {
     margin-top: var(--space-5);
+  }
+  /* The label's strong rule already opens this list; its own top hairline would draw a second line. */
+  .writing .rows {
+    border-top: 0;
+  }
+  .writing .more {
+    margin: var(--space-3) 0 0;
+  }
+  .writing .more a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-weight: 700;
   }
   .note {
     margin: var(--space-3) 0 0;
