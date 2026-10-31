@@ -1,10 +1,10 @@
 ---
 /*
- * The header, in the blog's hand: the name, the two places to go (the work here, the writing on the blog),
- * and the two switches a reader may want before reading anything, the font for a dyslexic reader and the
- * theme for a tired one. Each switch says in words what it turns on and in aria-pressed whether it is on.
- * It stays at the top as you scroll on a desk. A phone has too little height to give up, so there it
- * scrolls away, the switches show their icons only (their words stay for screen readers) and the two
+ * The header, in the blog's hand: the name, the three places to go (the work here, the writing on the blog,
+ * the skills for coding agents), and the two switches a reader may want before reading anything, the font
+ * for a dyslexic reader and the theme for a tired one. Each switch says in words what it turns on and in
+ * aria-pressed whether it is on. It stays at the top as you scroll on a desk. A phone has too little height to give up, so there it
+ * scrolls away, the switches show their icons only (their words stay for screen readers) and the three
  * sections sit on a line of their own. Few enough items that no menu is needed.
  */
 interface Props {
@@ -25,6 +25,7 @@ const onWork = path === '/' || path.startsWith('/work');
     <nav class="sections" aria-label="Sections">
       <a href="/" aria-current={onWork ? 'page' : undefined}>Work</a>
       <a href="https://blog.victorsaly.com">Writing</a>
+      <a href="https://skills.victorsaly.com">Skills</a>
     </nav>
     <div class="switches">
       <button type="button" class="control" id="font-switch" aria-pressed="false">

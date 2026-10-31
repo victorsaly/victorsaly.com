@@ -20,6 +20,20 @@ interface Props {
 const { title, description, path, image = '/og.png', imageAlt } = Astro.props;
 const canonical = new URL(path, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
+// Who makes this site, and every other place he is: search engines join victorsaly.com, the blog and the skills
+// site into one author. Said on the home page, which is the page about him.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Victor Saly',
+  url: 'https://victorsaly.com',
+  sameAs: [
+    'https://blog.victorsaly.com',
+    'https://skills.victorsaly.com',
+    'https://www.linkedin.com/in/victorsaly',
+    'https://github.com/victorsaly',
+  ],
+};
 const ogAlt =
   imageAlt ??
   'Victor Saly: I build small web things that do one job well. Beside it, a linocut portrait of him. victorsaly.com';
@@ -35,6 +49,7 @@ const ogAlt =
     <link rel="canonical" href={canonical} />
     <meta name="author" content="Victor Saly" />
     <link rel="me" href="https://www.linkedin.com/in/victorsaly" />
+    {path === '/' && <script type="application/ld+json" set:html={JSON.stringify(person)} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Victor Saly" />
