@@ -7,6 +7,12 @@ url: https://skills.victorsaly.com/sideshot
 host: skills.victorsaly.com
 repo: https://github.com/victorsaly/sideshot
 shot: /shots/sideshot.jpg
+film: /film/sideshot.mp4
+filmPoster: /film/sideshot.jpg
+filmCaptions: /film/sideshot.vtt
+filmShape: landscape
+filmCaption: "Thirty-six seconds, narrated: a pull request that changes a pricing card, and SideShot putting
+  its before and after into the pull request."
 shotAlt: "SideShot's page: the line SideShot this PR, the install command, and a film of a pricing card before
   and after a change, on a desk."
 tech:

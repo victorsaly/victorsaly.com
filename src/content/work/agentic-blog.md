@@ -7,6 +7,12 @@ url: https://blog.victorsaly.com
 host: blog.victorsaly.com
 repo: https://github.com/victorsaly/agentic-blog
 shot: /shots/agenticblog.jpg
+film: /film/agentic-blog.mp4
+filmPoster: /film/agentic-blog.jpg
+filmCaptions: /film/agentic-blog.vtt
+filmShape: landscape
+filmCaption: "A minute, narrated: talk for two minutes, and agents turn it into a post you approve before it
+  goes live."
 shotAlt: "The blog's front page: a linocut portrait, the name Victor Saly and the line Talked out loud,
   tidied by AI."
 tech:
