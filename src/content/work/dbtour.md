@@ -7,6 +7,12 @@ url: https://skills.victorsaly.com/dbtour
 host: skills.victorsaly.com
 repo: https://github.com/victorsaly/dbtour
 shot: /shots/dbtour.jpg
+film: /film/dbtour.mp4
+filmPoster: /film/dbtour.jpg
+filmCaptions: /film/dbtour.vtt
+filmShape: landscape
+filmCaption: "A minute and a half, narrated: from one command to a documented SQL Server database, then the same
+  tour for an AI agent. Filmed on a demo database with made-up rows."
 shotAlt: "dbtour's page: the line that says what it does, the databases it reads (SQL Server, Azure SQL,
   SQLite), and the start of its 30-second film."
 tech:
