@@ -70,15 +70,15 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
         <h2 class="label" id="story">The story</h2>
         {
           project.film && (
-            <figure class="film">
+            <figure class:list={['film', project.filmShape]}>
               <video
                 src={project.film}
                 poster={project.filmPoster}
                 controls
                 playsinline
                 preload="none"
-                width="1080"
-                height="1920"
+                width={project.filmShape === 'landscape' ? 1920 : 1080}
+                height={project.filmShape === 'landscape' ? 1080 : 1920}
               >
                 <track
                   kind="captions"
@@ -193,6 +193,12 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
     float: right;
     width: min(15rem, 45%);
     margin: var(--space-4) 0 var(--space-3) var(--space-4);
+  }
+  /* A landscape film is a screen recording: it runs the width of the story, before it, so its text reads. */
+  .film.landscape {
+    float: none;
+    width: 100%;
+    margin: var(--space-4) 0 var(--space-4);
   }
   .film video {
     display: block;

@@ -29,6 +29,7 @@ const SITES = {
   olivermath: { url: 'https://victorsaly.github.io/OliverMath/', click: /let's go/i, settle: 6000 },
   agenticblog: { url: 'https://blog.victorsaly.com', scheme: 'light' },
   sideshot: { url: 'https://skills.victorsaly.com/sideshot', scheme: 'light' },
+  dbtour: { url: 'https://skills.victorsaly.com/dbtour' },
 };
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'shots');

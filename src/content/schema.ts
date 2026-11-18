@@ -24,8 +24,10 @@ export const workSchema = z
     shot: publicPath,
     shotAlt: z.string().min(10),
     tech: z.array(z.string().min(1)).min(1),
-    /** an optional launch film, a 9:16 mp4; nothing downloads until someone presses play */
+    /** an optional launch film, an mp4; nothing downloads until someone presses play */
     film: publicPath.optional(),
+    /** portrait (9:16) sits beside the story; landscape (16:9) runs across it, so a screen recording is legible */
+    filmShape: z.enum(['portrait', 'landscape']).default('portrait'),
     filmPoster: publicPath.optional(),
     filmCaptions: publicPath.optional(),
     filmCaption: z.string().optional(),

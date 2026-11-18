@@ -1,0 +1,34 @@
+WEBVTT
+
+00:00:04.351 --> 00:00:08.281
+Point dbtour at your database with one line.
+
+00:00:09.153 --> 00:00:17.083
+Five steps: where it is, how to sign in, a test. Nothing is saved until it answers.
+
+00:00:19.096 --> 00:00:24.786
+It makes a login that can only read, and shows you every statement before it runs one.
+
+00:00:25.597 --> 00:00:32.407
+The whole catalogue at a glance: every table's keys and size, ranked, without reading a row.
+
+00:00:33.498 --> 00:00:41.668
+Every table gets a page: what it holds, how big it is, what it links to, and which columns someone protected.
+
+00:00:43.549 --> 00:00:46.999
+Follow a relation, or open the map.
+
+00:00:48.786 --> 00:00:56.076
+Each table starts a query for you, leaves the protected columns out, and runs it through the read-only login.
+
+00:00:56.788 --> 00:01:01.758
+Autocomplete knows your tables, your columns, and the joins between them.
+
+00:01:12.086 --> 00:01:18.976
+Hand a table to any agent in one click: its columns, keys and relations, as Markdown.
+
+00:01:19.987 --> 00:01:26.797
+Or let your coding agent take the same tour through MCP, down to the joins between two tables.
+
+00:01:28.137 --> 00:01:33.027
+dbtour. Your database, documented where you work.

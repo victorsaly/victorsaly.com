@@ -43,6 +43,29 @@ describe('live projects (src/content/work)', () => {
   });
 });
 
+describe('a project film', () => {
+  const base = {
+    title: 'A project',
+    order: 1,
+    summary: 'What the project does, in a sentence or two.',
+    url: 'https://example.com',
+    host: 'example.com',
+    repo: 'https://github.com/example/project',
+    shot: '/shots/project.jpg',
+    shotAlt: 'The project on a desk.',
+    tech: ['TypeScript'],
+    film: '/film/project.mp4',
+    filmPoster: '/film/project.jpg',
+    filmCaptions: '/film/project.vtt',
+  };
+
+  it('is portrait unless it says landscape, and is nothing else', () => {
+    expect(workSchema.parse(base).filmShape).toBe('portrait');
+    expect(workSchema.parse({ ...base, filmShape: 'landscape' }).filmShape).toBe('landscape');
+    expect(workSchema.safeParse({ ...base, filmShape: 'square' }).success).toBe(false);
+  });
+});
+
 describe('projects with the source only (src/content/also.yaml)', () => {
   const also: unknown = parse(readFileSync(here('./also.yaml'), 'utf8'));
 

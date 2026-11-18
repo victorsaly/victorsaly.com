@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.350 --> 00:00:02.943
+Your pull request changes what people see.
+
+00:00:03.850 --> 00:00:07.257
+But your reviewer gets a diff, and has to imagine the rest.
+
+00:00:07.850 --> 00:00:11.702
+So ask your coding agent to SideShot it. One sentence.
+
+00:00:12.350 --> 00:00:20.794
+It pictures the part that changed, before and after, on a desk and a phone, in light and dark.
+
+00:00:21.350 --> 00:00:25.128
+Then it rings what you meant to change, and marks everything else that did.
+
+00:00:25.850 --> 00:00:31.331
+And it puts the table in your pull request, so your reviewer sees the change instead of imagining it.
+
+00:00:31.850 --> 00:00:35.257
+SideShot. See the change, side by side.
