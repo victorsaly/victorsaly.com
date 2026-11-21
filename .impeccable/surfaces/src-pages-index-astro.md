@@ -46,7 +46,10 @@ masthead, a cover: every screen small, in its hairline frame with its number, tw
 swipe on a phone, each jumping to its plate; it is decorative for assistive technology, since the contents says
 the same in words. The page's one authored motion: a plate with a film plays six silent seconds of it (a cut
 preview, not the film) while a fine pointer is on the plate, fading in only once it really plays; never on touch
-or with reduced motion. Links to the apps and their source open in a new tab.
+or with reduced motion. Links to the apps and their source open in a new tab. A plate with a film also has a Watch the intro control with
+the film's length; it plays the whole film, with sound and captions, in one modal player in the page's hand
+(paper, strong ink frame, no radius), tall for a portrait film; without JavaScript it links to the film on the
+project's page. Seven of fourteen projects have a film so far.
 
 FORM: Specimen plates, number 2 of 7 on my list, seed 6789f5f0.
 

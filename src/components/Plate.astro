@@ -9,7 +9,8 @@
  *
  * A project with a film plays six silent seconds of it over the screen while a mouse is on the plate: the
  * one moving thing on the page. Nothing is fetched until then, and it never plays on a touch screen or for
- * a reader who asked for less motion.
+ * a reader who asked for less motion. Its Watch the intro button plays the whole film, with sound and
+ * captions, in the home page's player; without JavaScript it is a plain link to the film on its page.
  */
 import type { WorkEntry } from '../lib/projects';
 import { previewOf } from '../lib/media';
@@ -27,6 +28,11 @@ const slug = entry.id;
 const page = `/work/${slug}`;
 const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
 const preview = project.film ? previewOf(project.film) : undefined;
+// 55 → "0:55", 94 → "1:34"
+const length =
+  project.filmLength === undefined
+    ? undefined
+    : `${Math.floor(project.filmLength / 60)}:${String(project.filmLength % 60).padStart(2, '0')}`;
 ---
 
 <article
@@ -103,6 +109,25 @@ const preview = project.film ? previewOf(project.film) : undefined;
       </div>
     </dl>
     <p class="ways">
+      {
+        project.film && (
+          <a
+            class="control watch"
+            href={`${page}#film`}
+            data-film={project.film}
+            data-poster={project.filmPoster}
+            data-captions={project.filmCaptions}
+            data-shape={project.filmShape}
+            data-title={project.title}
+          >
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12">
+              <path d="M2 1v10l9-5z" fill="currentColor" />
+            </svg>
+            Watch the intro
+            {length && <span class="length">{length}</span>}
+          </a>
+        )
+      }
       <a class="control" href={project.url} target="_blank" rel="noopener">
         Open {project.host}
         <span class="visually-hidden"> (opens in a new tab)</span>
@@ -170,6 +195,10 @@ const preview = project.film ? previewOf(project.film) : undefined;
     margin: var(--space-3) 0 var(--space-4);
     font-size: 1.0625rem;
     line-height: 1.55;
+  }
+  .watch .length {
+    font-variant-numeric: tabular-nums;
+    font-weight: 400;
   }
   .ways {
     display: flex;

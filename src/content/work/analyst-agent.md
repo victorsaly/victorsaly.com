@@ -10,6 +10,12 @@ url: https://victorsaly.github.io/business-analyst-agent-demo/
 host: victorsaly.github.io
 repo: https://github.com/victorsaly/business-analyst-agent-demo
 shot: /shots/analyst.jpg
+film: /film/analyst.mp4
+filmPoster: /film/analyst.jpg
+filmCaptions: /film/analyst.vtt
+filmShape: landscape
+filmLength: 60
+filmCaption: "One minute, narrated: the team's pitch, cut from real recorded runs of the agent."
 shotAlt: "The Analyst Agent's demo: the title Business Performance Analyst Agent, a Stakeholder and Developer
   switch, numbered cards for Tracks, Briefing, Scorecard and Tools, and a chat that answers how it was built"
 tech:

@@ -42,8 +42,9 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
 - **Home page:** a masthead with the blog's portrait print, a cover of every app's screen at once, a
   contents list of every app by kind, then the work grouped by kind (for clients and customers, games,
   for my kids, AI tools). Each live project is a plate: its real screen in colour, what it does, a short
-  facts table, and two ways in; the app itself opens in a new tab. A project with a film plays six silent
-  seconds of it while a mouse is on its plate (never on touch, never with reduced motion). Then how these
+  facts table, and two ways in; the app itself opens in a new tab. A project with a film has a Watch the intro button that plays it with sound and captions in a player over
+  the page, and plays six silent seconds of it while a mouse is on its plate (never on touch, never with
+  reduced motion). Then how these
   get made, and the newest three posts from the blog.
 - **Project pages** (`/work/<slug>`): the name, what it does with its first sentence marked, the screen
   in colour (it travels in from its plate with a view transition, unless reduced motion is on), the

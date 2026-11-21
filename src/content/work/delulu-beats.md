@@ -14,6 +14,7 @@ shotAlt: "The Delulu Beats home screen: a dark grid of nine ear-training games"
 film: /film/delulubeats.mp4
 filmPoster: /film/delulubeats.jpg
 filmCaptions: /film/delulubeats.vtt
+filmLength: 19
 filmCaption: Twenty seconds of it, narrated. The tone you hear in it is the game actually sounding.
 tech:
   - Next.js

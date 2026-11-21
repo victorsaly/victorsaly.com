@@ -9,6 +9,12 @@ summary: A Mac app for UK bookkeepers and accountants who want to use AI on clie
 url: https://cloisto.com
 host: cloisto.com
 shot: /shots/cloisto.jpg
+film: /film/cloisto.mp4
+filmPoster: /film/cloisto.jpg
+filmCaptions: /film/cloisto.vtt
+filmShape: landscape
+filmLength: 55
+filmCaption: "Under a minute, narrated: a made-up payroll email goes in, the names become codes, an AI answers, and the real names come back."
 shotAlt: "Cloisto's home page: the line Use AI on client work without giving your clients away, a Download for
   Mac button, and the app showing an email thread with its names replaced by tokens"
 tech:

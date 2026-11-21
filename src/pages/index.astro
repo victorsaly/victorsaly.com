@@ -164,6 +164,18 @@ const groups = kinds
       )
     }
   </main>
+
+  <!-- The player: one dialog for every plate's Watch the intro. It is a modal because a film with sound
+       wants the reader's whole attention, and Esc or Close hands the page back where they left it. -->
+  <dialog class="player" aria-labelledby="player-title">
+    <div class="bar">
+      <h2 id="player-title">The intro</h2>
+      <button type="button" class="control" data-close>Close</button>
+    </div>
+    <video controls playsinline preload="none">
+      <track kind="captions" srclang="en" label="English" default />
+    </video>
+  </dialog>
 </Base>
 
 <style>
@@ -452,4 +464,89 @@ const groups = kinds
       margin-bottom: var(--space-4);
     }
   }
+
+  /* The player, in the page's hand: paper, a strong ink frame, no radius and no shadow. A portrait film
+     gets a tall, narrow player; a landscape one a wide one. */
+  .player {
+    width: min(60rem, calc(100vw - 2 * var(--pad)));
+    max-height: calc(100dvh - 2 * var(--space-4));
+    padding: var(--space-3);
+    border: var(--rule-strong) solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  /* Portrait: the height decides. The film is as tall as the screen allows and the player wraps it. */
+  .player.portrait {
+    width: fit-content;
+    max-width: calc(100vw - 2 * var(--pad));
+  }
+  .player.portrait video {
+    width: auto;
+    height: min(46rem, calc(100dvh - 11rem));
+    max-width: 100%;
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+  }
+  .player.portrait h2 {
+    font-size: 1.125rem;
+  }
+  .player::backdrop {
+    background: rgb(0 0 0 / 0.72);
+  }
+  .player .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .player h2 {
+    margin: 0;
+    font-size: var(--size-h2);
+    line-height: var(--leading-tight);
+  }
+  .player video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 11rem);
+    background: #000;
+  }
 </style>
+
+<script>
+  // Watch the intro: plays a plate's film in the one dialog. The button is a real link to the film on the
+  // project's page, so it still works if this script does not run.
+  const player = document.querySelector<HTMLDialogElement>('dialog.player');
+  const video = player?.querySelector('video');
+  const title = player?.querySelector('h2');
+  const track = video?.querySelector('track');
+  if (player && video && title && typeof player.showModal === 'function') {
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('a.watch[data-film]')) {
+      link.addEventListener('click', (event) => {
+        const { film, poster, captions, shape, title: name } = link.dataset;
+        if (!film) return;
+        event.preventDefault();
+        title.textContent = `${name ?? ''}: the intro`;
+        player.classList.toggle('portrait', shape === 'portrait');
+        if (track) track.src = captions ?? '';
+        video.poster = poster ?? '';
+        video.src = film;
+        player.showModal();
+        void video.play().catch(() => {
+          /* autoplay with sound was refused: the controls are there */
+        });
+      });
+    }
+    // Closing by the button, Esc or a click on the backdrop all stop the film and let go of the file.
+    player.querySelector('[data-close]')?.addEventListener('click', () => player.close());
+    player.addEventListener('click', (event) => {
+      if (event.target === player) player.close();
+    });
+    player.addEventListener('close', () => {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    });
+  }
+</script>

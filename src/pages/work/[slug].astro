@@ -71,7 +71,7 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
         <h2 class="label" id="story">The story</h2>
         {
           project.film && (
-            <figure class:list={['film', project.filmShape]}>
+            <figure class:list={['film', project.filmShape]} id="film">
               <video
                 src={project.film}
                 poster={project.filmPoster}

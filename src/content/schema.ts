@@ -38,6 +38,8 @@ export const workSchema = z
     filmPoster: publicPath.optional(),
     filmCaptions: publicPath.optional(),
     filmCaption: z.string().optional(),
+    /** how long the film runs, in seconds; shown on the plate's Watch the intro button */
+    filmLength: z.number().int().positive().optional(),
   })
   .refine((p) => p.film === undefined || (p.filmPoster && p.filmCaptions), {
     message: 'a film needs a poster and WebVTT captions',
