@@ -6,7 +6,7 @@ offline-friendly and account-free. It shares its look with my blog, [blog.victor
 
 **Live: [victorsaly.com](https://victorsaly.com/)**
 
-![The victorsaly.com home page: the name Victor Saly under a heavy rule, the line "I build small web things that do one job well.", a note that these are hobby apps built as personal work, and the first project plate](docs/images/home.png)
+![The victorsaly.com home page: the portrait print beside the name Victor Saly under a heavy rule, the line "I build apps that do one job well.", and a cover of all the apps' screens in two rows](docs/images/home.png)
 
 ## The work
 
@@ -32,28 +32,29 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
 ## The site
 
 <p>
-  <img src="docs/images/plates.jpg" width="560" alt="Two project plates: Delulu Beats with its screen in black and white, and Shut The Cube in colour because the pointer is on it">
-  <img src="docs/images/mobile.png" width="200" alt="The home page on a phone">
+  <img src="docs/images/plates.jpg" width="560" alt="The Games section: the Delulu Beats plate with its screen, facts and two ways in, and Shut The Cube below it">
+  <img src="docs/images/mobile.png" width="200" alt="The home page on a phone: the portrait and name, then the cover of screens as one row to swipe">
 </p>
 
 - **The same hand as the blog.** Black ink on white paper, ink rules in three weights, and one colour,
   marigold, on each project's title. Atkinson Hyperlegible with a switch to Lexend, and a Dark switch;
   both are remembered per browser.
-- **Home page:** a masthead, a contents list of every app by kind, then the work grouped by kind (for
-  clients and customers, games, for my kids, AI tools). Each live project is a plate: its real screen,
-  what it does, a short facts table, and two ways in. With a mouse the screens are printed in black and white and pointing at a plate brings its
-  colour in; on a touch screen they are in colour. Then how these get made, and the newest three posts
-  from the blog.
+- **Home page:** a masthead with the blog's portrait print, a cover of every app's screen at once, a
+  contents list of every app by kind, then the work grouped by kind (for clients and customers, games,
+  for my kids, AI tools). Each live project is a plate: its real screen in colour, what it does, a short
+  facts table, and two ways in; the app itself opens in a new tab. A project with a film plays six silent
+  seconds of it while a mouse is on its plate (never on touch, never with reduced motion). Then how these
+  get made, and the newest three posts from the blog.
 - **Project pages** (`/work/<slug>`): the name, what it does with its first sentence marked, the screen
   in colour (it travels in from its plate with a view transition, unless reduced motion is on), the
   story, and the facts (above the story on a narrow screen). Shut The Cube's page also shows today's leaderboards from `api.victorsaly.com`,
   hidden unless real entries arrive.
 - **Latest writing** is read from the blog's RSS feed when the site is built. If the feed can't be
   read, the section is left out; the build never fails over it.
-- **No client framework.** Astro builds plain static HTML; the only JavaScript is the two switches and
-  the leaderboard.
+- **No client framework.** Astro builds plain static HTML; the only JavaScript is the two switches, the
+  leaderboard and the hover previews.
 
-<img src="docs/images/project-page.jpg" width="640" alt="A project page: Agentic Blog, its message marked in marigold, and its screen below">
+<img src="docs/images/project-page.jpg" width="640" alt="A project page: Cloisto, its message marked in marigold, and its screen below">
 
 ## Tech stack
 
@@ -74,7 +75,8 @@ npm run preview    # serve dist/
 npm run lint       # Astro types, then ESLint + Prettier (npm run format fixes formatting)
 npm run typecheck  # astro check
 npm run test       # Vitest
-npm run shots      # retake project screenshots (all, or: npm run shots -- <name>)
+npm run shots      # retake project screenshots and their thumbnails (all, or: npm run shots -- <name>)
+npm run previews   # recut the six-second hover previews from the films (needs ffmpeg)
 npm run og         # redraw the share card, public/og.png
 ```
 

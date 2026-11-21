@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { workSchema } from './schema';
+import { previewOf, thumbOf } from '../lib/media';
 
 // fileURLToPath, not .pathname: a pathname is percent-encoded, so a checkout under a folder with a space
 // in its name would make every file look missing.
@@ -32,10 +33,17 @@ describe('live projects (src/content/work)', () => {
     }
   });
 
-  it('each screenshot, and each film with its poster and captions, is on disk', () => {
+  it('each screenshot and its thumbnail, and each film with its poster, captions and preview, is on disk', () => {
     for (const { slug, text } of work) {
       const project = workSchema.parse(frontMatter(text));
-      const paths = [project.shot, project.film, project.filmPoster, project.filmCaptions];
+      const paths = [
+        project.shot,
+        thumbOf(project.shot),
+        project.film,
+        project.film && previewOf(project.film),
+        project.filmPoster,
+        project.filmCaptions,
+      ];
       for (const path of paths.filter((p) => p !== undefined)) {
         expect(existsSync(publicFile(path)), `${slug}: ${path}`).toBe(true);
       }

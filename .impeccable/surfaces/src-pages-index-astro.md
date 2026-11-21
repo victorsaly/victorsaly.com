@@ -36,9 +36,17 @@ page and sections. Under the masthead, "The apps, by kind" lists every project i
 numbered; on a phone only the four kinds show, as jump links. The plates
 follow in sections by kind (For clients and customers, Games, For my kids, AI tools), each opened by its label's
 strong rule. Only finished projects with a live link and a screenshot are listed. Plate numbers run straight through. A plate's facts table may
-carry "Made for" (client, customers, team) and says "Private" when the source is private. Screens print in black
-and white only for a fine pointer; touch screens show colour. On a phone the first viewport now ends on the
+carry "Made for" (client, customers, team) and says "Private" when the source is private. Screens are in colour
+everywhere (changed 2026-11-21: the apps are colourful, and grey hid what kind each was). On a phone the first viewport now ends on the
 contents' kinds rather than plate 01: the contents earns that place.
+
+MORE LIFE (added 2026-11-21, asked for because the page read as plain): the masthead carries the blog's
+linocut portrait print beside the name (in dark mode it keeps its paper, dimmed, as the blog does). Under the
+masthead, a cover: every screen small, in its hairline frame with its number, two rows on a desk and one row to
+swipe on a phone, each jumping to its plate; it is decorative for assistive technology, since the contents says
+the same in words. The page's one authored motion: a plate with a film plays six silent seconds of it (a cut
+preview, not the film) while a fine pointer is on the plate, fading in only once it really plays; never on touch
+or with reduced motion. Links to the apps and their source open in a new tab.
 
 FORM: Specimen plates, number 2 of 7 on my list, seed 6789f5f0.
 

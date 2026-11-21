@@ -3,7 +3,7 @@
  * subset, e.g. `npm run shots -- delulubeats lili`).
  *
  * Captures each site at 1280×800 with the system Chrome, then resizes to the
- * 800px JPEGs the cards use (sips — macOS; set CHROME=/path elsewhere and
+ * 800px JPEGs the cards use, plus a 400px WebP in thumbs/ for the cover strip (sips and cwebp — macOS; set CHROME=/path elsewhere and
  * swap the resize step). Some sites need persuasion, encoded below: Delulu
  * Beats hides behind its sound-activation gate unless autoplay is allowed,
  * CorrelateAI and Oliver Math play an intro until it is clicked through, and
@@ -14,7 +14,7 @@
 
 /* global document -- page.evaluate callbacks run in the page, not in Node */
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -105,7 +105,18 @@ try {
       ],
       { stdio: 'ignore' },
     );
-    console.log(`✓ ${name}.jpg`);
+    // The cover strip on the home page shows every screen small, so it gets a 400px WebP of its own.
+    mkdirSync(join(outDir, 'thumbs'), { recursive: true });
+    execFileSync(
+      'cwebp',
+      [
+        ...['-quiet', '-q', '80', '-resize', '400', '0'],
+        join(outDir, `${name}.jpg`),
+        ...['-o', join(outDir, 'thumbs', `${name}.webp`)],
+      ],
+      { stdio: 'ignore' },
+    );
+    console.log(`✓ ${name}.jpg and thumbs/${name}.webp`);
   }
 } finally {
   await browser.close();

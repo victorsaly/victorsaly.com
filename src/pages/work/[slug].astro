@@ -127,10 +127,13 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
               {
                 project.repo ? (
                   <>
-                    <a href={project.repo} target="_blank" rel="noopener">
-                      {repoLabel}
-                      <span class="visually-hidden"> (opens in a new tab)</span>
-                    </a>{' '}
+                    <a
+                      href={project.repo}
+                      target="_blank"
+                      rel="noopener"
+                      aria-label={`${repoLabel} (opens in a new tab)`}
+                      set:text={repoLabel}
+                    />{' '}
                     on GitHub
                   </>
                 ) : (
