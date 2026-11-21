@@ -1,8 +1,8 @@
 # victorsaly.com
 
-My personal site: the hobby apps I build in my own time, as personal work, while I work professionally at
-Storm Technologies. Browser games, learning tools and utilities, most of them free, offline-friendly and
-account-free. It shares its look with my blog, [blog.victorsaly.com](https://blog.victorsaly.com).
+My personal site: the apps, games and tools I build, a few for clients and paying customers, most for my
+kids and me. All of it is my own work, separate from my job at Storm Technologies. Most of the free ones are
+offline-friendly and account-free. It shares its look with my blog, [blog.victorsaly.com](https://blog.victorsaly.com).
 
 **Live: [victorsaly.com](https://victorsaly.com/)**
 
@@ -28,7 +28,7 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
 | <img src="public/shots/lili.jpg" width="220" alt="Lili's Story World"> | **[Lili's Story World](https://victorsaly.github.io/LilianaBlog/)**<br>[about](https://victorsaly.com/work/lilis-story-world) · [source](https://github.com/victorsaly/LilianaBlog) | An illustrated read-along storybook for a young dyslexic author: read-aloud with word highlighting and a voice per character. |
 | <img src="public/shots/olivermath.jpg" width="220" alt="Oliver Math"> | **[Oliver Math](https://victorsaly.github.io/OliverMath/)**<br>[about](https://victorsaly.com/work/oliver-math) · [source](https://github.com/victorsaly/OliverMath) | A maths game children play by talking: a 3D robot asks out loud, the child answers out loud, Azure Speech listens. Built for a child who may not read fluently yet. |
 
-### Also built (source only)
+### Source only
 
 - **[PayBatch](https://github.com/victorsaly/batch-payment-app)** – offline desktop app (Electron) that builds UK bank bulk-payment files; encrypted at rest.
 - **[World Leaders Game](https://github.com/victorsaly/WorldLeadersGame)** – educational strategy game using real GDP data (.NET 8, Blazor Server, Azure OpenAI).
@@ -46,13 +46,15 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
 - **The same hand as the blog.** Black ink on white paper, ink rules in three weights, and one colour,
   marigold, on each project's title. Atkinson Hyperlegible with a switch to Lexend, and a Dark switch;
   both are remembered per browser.
-- **Home page:** a masthead, then one plate per live project: its real screen, what it does, a short
-  facts table, and two ways in. Screens are printed in black and white; pointing at a plate (or
-  tabbing into it) brings its colour in. Then the source-only projects, how these get made, and the
-  newest three posts from the blog.
+- **Home page:** a masthead, a contents list of every app by kind, then the work grouped by kind (for
+  clients and customers, games, for my kids, AI tools). Each live project is a plate: its real screen,
+  what it does, a short facts table, and two ways in. Each group ends with its source-only projects as
+  rows. With a mouse the screens are printed in black and white and pointing at a plate brings its
+  colour in; on a touch screen they are in colour. Then how these get made, and the newest three posts
+  from the blog.
 - **Project pages** (`/work/<slug>`): the name, what it does with its first sentence marked, the screen
   in colour (it travels in from its plate with a view transition, unless reduced motion is on), the
-  story, and the facts. Shut The Cube's page also shows today's leaderboards from `api.victorsaly.com`,
+  story, and the facts (above the story on a narrow screen). Shut The Cube's page also shows today's leaderboards from `api.victorsaly.com`,
   hidden unless real entries arrive.
 - **Latest writing** is read from the blog's RSS feed when the site is built. If the feed can't be
   read, the section is left out; the build never fails over it.
@@ -90,9 +92,11 @@ npm run og         # redraw the share card, public/og.png
 ## Adding a project
 
 A live project is one Markdown file, `src/content/work/<slug>.md`: the facts in its front matter
-(`title`, `order`, `summary`, `url`, `host`, `repo`, `shot`, `shotAlt`, `tech`, and optionally a film
-with its poster and captions) and its story as the body. The slug is its page's address. A project with
-the source only is one entry in `src/content/also.yaml`.
+(`title`, `order`, `kind`, `summary`, `url`, `host`, `shot`, `shotAlt`, `tech`; optionally `repo` (left out
+when the source is private), `madeFor` (a client, paying customers, a team) and a film with its poster and
+captions) and its story as the body. `kind` picks its group on the home page: `clients`, `games`, `kids` or
+`tools`; `order` sorts it within the group. The slug is its page's address. A project with the source only
+is one entry in `src/content/also.yaml`, with a `kind` too.
 
 `src/content/schema.ts` says what each must have. The build and `npm run test` both check every file
 against it, and the tests also check that each screenshot, poster and caption file exists. Add the

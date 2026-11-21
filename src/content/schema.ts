@@ -5,6 +5,9 @@
  */
 import { z } from 'astro/zod';
 
+/** which group a project sits in on the home page; the groups and their order are in src/lib/projects.ts */
+const kind = z.enum(['clients', 'games', 'kids', 'tools']);
+
 /** a path to a file in public/, e.g. /shots/delulubeats.jpg */
 const publicPath = z.string().regex(/^\/[\w./-]+$/);
 
@@ -14,6 +17,9 @@ export const workSchema = z
     title: z.string().min(1).max(60),
     /** where its plate sits on the home page, lowest first; leave gaps so one can go between two */
     order: z.number().int().nonnegative(),
+    kind,
+    /** who it was made for, when that is not just me: a client, paying customers, a team */
+    madeFor: z.string().min(3).max(80).optional(),
     /** what it does; its first sentence is the message marked on its page */
     summary: z.string().min(20).max(500),
     url: z.url(),
@@ -41,6 +47,7 @@ export const workSchema = z
 export const alsoSchema = z.object({
   id: z.string().min(1),
   order: z.number().int().nonnegative(),
+  kind,
   links: z.array(z.object({ label: z.string().min(1), href: z.url() })).min(1),
   summary: z.string().min(20).max(500),
   tech: z.array(z.string().min(1)).min(1),

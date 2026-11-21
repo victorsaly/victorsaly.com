@@ -1,6 +1,7 @@
 ---
 title: Oliver Math
 order: 65
+kind: kids
 summary: A maths game for children that you play by talking. A 3D robot asks a question out loud, the
   child says the answer, and right answers earn stars.
 url: https://victorsaly.github.io/OliverMath/

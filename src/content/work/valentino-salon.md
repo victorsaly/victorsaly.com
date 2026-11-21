@@ -1,6 +1,8 @@
 ---
 title: Valentino Salon
 order: 55
+kind: clients
+madeFor: "Valentino Salon in Kensington, as a client"
 summary: The website for a hair and beauty salon that has been in Kensington since 1981. Nobody types a price
   into it. Every price and every booking link comes from the salon’s booking system, and the site rebuilds
   itself each morning, so a price changed at the front desk is online the next day.

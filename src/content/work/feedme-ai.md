@@ -1,6 +1,7 @@
 ---
 title: FeedMe AI
 order: 40
+kind: tools
 summary: Tell it what is actually in the fridge and it suggests something you can cook tonight —
   then carries the two or three things you are missing through to the shop. It works from the
   ingredients you already have rather than the ones a recipe wishes you had, which is the only part

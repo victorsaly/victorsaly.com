@@ -2,7 +2,8 @@
 /*
  * A project's own page, built like a post on the blog: a heavy rule and the name set large, what it does
  * as the page's one marigold mark, then the real screen at full width (it arrives here from its plate by
- * view transition). Then the story at reading width, with the facts and the way in beside it, and the
+ * view transition). Then the story at reading width, with the facts and the way in beside it (above it, on
+ * a narrow screen), and the
  * next and previous plates at the bottom. Shut The Cube also carries today's leaderboards.
  */
 import Base from '../../layouts/Base.astro';
@@ -40,18 +41,18 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
   image={project.shot}
   imageAlt={project.shotAlt}
 >
-  <header class="frame page-head head">
-    <p class="crumb small">
-      <a href="/">All work</a>
-      <span aria-hidden="true"> / </span>
-      <span class="quiet">Project {String(number).padStart(2, '0')}</span>
-    </p>
-    <h1 class="display">{project.title}</h1>
-    <p class="what"><mark>{message}</mark></p>
-    {rest.length > 0 && <p class="what-rest">{rest.join(' ')}</p>}
-  </header>
-
   <main id="main" class="frame">
+    <div class="page-head head">
+      <p class="crumb small">
+        <a href="/">All work</a>
+        <span aria-hidden="true"> / </span>
+        <span class="quiet">Project {String(number).padStart(2, '0')}</span>
+      </p>
+      <h1 class="display">{project.title}</h1>
+      <p class="what"><mark>{message}</mark></p>
+      {rest.length > 0 && <p class="what-rest">{rest.join(' ')}</p>}
+    </div>
+
     <figure class="shot">
       <div class="screen">
         <img
@@ -100,6 +101,14 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
       <aside class="side" aria-labelledby="facts">
         <h2 class="label" id="facts">The facts</h2>
         <dl class="facts">
+          {
+            project.madeFor && (
+              <div>
+                <dt>Made for</dt>
+                <dd>{project.madeFor}</dd>
+              </div>
+            )
+          }
           <div>
             <dt>Built with</dt>
             <dd>{project.tech.join(', ')}</dd>
@@ -108,16 +117,20 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
             <dt>Runs at</dt>
             <dd><a href={project.url}>{project.host}</a></dd>
           </div>
-          {
-            project.repo && (
-              <div>
-                <dt>Source</dt>
-                <dd>
-                  <a href={project.repo}>{repoLabel}</a> on GitHub
-                </dd>
-              </div>
-            )
-          }
+          <div>
+            <dt>Source</dt>
+            <dd>
+              {
+                project.repo ? (
+                  <>
+                    <a href={project.repo}>{repoLabel}</a> on GitHub
+                  </>
+                ) : (
+                  'Private'
+                )
+              }
+            </dd>
+          </div>
         </dl>
         <p class="ways">
           <a class="control filled" href={project.url}>
@@ -257,6 +270,11 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
     .body {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--space-5);
+    }
+    /* One column: the facts and the way in come before the story, so the action is not three screens
+       down. */
+    .side {
+      order: -1;
     }
   }
   @media (max-width: 34rem) {

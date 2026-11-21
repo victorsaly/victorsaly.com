@@ -1,5 +1,6 @@
 - id: paybatch
   order: 10
+  kind: tools
   links:
     - label: PayBatch
       href: https://github.com/victorsaly/batch-payment-app
@@ -12,6 +13,7 @@
     - Offline first
 - id: world-leaders-game
   order: 20
+  kind: kids
   links:
     - label: World Leaders Game
       href: https://github.com/victorsaly/WorldLeadersGame
@@ -24,6 +26,7 @@
     - Azure OpenAI
 - id: dbschema-markdown
   order: 30
+  kind: tools
   links:
     - label: dbschema-markdown
       href: https://github.com/victorsaly/dbschema-markdown
@@ -34,6 +37,7 @@
     - CLI
 - id: oliver-vocabulary
   order: 40
+  kind: kids
   links:
     - label: Oliver Vocabulary
       href: https://github.com/victorsaly/OliverVocabulary
@@ -45,6 +49,7 @@
     - OpenAI
 - id: shut-the-box-2018
   order: 50
+  kind: games
   links:
     - label: Shut The Box (2018)
       href: https://github.com/victorsaly/shutTheBox

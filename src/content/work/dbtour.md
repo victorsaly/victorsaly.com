@@ -1,6 +1,7 @@
 ---
 title: dbtour
 order: 8
+kind: tools
 summary: Shows you what is inside a database, every table, what it holds and how it connects, as a page you
   browse, docs in your repository, and answers for your AI coding agent. It documents from the structure, never
   the data; rows are read only when you run a query, through a login that can only read.

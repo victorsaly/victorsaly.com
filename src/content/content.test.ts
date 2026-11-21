@@ -47,6 +47,7 @@ describe('a project film', () => {
   const base = {
     title: 'A project',
     order: 1,
+    kind: 'tools',
     summary: 'What the project does, in a sentence or two.',
     url: 'https://example.com',
     host: 'example.com',

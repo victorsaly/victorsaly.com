@@ -1,6 +1,7 @@
 ---
 title: LiliArt
 order: 50
+kind: kids
 summary: Photograph the odds and ends on the table — tubes, lids, scraps, odd socks — and it works
   out what a child could make from them. The ideas only use what is actually there, the steps arrive
   one at a time with a picture of each, and when it is finished you photograph what you made.

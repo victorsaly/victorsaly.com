@@ -1,6 +1,8 @@
 ---
 title: Analyst Agent
 order: 9
+kind: tools
+madeFor: "An agentic AI course: a team of eight that I led"
 summary: An AI agent that answers sales questions in plain English, draws the chart, and shows the exact SQL
   behind every number. A course capstone on Microsoft’s AdventureWorks sample data, made by a team of eight; I
   led it and built the agent, the site and the tooling.

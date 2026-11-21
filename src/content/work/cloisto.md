@@ -1,6 +1,8 @@
 ---
 title: Cloisto
 order: 6
+kind: clients
+madeFor: "UK bookkeepers and accountants: a paid app, in beta"
 summary: A Mac app for UK bookkeepers and accountants who want to use AI on client work. It masks names, NI
   numbers, bank details and the client’s own identity on their own computer before anything reaches ChatGPT,
   Claude or Copilot, then puts the real values back in the answer.

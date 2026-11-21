@@ -238,6 +238,11 @@ mark {
 }
 
 /* A page head: a heavy rule, the name set large, and one line of what is below. */
+/* A short value in a facts table should not leave one word alone on its last line. */
+dd {
+  text-wrap: pretty;
+}
+
 .page-head {
   padding-top: var(--space-6);
 }
