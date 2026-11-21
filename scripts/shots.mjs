@@ -33,6 +33,7 @@ const SITES = {
   dbtour: { url: 'https://skills.victorsaly.com/dbtour' },
   cloisto: { url: 'https://cloisto.com', scheme: 'light' },
   analyst: { url: 'https://victorsaly.github.io/business-analyst-agent-demo/demo/' },
+  colourvaria: { url: 'https://www.colourvaria.com', click: /^reject/i, settle: 2500 },
   valentino: { url: 'https://www.valentinolondon.co.uk', click: /^reject$/i, settle: 1500 },
 };
 
