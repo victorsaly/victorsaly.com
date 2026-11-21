@@ -4,11 +4,12 @@
  *
  * Captures each site at 1280×800 with the system Chrome, then resizes to the
  * 800px JPEGs the cards use (sips — macOS; set CHROME=/path elsewhere and
- * swap the resize step). Two sites need persuasion, encoded below: Delulu
+ * swap the resize step). Some sites need persuasion, encoded below: Delulu
  * Beats hides behind its sound-activation gate unless autoplay is allowed,
- * and CorrelateAI plays an intro until "Skip intro" is clicked.
+ * CorrelateAI and Oliver Math play an intro until it is clicked through, and
+ * Valentino asks about cookies until "Reject" is pressed.
  *
- * File names must match the `shot` paths in src/data/projects.ts.
+ * File names must match the `shot` paths in src/content/work/*.md.
  */
 
 /* global document -- page.evaluate callbacks run in the page, not in Node */
@@ -30,6 +31,8 @@ const SITES = {
   agenticblog: { url: 'https://blog.victorsaly.com', scheme: 'light' },
   sideshot: { url: 'https://skills.victorsaly.com/sideshot', scheme: 'light' },
   dbtour: { url: 'https://skills.victorsaly.com/dbtour' },
+  cloisto: { url: 'https://cloisto.com', scheme: 'light' },
+  valentino: { url: 'https://www.valentinolondon.co.uk', click: /^reject$/i, settle: 1500 },
 };
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'shots');

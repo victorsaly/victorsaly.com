@@ -20,7 +20,7 @@ const { project: entry, number, first = false } = Astro.props;
 const project = entry.data;
 const slug = entry.id;
 const page = `/work/${slug}`;
-const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
+const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
 ---
 
 <article class="plate" aria-labelledby={`plate-${slug}`}>
@@ -46,10 +46,16 @@ const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
         <dt>Built with</dt>
         <dd>{project.tech.join(', ')}</dd>
       </div>
-      <div>
-        <dt>Source</dt>
-        <dd><a href={project.repo}>{repoLabel}</a> on GitHub</dd>
-      </div>
+      {
+        project.repo && (
+          <div>
+            <dt>Source</dt>
+            <dd>
+              <a href={project.repo}>{repoLabel}</a> on GitHub
+            </dd>
+          </div>
+        )
+      }
     </dl>
     <p class="ways">
       <a class="control" href={project.url}>

@@ -28,7 +28,7 @@ const { entry, number, prev, next } = Astro.props;
 const project = entry.data;
 const slug = entry.id;
 const { Content } = await render(entry);
-const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
+const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
 // The message is the description's first sentence, marked; the rest follows in plain type.
 const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s+/);
 ---
@@ -108,10 +108,16 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
             <dt>Runs at</dt>
             <dd><a href={project.url}>{project.host}</a></dd>
           </div>
-          <div>
-            <dt>Source</dt>
-            <dd><a href={project.repo}>{repoLabel}</a> on GitHub</dd>
-          </div>
+          {
+            project.repo && (
+              <div>
+                <dt>Source</dt>
+                <dd>
+                  <a href={project.repo}>{repoLabel}</a> on GitHub
+                </dd>
+              </div>
+            )
+          }
         </dl>
         <p class="ways">
           <a class="control filled" href={project.url}>

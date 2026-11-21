@@ -19,7 +19,8 @@ export const workSchema = z
     url: z.url(),
     /** what the link to it says, e.g. delulubeats.com */
     host: z.string().min(1),
-    repo: z.url(),
+    /** left out when the source is private, as with client work */
+    repo: z.url().optional(),
     /** a real screenshot at 1280×800, saved 800px wide (npm run shots) */
     shot: publicPath,
     shotAlt: z.string().min(10),

@@ -1,7 +1,7 @@
 ---
 /*
  * The home page: whose work this is, in one heavy-ruled masthead, then the work itself as a catalogue of
- * plates, live projects first, each with its real screen. Then the projects with source only, as ruled
+ * plates under a visible Apps label, live apps first, each with its real screen. Then the projects with source only, as ruled
  * rows, how all of it gets made, and the newest writing from the blog, where that is written up. The
  * first plate starts inside the first screen on a desk.
  */
@@ -42,9 +42,10 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
           kids asked for. Most are free, work offline, and need no account.
         </p>
         <p class="small quiet count">
-          {live.length} live projects, and {repos.length} more with the source only.
+          <a href="#apps">{live.length} live apps</a>, and {repos.length} more with the source only.
         </p>
         <p class="reach">
+          <a class="control" href="#apps">See the apps <span aria-hidden="true">&darr;</span></a>
           <a class="control filled" href="mailto:info@victorsaly.com">Say hello</a>
           <a class="control" href="https://www.linkedin.com/in/victorsaly" rel="me">LinkedIn</a>
           <a class="control" href="https://github.com/victorsaly">GitHub</a>
@@ -54,8 +55,11 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
   </div>
 
   <main id="main" class="frame">
-    <section aria-labelledby="live-label" class="live">
-      <h2 class="visually-hidden" id="live-label">Live projects</h2>
+    <section aria-labelledby="apps" class="live">
+      <h2 class="label" id="apps">Apps, live now</h2>
+      <p class="small quiet note">
+        Open one in your browser, or download it. Each has a page on how it was built.
+      </p>
       {
         live.map((project, index) => (
           <Plate project={project} number={index + 1} first={index === 0} />
@@ -169,6 +173,12 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
     margin: 0;
   }
 
+  .live {
+    scroll-margin-top: var(--space-6);
+  }
+  .live .note {
+    margin-bottom: var(--space-4);
+  }
   .also,
   .made,
   .writing {

@@ -26,8 +26,10 @@ as personal work, while he works professionally at Storm Technologies (decided 2
 about the day job than that one line; LinkedIn, linked from the masthead and the footer, covers the rest.
 
 Live projects (each has a page at `/work/<slug>`): Delulu Beats, Shut The Cube, CorrelateAI, FeedMe AI,
-LiliArt, Lili's Story World, Oliver Math, and the Agentic Blog with Roadbook, the framework under it.
-Source-only projects are listed without a page. Lab_Agents stays off until it is finished. Each project is a
+LiliArt, Lili's Story World, Oliver Math, Valentino Salon (a salon's site), Cloisto (a Mac app for
+accountants), and the Agentic Blog with Roadbook, the framework under it.
+Valentino Salon and Cloisto have private source, so they show no Source link. The home page labels the
+live projects "Apps, live now", and the masthead links to it. Source-only projects are listed without a page. Lab_Agents stays off until it is finished. Each project is a
 Markdown file in `src/content/work/`; the home page also shows the newest three posts from the blog's feed.
 
 ## What must stay true
