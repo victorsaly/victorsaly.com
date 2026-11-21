@@ -2,8 +2,8 @@
 /*
  * A plate: one project as a page of a printed catalogue. A strong rule opens it; its real screen sits in a
  * hairline frame on the left; on the right, its number (quiet, so the title leads), its title as the
- * plate's one marigold mark, what it does, a short facts table, and two ways in: open the thing itself,
- * or read how it was built. The screen carries a view-transition name, so it travels into its page.
+ * plate's one marigold mark, what it does, a short facts table, and two ways in: open the thing itself
+ * (in a new tab, so this page stays where the reader left it), or read how it was built. The screen carries a view-transition name, so it travels into its page.
  * With a mouse the screens are printed in black and white, like the rest of the page, and pointing at a
  * plate (or tabbing into it) brings its colour in. A touch screen has no pointing, so there they are in
  * colour from the start; otherwise a game and a dashboard would look the same. Its own page always shows
@@ -62,7 +62,11 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
           {
             project.repo ? (
               <>
-                <a href={project.repo}>{repoLabel}</a> on GitHub
+                <a href={project.repo} target="_blank" rel="noopener">
+                  {repoLabel}
+                  <span class="visually-hidden"> (opens in a new tab)</span>
+                </a>{' '}
+                on GitHub
               </>
             ) : (
               'Private'
@@ -72,8 +76,9 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
       </div>
     </dl>
     <p class="ways">
-      <a class="control" href={project.url}>
+      <a class="control" href={project.url} target="_blank" rel="noopener">
         Open {project.host}
+        <span class="visually-hidden"> (opens in a new tab)</span>
         <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M3 1h8v8M11 1 1 11" stroke="currentColor" stroke-width="1.75"></path>
         </svg>
