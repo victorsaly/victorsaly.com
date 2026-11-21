@@ -24,6 +24,8 @@ const FILMS = {
   dbtour: { start: 20, vf: 'crop=1152:720:64:0,scale=800:500' },
   // 1080×1920, portrait: only the game screen in the middle, not the headline above it
   delulubeats: { start: 2, vf: 'crop=1080:675:0:660,scale=800:500' },
+  // 1920×1080: the photo flies into the phone, the ingredients land, a recipe opens
+  feedmeai: { start: 2, vf: 'crop=1728:1080:96:0,scale=800:500' },
   // 1920×1080: before and after, desk and phone
   sideshot: { start: 13, vf: 'crop=1728:1080:96:0,scale=800:500' },
   // portrait reel: the whole phone, centred on the reel's own cream, so nothing of it is cropped away

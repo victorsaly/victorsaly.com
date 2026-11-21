@@ -7,7 +7,8 @@
  * swap the resize step). Some sites need persuasion, encoded below: Delulu
  * Beats hides behind its sound-activation gate unless autoplay is allowed,
  * CorrelateAI and Oliver Math play an intro until it is clicked through, and
- * Valentino asks about cookies until "Reject" is pressed.
+ * Valentino asks about cookies until "Reject" is pressed. FeedMe AI is shot on its sample result, which its
+ * own address opens directly.
  *
  * File names must match the `shot` paths in src/content/work/*.md.
  */
@@ -24,7 +25,8 @@ const SITES = {
   delulubeats: { url: 'https://delulubeats.com' },
   shutthecube: { url: 'https://shutthecube.com' },
   correlateai: { url: 'https://correlateai.victorsaly.com', click: /skip intro/i, settle: 6000 },
-  feedmeai: { url: 'https://feedmeai.victorsaly.com' },
+  // the app showing its recorded sample: the photo, what was read in it, and dinner
+  feedmeai: { url: 'https://feedmeai.victorsaly.com/app/?sample' },
   lili: { url: 'https://victorsaly.github.io/LilianaBlog/' },
   liliart: { url: 'https://liliart.victorsaly.com' },
   olivermath: { url: 'https://victorsaly.github.io/OliverMath/', click: /let's go/i, settle: 6000 },
