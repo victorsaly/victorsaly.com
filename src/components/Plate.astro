@@ -4,8 +4,10 @@
  * hairline frame on the left; on the right, its number (quiet, so the title leads), its title as the
  * plate's one marigold mark, what it does, a short facts table, and two ways in: open the thing itself,
  * or read how it was built. The screen carries a view-transition name, so it travels into its page.
- * On the catalogue the screens are printed in black and white, like the rest of the page; pointing at a
- * plate (or tabbing into it) brings its colour in. Its own page always shows it in colour.
+ * With a mouse the screens are printed in black and white, like the rest of the page, and pointing at a
+ * plate (or tabbing into it) brings its colour in. A touch screen has no pointing, so there they are in
+ * colour from the start; otherwise a game and a dashboard would look the same. Its own page always shows
+ * it in colour.
  */
 import type { WorkEntry } from '../lib/projects';
 
@@ -20,10 +22,10 @@ const { project: entry, number, first = false } = Astro.props;
 const project = entry.data;
 const slug = entry.id;
 const page = `/work/${slug}`;
-const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
+const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
 ---
 
-<article class="plate" aria-labelledby={`plate-${slug}`}>
+<article class="plate" id={`work-${slug}`} aria-labelledby={`plate-${slug}`}>
   <a class="screen" href={page} tabindex="-1" aria-hidden="true">
     <img
       src={project.shot}
@@ -42,13 +44,31 @@ const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
     </h3>
     <p class="what">{project.summary}</p>
     <dl class="facts">
+      {
+        project.madeFor && (
+          <div>
+            <dt>Made for</dt>
+            <dd>{project.madeFor}</dd>
+          </div>
+        )
+      }
       <div>
         <dt>Built with</dt>
         <dd>{project.tech.join(', ')}</dd>
       </div>
       <div>
         <dt>Source</dt>
-        <dd><a href={project.repo}>{repoLabel}</a> on GitHub</dd>
+        <dd>
+          {
+            project.repo ? (
+              <>
+                <a href={project.repo}>{repoLabel}</a> on GitHub
+              </>
+            ) : (
+              'Private'
+            )
+          }
+        </dd>
       </div>
     </dl>
     <p class="ways">
@@ -73,8 +93,12 @@ const repoLabel = project.repo.replace(/^https:\/\/github\.com\//, '');
     border-top: var(--rule-strong) solid var(--ink);
   }
   .screen img {
-    filter: grayscale(1);
     transition: filter 200ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .screen img {
+      filter: grayscale(1);
+    }
   }
   .plate:focus-within .screen img {
     filter: none;

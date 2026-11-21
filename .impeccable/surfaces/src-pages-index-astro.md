@@ -10,7 +10,7 @@ related_targets: ["src/pages/work/[slug].astro"]
 Scope: the home page (`/`) and each project page (`/work/<slug>`). Visitor mode: Experience. The visual world is
 blog.victorsaly.com's, fixed: tokens, Atkinson Hyperlegible with the Lexend switch, ink rules in three weights,
 marigold on titles, controls as bordered boxes. Audience: clients and employers deciding whether to work with
-Victor. Projects only; no day job on the site.
+Victor. Projects only; the day job gets one line saying the work is separate from it.
 
 ## Direction contract
 
@@ -30,6 +30,15 @@ FIRST VIEWPORT: Desk: heavy rule; small label "Work"; "Victor Saly" large; one l
 count and the two links (GitHub, email) in quiet type. Plate 01 starts inside the fold: screen in the left
 seven columns, at right its number, title in marigold, message, and the facts table with Use it and Source as
 controls. Phone: masthead, then plate 01's screen full width with its title below.
+
+CATALOGUE APPARATUS (added 2026-11-21, after the first critique): like a printed catalogue, it has a contents
+page and sections. Under the masthead, "The apps, by kind" lists every project in four ruled columns, live ones
+numbered; on a phone only the four kinds show, as jump links. The plates
+follow in sections by kind (For clients and customers, Games, For my kids, AI tools), each opened by its label's
+strong rule. Only finished projects with a live link and a screenshot are listed. Plate numbers run straight through. A plate's facts table may
+carry "Made for" (client, customers, team) and says "Private" when the source is private. Screens print in black
+and white only for a fine pointer; touch screens show colour. On a phone the first viewport now ends on the
+contents' kinds rather than plate 01: the contents earns that place.
 
 FORM: Specimen plates, number 2 of 7 on my list, seed 6789f5f0.
 

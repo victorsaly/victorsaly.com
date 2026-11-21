@@ -1,6 +1,7 @@
 ---
 title: SideShot
 order: 7
+kind: tools
 summary: An agent skill that puts before-and-after screenshots in every pull request that changes what people
   see, on a desk and a phone. You ask your coding agent to SideShot the PR, and it does the rest.
 url: https://skills.victorsaly.com/sideshot

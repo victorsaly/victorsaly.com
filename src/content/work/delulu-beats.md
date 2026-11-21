@@ -1,6 +1,7 @@
 ---
 title: Delulu Beats
 order: 10
+kind: games
 summary: Nine full-screen games for colour, pitch, duration, rhythm, spatial memory and melody — see
   it, hear it, remember it, then dial it back in. Plus Beat Lab, a browser studio for building and
   downloading your own loop. Everything is synthesised in the Web Audio API; there is a seeded daily

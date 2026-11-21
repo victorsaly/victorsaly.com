@@ -21,20 +21,30 @@ link, and must still find the thing they came for in one tap.
 ## What it is
 
 A summary of the work Victor has done: the projects he has built, each with what it does, how it was made, and
-a link to use it and to read its source. The site says plainly that these are hobby apps, built in his own time
-as personal work, while he works professionally at Storm Technologies (decided 2026-10-26). It says no more
-about the day job than that one line; LinkedIn, linked from the masthead and the footer, covers the rest.
+a link to use it and, where it is public, to read its source. The masthead leads with the range: apps, games
+and tools, a few for clients and paying customers, most begun for his kids or himself (decided 2026-11-21,
+replacing the "hobby apps" line of 2026-10-26 once a client site and a paid app joined the work). It still says
+plainly that all of it is his own work, separate from his job at Storm Technologies, and no more about the
+day job than that one line; LinkedIn, linked from the masthead and the footer, covers the rest.
 
 Live projects (each has a page at `/work/<slug>`): Delulu Beats, Shut The Cube, CorrelateAI, FeedMe AI,
-LiliArt, Lili's Story World, Oliver Math, and the Agentic Blog with Roadbook, the framework under it.
-Source-only projects are listed without a page. Lab_Agents stays off until it is finished. Each project is a
+LiliArt, Lili's Story World, Oliver Math, Valentino Salon (a salon's site), Cloisto (a Mac app for
+accountants), the Analyst Agent (a team course capstone I led), and the Agentic Blog with Roadbook, the framework under it.
+Valentino Salon and Cloisto have private source, so their Source row says "Private". Every project has a
+`kind`, and the home page groups the work by it, strongest evidence for a client first: For clients and
+customers, Games, For my kids, AI tools (the list and order are in `src/lib/projects.ts`). A contents list,
+"The apps, by kind", sits under the masthead and names every project; the header links to apps.victorsaly.com.
+Only finished projects with a live link and a screenshot are shown; the source-only list (PayBatch, World
+Leaders Game, dbschema-markdown, Oliver Vocabulary, Shut The Box 2018) was taken off on 2026-11-21 and is in
+the git history. Colour Varia waits for the client's
+sign-off and Sussed is still being built; both stay off until then. Lab_Agents stays off until it is finished. Each project is a
 Markdown file in `src/content/work/`; the home page also shows the newest three posts from the blog's feed.
 
 ## What must stay true
 
 - Every project is real and linked: a live app, its source, or both. Nothing is mocked or described beyond
   what it does.
-- Most projects are free, work offline and need no account. The site itself loads nothing from a CDN at
+- Most of the free projects work offline and need no account. The site itself loads nothing from a CDN at
   runtime and has no analytics.
 - Shut The Cube's daily leaderboard (from `api.victorsaly.com`) stays, and hides itself when the API is down
   or there are no scores.

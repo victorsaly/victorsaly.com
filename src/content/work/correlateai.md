@@ -1,6 +1,7 @@
 ---
 title: CorrelateAI
 order: 30
+kind: tools
 summary: Pick any two real public datasets and it tells you whether the correlation is real or a
   coincidence. Two things that rise over the same decades will almost always correlate, so it
   removes each series’ time trend and checks whether the link survives. A toy with a serious point

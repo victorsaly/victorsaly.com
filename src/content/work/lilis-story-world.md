@@ -1,6 +1,7 @@
 ---
 title: Lili's Story World
 order: 60
+kind: kids
 summary: An illustrated read-along storybook site for a young dyslexic author — my daughter. It
   reads aloud with the current word highlighted, gives each character its own voice, and pairs every
   paragraph with its own artwork. Built around what actually helps her read, not around what looks

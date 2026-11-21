@@ -1,6 +1,7 @@
 ---
 title: Agentic Blog
 order: 5
+kind: tools
 summary: A blog where every post starts as a voice note, kept exactly as it came out. AI agents tidy it
   into a post, and I read every change and merge it before anything goes live.
 url: https://blog.victorsaly.com

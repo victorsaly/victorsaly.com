@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
-import { alsoSchema, workSchema } from './schema';
+import { workSchema } from './schema';
 
 // fileURLToPath, not .pathname: a pathname is percent-encoded, so a checkout under a folder with a space
 // in its name would make every file look missing.
@@ -47,6 +47,7 @@ describe('a project film', () => {
   const base = {
     title: 'A project',
     order: 1,
+    kind: 'tools',
     summary: 'What the project does, in a sentence or two.',
     url: 'https://example.com',
     host: 'example.com',
@@ -63,16 +64,5 @@ describe('a project film', () => {
     expect(workSchema.parse(base).filmShape).toBe('portrait');
     expect(workSchema.parse({ ...base, filmShape: 'landscape' }).filmShape).toBe('landscape');
     expect(workSchema.safeParse({ ...base, filmShape: 'square' }).success).toBe(false);
-  });
-});
-
-describe('projects with the source only (src/content/also.yaml)', () => {
-  const also: unknown = parse(readFileSync(here('./also.yaml'), 'utf8'));
-
-  it('is a list where each entry says what the schema asks for, with its own id', () => {
-    expect(Array.isArray(also)).toBe(true);
-    const entries = (also as unknown[]).map((entry) => alsoSchema.parse(entry));
-    const ids = entries.map((entry) => entry.id);
-    expect(new Set(ids).size).toBe(ids.length);
   });
 });

@@ -1,17 +1,15 @@
 ---
 /*
- * The home page: whose work this is, in one heavy-ruled masthead, then the work itself as a catalogue of
- * plates, live projects first, each with its real screen. Then the projects with source only, as ruled
- * rows, how all of it gets made, and the newest writing from the blog, where that is written up. The
- * first plate starts inside the first screen on a desk.
+ * The home page: whose work this is, in one heavy-ruled masthead, then a contents list of every app by kind,
+ * then the work itself as a catalogue of plates, one section per kind, strongest evidence for a client
+ * first. Then how all of it gets made, and the newest writing from the blog.
  */
 import Base from '../layouts/Base.astro';
 import Plate from '../components/Plate.astro';
-import { getAlso, getWork } from '../lib/projects';
+import { getWork, kinds } from '../lib/projects';
 import { latestWriting } from '../lib/writing';
 
 const live = await getWork();
-const repos = await getAlso();
 const writing = await latestWriting();
 const dateFormat = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
@@ -19,30 +17,37 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
   timeZone: 'Europe/London',
 });
+const pad = (n: number): string => String(n).padStart(2, '0');
+// Each group with its plates, numbered straight through the page.
+const groups = kinds
+  .map((kind) => ({
+    ...kind,
+    plates: live
+      .map((entry, index) => ({ entry, number: index + 1 }))
+      .filter(({ entry }) => entry.data.kind === kind.id),
+  }))
+  .filter((group) => group.plates.length > 0);
 ---
 
 <Base
-  title="Victor Saly — games, learning tools, and small useful things"
-  description="Hobby apps I build in my own time, as personal work: browser games, learning tools for my kids, and utilities that solve one problem well. Most are free, most work offline, and all of them are here."
+  title="Victor Saly — apps, games and tools"
+  description="Apps, games and tools by Victor Saly, made in London: a few for clients and paying customers, most for his kids and himself. Each one is live or has its source, with how it was built."
   path="/"
 >
-  <div class="frame">
-    <header class="masthead">
+  <main id="main" class="frame">
+    <div class="masthead">
       <div class="name">
         <h1 class="display">Victor Saly</h1>
-        <p class="tagline">I build small web things that do one job well.</p>
+        <p class="tagline">I build apps that do one job well.</p>
       </div>
       <div class="intro">
         <p class="personal">
-          These are hobby apps, built in my own time as personal work. Professionally, I work at
-          Storm Technologies.
+          Apps, games and tools. A few are for clients and paying customers. Most began as something
+          my kids or I needed.
         </p>
         <p>
-          Games, learning tools, and utilities, made in London. Most of them started as something my
-          kids asked for. Most are free, work offline, and need no account.
-        </p>
-        <p class="small quiet count">
-          {live.length} live projects, and {repos.length} more with the source only.
+          All of it is my own work, separate from my job at Storm Technologies. Made in London. Most
+          of the free ones work offline and need no account.
         </p>
         <p class="reach">
           <a class="control filled" href="mailto:info@victorsaly.com">Say hello</a>
@@ -50,60 +55,61 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
           <a class="control" href="https://github.com/victorsaly">GitHub</a>
         </p>
       </div>
-    </header>
-  </div>
+    </div>
 
-  <main id="main" class="frame">
-    <section aria-labelledby="live-label" class="live">
-      <h2 class="visually-hidden" id="live-label">Live projects</h2>
-      {
-        live.map((project, index) => (
-          <Plate project={project} number={index + 1} first={index === 0} />
-        ))
-      }
-    </section>
-
-    <section aria-labelledby="also" class="also">
-      <h2 class="label" id="also">Also built, source only</h2>
-      <p class="small quiet note">
-        Finished enough to read, without a live link: desktop apps, tools, and things made with the
-        kids.
+    <nav class="contents" aria-labelledby="apps">
+      <h2 class="label" id="apps">The apps, by kind</h2>
+      <p class="small quiet count">
+        {live.length} live now, each with its page on how it was built.
       </p>
-      <ul class="rows">
+      <ul class="groups">
         {
-          repos.map(({ data: project }) => (
+          groups.map((group) => (
             <li>
-              <h3>
-                {project.links.map((link, i) => (
-                  <>
-                    {i > 0 && ' and '}
-                    <a href={link.href}>
-                      <mark>{link.label}</mark>
+              <a class="group" href={`#${group.id}`}>
+                {group.title}
+                <span class="quiet">{group.plates.length}</span>
+              </a>
+              <ul class="items">
+                {group.plates.map(({ entry, number }) => (
+                  <li>
+                    <a href={`#work-${entry.id}`}>
+                      <span class="n">{pad(number)}</span>
+                      {entry.data.title}
                     </a>
-                  </>
+                  </li>
                 ))}
-              </h3>
-              <p class="what">{project.summary}</p>
-              <p class="small quiet">{project.tech.join(', ')}</p>
+              </ul>
             </li>
           ))
         }
       </ul>
-    </section>
+    </nav>
+
+    {
+      groups.map((group) => (
+        <section aria-labelledby={group.id} class="kind">
+          <h2 class="label" id={group.id}>
+            {group.title}
+          </h2>
+          {group.plates.map(({ entry, number }) => (
+            <Plate project={entry} number={number} first={number === 1} />
+          ))}
+        </section>
+      ))
+    }
 
     <section aria-labelledby="made" class="made">
       <h2 class="label" id="made">How these get made</h2>
       <p class="said">A weekend is enough to finish something small, and finish it properly.</p>
       <p>
         Nearly all of this is built with an AI pair: I decide what it should be and why, and review
-        every line that lands. Real tests, real accessibility, no analytics, no accounts, nothing
-        loaded from a CDN at runtime. The constraint I keep is that each one has to work with the
-        network off. How that works is written up on <a href="https://blog.victorsaly.com"
-          >the blog</a
+        every line that lands. Real tests, real accessibility, no analytics. Where I can, each one
+        works with the network off and needs no account. How that works is written up on <a
+          href="https://blog.victorsaly.com">the blog</a
         >.
       </p>
     </section>
-
     {
       writing.length > 0 && (
         <section aria-labelledby="writing" class="writing">
@@ -169,7 +175,86 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
     margin: 0;
   }
 
-  .also,
+  .live {
+    scroll-margin-top: var(--space-6);
+  }
+  .live .note {
+    margin-bottom: var(--space-4);
+  }
+  /* The contents: every app, by kind, so the whole body of work reads in one look before the plates. On a
+     desk the four kinds stand side by side as columns; on a phone only the kinds show, as jump links. */
+  .contents {
+    margin-bottom: var(--space-5);
+  }
+  .count {
+    margin: var(--space-2) 0 0;
+  }
+  .groups {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 0 var(--space-5);
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    max-width: none;
+  }
+  .groups > li {
+    border-top: var(--rule-width) solid var(--ink);
+  }
+  .groups .group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: var(--tap);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .groups .group:hover,
+  .items a:hover {
+    text-decoration: underline;
+  }
+  .groups .group .quiet {
+    font-size: var(--size-small);
+    font-variant-numeric: tabular-nums;
+  }
+  .items {
+    list-style: none;
+    margin: 0 0 var(--space-3);
+    padding: 0;
+  }
+  .items a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.625rem;
+    padding-block: 0.3rem;
+    text-decoration: none;
+    line-height: 1.35;
+  }
+  .items .n {
+    flex: none;
+    width: 1.75rem;
+    font-size: var(--size-small);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--quiet);
+  }
+
+  /* A group: its label's strong rule opens the first plate, so that plate drops its own. */
+  .kind {
+    scroll-margin-top: var(--space-6);
+  }
+  .kind + .kind {
+    margin-top: var(--space-5);
+  }
+  .kind > :global(article.plate:first-of-type) {
+    border-top: 0;
+  }
+  .kind > :global(article.plate) {
+    scroll-margin-top: var(--space-6);
+  }
+
   .made,
   .writing {
     margin-top: var(--space-5);
@@ -186,9 +271,6 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
     align-items: center;
     min-height: var(--tap);
     font-weight: 700;
-  }
-  .note {
-    margin: var(--space-3) 0 0;
   }
   .rows {
     list-style: none;
@@ -240,11 +322,36 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
     .masthead {
       grid-template-columns: minmax(0, 1fr);
     }
+    /* On a narrow screen the contents keeps only the kinds, two to a row, so the plates come sooner. */
+    .groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 var(--space-3);
+    }
+    .items {
+      display: none;
+    }
     .rows li {
       grid-template-columns: minmax(0, 1fr);
     }
     .rows h3 {
       grid-row: auto;
+    }
+  }
+  /* A phone: the masthead gives up its top margin and the name and tagline sit tighter. */
+  @media (max-width: 34rem) {
+    .masthead {
+      margin-top: var(--space-4);
+      padding-bottom: var(--space-4);
+      gap: var(--space-3);
+    }
+    .tagline {
+      margin-top: var(--space-2);
+    }
+    .intro p {
+      margin-bottom: var(--space-2);
+    }
+    .contents {
+      margin-bottom: var(--space-4);
     }
   }
 </style>

@@ -1,6 +1,7 @@
 ---
 title: Shut The Cube
 order: 20
+kind: games
 summary: The pub dice game Shut the Box, plus a nine-row variant of my own where a matching column
   of tiles collapses together for a bonus. Every tile plays its own note on a pentatonic scale, so a
   good move sounds deliberate. Installs as an app, plays with no network, keeps no account.
