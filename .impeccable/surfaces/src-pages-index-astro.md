@@ -33,9 +33,9 @@ controls. Phone: masthead, then plate 01's screen full width with its title belo
 
 CATALOGUE APPARATUS (added 2026-11-21, after the first critique): like a printed catalogue, it has a contents
 page and sections. Under the masthead, "The apps, by kind" lists every project in four ruled columns, live ones
-numbered, source-only ones in the quiet colour; on a phone only the four kinds show, as jump links. The plates
+numbered; on a phone only the four kinds show, as jump links. The plates
 follow in sections by kind (For clients and customers, Games, For my kids, AI tools), each opened by its label's
-strong rule, each ending with its source-only rows. Plate numbers run straight through. A plate's facts table may
+strong rule. Only finished projects with a live link and a screenshot are listed. Plate numbers run straight through. A plate's facts table may
 carry "Made for" (client, customers, team) and says "Private" when the source is private. Screens print in black
 and white only for a fine pointer; touch screens show colour. On a phone the first viewport now ends on the
 contents' kinds rather than plate 01: the contents earns that place.

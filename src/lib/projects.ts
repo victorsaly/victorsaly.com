@@ -8,7 +8,6 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Work } from '../content/schema';
 
 export type WorkEntry = CollectionEntry<'work'>;
-export type AlsoEntry = CollectionEntry<'also'>;
 export type Kind = Work['kind'];
 
 /** The groups, strongest evidence for a client first. `id` is also the section's anchor on the home page. */
@@ -29,6 +28,3 @@ const byKindThenOrder = <T extends { id: string; data: { kind: Kind; order: numb
 
 export const getWork = async (): Promise<WorkEntry[]> =>
   (await getCollection('work')).sort(byKindThenOrder);
-
-export const getAlso = async (): Promise<AlsoEntry[]> =>
-  (await getCollection('also')).sort(byKindThenOrder);

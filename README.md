@@ -28,14 +28,6 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
 | <img src="public/shots/lili.jpg" width="220" alt="Lili's Story World"> | **[Lili's Story World](https://victorsaly.github.io/LilianaBlog/)**<br>[about](https://victorsaly.com/work/lilis-story-world) · [source](https://github.com/victorsaly/LilianaBlog) | An illustrated read-along storybook for a young dyslexic author: read-aloud with word highlighting and a voice per character. |
 | <img src="public/shots/olivermath.jpg" width="220" alt="Oliver Math"> | **[Oliver Math](https://victorsaly.github.io/OliverMath/)**<br>[about](https://victorsaly.com/work/oliver-math) · [source](https://github.com/victorsaly/OliverMath) | A maths game children play by talking: a 3D robot asks out loud, the child answers out loud, Azure Speech listens. Built for a child who may not read fluently yet. |
 
-### Source only
-
-- **[PayBatch](https://github.com/victorsaly/batch-payment-app)** – offline desktop app (Electron) that builds UK bank bulk-payment files; encrypted at rest.
-- **[World Leaders Game](https://github.com/victorsaly/WorldLeadersGame)** – educational strategy game using real GDP data (.NET 8, Blazor Server, Azure OpenAI).
-- **[dbschema-markdown](https://github.com/victorsaly/dbschema-markdown)** – CLI that turns a database schema into markdown docs.
-- **[Oliver Vocabulary](https://github.com/victorsaly/OliverVocabulary)** – speech-driven vocabulary practice built with my son (Vue, Azure Speech, OpenAI).
-- **[Shut The Box (2018)](https://github.com/victorsaly/shutTheBox)** – the archived Vue 2 original that Shut The Cube replaced.
-
 ## The site
 
 <p>
@@ -48,8 +40,7 @@ Each one links to the live app and has its own write-up at `/work/<slug>` on the
   both are remembered per browser.
 - **Home page:** a masthead, a contents list of every app by kind, then the work grouped by kind (for
   clients and customers, games, for my kids, AI tools). Each live project is a plate: its real screen,
-  what it does, a short facts table, and two ways in. Each group ends with its source-only projects as
-  rows. With a mouse the screens are printed in black and white and pointing at a plate brings its
+  what it does, a short facts table, and two ways in. With a mouse the screens are printed in black and white and pointing at a plate brings its
   colour in; on a touch screen they are in colour. Then how these get made, and the newest three posts
   from the blog.
 - **Project pages** (`/work/<slug>`): the name, what it does with its first sentence marked, the screen
@@ -95,8 +86,8 @@ A live project is one Markdown file, `src/content/work/<slug>.md`: the facts in 
 (`title`, `order`, `kind`, `summary`, `url`, `host`, `shot`, `shotAlt`, `tech`; optionally `repo` (left out
 when the source is private), `madeFor` (a client, paying customers, a team) and a film with its poster and
 captions) and its story as the body. `kind` picks its group on the home page: `clients`, `games`, `kids` or
-`tools`; `order` sorts it within the group. The slug is its page's address. A project with the source only
-is one entry in `src/content/also.yaml`, with a `kind` too.
+`tools`; `order` sorts it within the group. The slug is its page's address. Only finished projects with a
+live link and a screenshot are listed.
 
 `src/content/schema.ts` says what each must have. The build and `npm run test` both check every file
 against it, and the tests also check that each screenshot, poster and caption file exists. Add the
@@ -107,7 +98,6 @@ screenshot to `public/shots/` (800px wide JPEG, or add the site to `scripts/shot
 
 ```
 src/content/work/        one Markdown file per live project
-src/content/also.yaml    the projects with the source only
 src/content/schema.ts    what a project file must say (used by the build and the tests)
 src/components/          Header, Footer, Plate, DailyBoards
 src/layouts/Base.astro   head, header, footer, font and theme restore

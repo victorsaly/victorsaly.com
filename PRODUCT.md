@@ -34,7 +34,9 @@ Valentino Salon and Cloisto have private source, so their Source row says "Priva
 `kind`, and the home page groups the work by it, strongest evidence for a client first: For clients and
 customers, Games, For my kids, AI tools (the list and order are in `src/lib/projects.ts`). A contents list,
 "The apps, by kind", sits under the masthead and names every project; the header links to apps.victorsaly.com.
-Source-only projects sit at the end of their own group, without a page. Colour Varia waits for the client's
+Only finished projects with a live link and a screenshot are shown; the source-only list (PayBatch, World
+Leaders Game, dbschema-markdown, Oliver Vocabulary, Shut The Box 2018) was taken off on 2026-11-21 and is in
+the git history. Colour Varia waits for the client's
 sign-off and Sussed is still being built; both stay off until then. Lab_Agents stays off until it is finished. Each project is a
 Markdown file in `src/content/work/`; the home page also shows the newest three posts from the blog's feed.
 

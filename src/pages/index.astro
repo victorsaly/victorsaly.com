@@ -2,16 +2,14 @@
 /*
  * The home page: whose work this is, in one heavy-ruled masthead, then a contents list of every app by kind,
  * then the work itself as a catalogue of plates, one section per kind, strongest evidence for a client
- * first. Each section ends with that kind's projects that have the source only, as ruled rows. Then how all
- * of it gets made, and the newest writing from the blog.
+ * first. Then how all of it gets made, and the newest writing from the blog.
  */
 import Base from '../layouts/Base.astro';
 import Plate from '../components/Plate.astro';
-import { getAlso, getWork, kinds } from '../lib/projects';
+import { getWork, kinds } from '../lib/projects';
 import { latestWriting } from '../lib/writing';
 
 const live = await getWork();
-const repos = await getAlso();
 const writing = await latestWriting();
 const dateFormat = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
@@ -20,16 +18,15 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/London',
 });
 const pad = (n: number): string => String(n).padStart(2, '0');
-// Each group with its plates (numbered straight through the page) and its source-only rows.
+// Each group with its plates, numbered straight through the page.
 const groups = kinds
   .map((kind) => ({
     ...kind,
     plates: live
       .map((entry, index) => ({ entry, number: index + 1 }))
       .filter(({ entry }) => entry.data.kind === kind.id),
-    rows: repos.filter((entry) => entry.data.kind === kind.id),
   }))
-  .filter((group) => group.plates.length + group.rows.length > 0);
+  .filter((group) => group.plates.length > 0);
 ---
 
 <Base
@@ -63,7 +60,7 @@ const groups = kinds
     <nav class="contents" aria-labelledby="apps">
       <h2 class="label" id="apps">The apps, by kind</h2>
       <p class="small quiet count">
-        {live.length} live now, numbered, and {repos.length} more with the source only, in grey.
+        {live.length} live now, each with its page on how it was built.
       </p>
       <ul class="groups">
         {
@@ -71,7 +68,7 @@ const groups = kinds
             <li>
               <a class="group" href={`#${group.id}`}>
                 {group.title}
-                <span class="quiet">{group.plates.length + group.rows.length}</span>
+                <span class="quiet">{group.plates.length}</span>
               </a>
               <ul class="items">
                 {group.plates.map(({ entry, number }) => (
@@ -79,15 +76,6 @@ const groups = kinds
                     <a href={`#work-${entry.id}`}>
                       <span class="n">{pad(number)}</span>
                       {entry.data.title}
-                    </a>
-                  </li>
-                ))}
-                {group.rows.map(({ data: row }) => (
-                  <li>
-                    <a class="source-only" href={`#also-${row.id}`}>
-                      <span class="n" aria-hidden="true" />
-                      {row.links.map((link) => link.label).join(' and ')}
-                      <span class="visually-hidden">(source only)</span>
                     </a>
                   </li>
                 ))}
@@ -107,26 +95,6 @@ const groups = kinds
           {group.plates.map(({ entry, number }) => (
             <Plate project={entry} number={number} first={number === 1} />
           ))}
-          {group.rows.length > 0 && (
-            <ul class="rows">
-              {group.rows.map(({ data: project }) => (
-                <li id={`also-${project.id}`}>
-                  <h3>
-                    {project.links.map((link, i) => (
-                      <>
-                        {i > 0 && ' and '}
-                        <a href={link.href}>
-                          <mark>{link.label}</mark>
-                        </a>
-                      </>
-                    ))}
-                  </h3>
-                  <p class="what">{project.summary}</p>
-                  <p class="small quiet">Source only. {project.tech.join(', ')}</p>
-                </li>
-              ))}
-            </ul>
-          )}
         </section>
       ))
     }
@@ -264,10 +232,6 @@ const groups = kinds
     text-decoration: none;
     line-height: 1.35;
   }
-  /* A project with the source only: no number, and in the quiet colour, like its row further down. */
-  .items .source-only {
-    color: var(--quiet);
-  }
   .items .n {
     flex: none;
     width: 1.75rem;
@@ -288,13 +252,6 @@ const groups = kinds
     border-top: 0;
   }
   .kind > :global(article.plate) {
-    scroll-margin-top: var(--space-6);
-  }
-  .kind > .rows:first-child,
-  .kind > .label + .rows {
-    border-top: 0;
-  }
-  .rows li {
     scroll-margin-top: var(--space-6);
   }
 

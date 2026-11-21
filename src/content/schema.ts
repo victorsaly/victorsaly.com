@@ -43,15 +43,4 @@ export const workSchema = z
     message: 'a film needs a poster and WebVTT captions',
   });
 
-/** A project with the source only: one entry in src/content/also.yaml. */
-export const alsoSchema = z.object({
-  id: z.string().min(1),
-  order: z.number().int().nonnegative(),
-  kind,
-  links: z.array(z.object({ label: z.string().min(1), href: z.url() })).min(1),
-  summary: z.string().min(20).max(500),
-  tech: z.array(z.string().min(1)).min(1),
-});
-
 export type Work = z.infer<typeof workSchema>;
-export type Also = z.infer<typeof alsoSchema>;
