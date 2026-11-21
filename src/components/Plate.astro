@@ -2,14 +2,18 @@
 /*
  * A plate: one project as a page of a printed catalogue. A strong rule opens it; its real screen sits in a
  * hairline frame on the left; on the right, its number (quiet, so the title leads), its title as the
- * plate's one marigold mark, what it does, a short facts table, and two ways in: open the thing itself,
- * or read how it was built. The screen carries a view-transition name, so it travels into its page.
- * With a mouse the screens are printed in black and white, like the rest of the page, and pointing at a
- * plate (or tabbing into it) brings its colour in. A touch screen has no pointing, so there they are in
- * colour from the start; otherwise a game and a dashboard would look the same. Its own page always shows
- * it in colour.
+ * plate's one marigold mark, what it does, a short facts table, and two ways in: open the thing itself
+ * (in a new tab, so this page stays where the reader left it), or read how it was built. The screen carries
+ * a view-transition name, so it travels into its page. Screens are in colour: the apps are colourful, and
+ * that is how a game tells itself apart from a dashboard at a glance.
+ *
+ * A project with a film plays six silent seconds of it over the screen while a mouse is on the plate: the
+ * one moving thing on the page. Nothing is fetched until then, and it never plays on a touch screen or for
+ * a reader who asked for less motion. Its Watch the intro button plays the whole film, with sound and
+ * captions, in the home page's player; without JavaScript it is a plain link to the film on its page.
  */
 import type { WorkEntry } from '../lib/projects';
+import { previewOf } from '../lib/media';
 
 interface Props {
   project: WorkEntry;
@@ -23,9 +27,20 @@ const project = entry.data;
 const slug = entry.id;
 const page = `/work/${slug}`;
 const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
+const preview = project.film ? previewOf(project.film) : undefined;
+// 55 → "0:55", 94 → "1:34"
+const length =
+  project.filmLength === undefined
+    ? undefined
+    : `${Math.floor(project.filmLength / 60)}:${String(project.filmLength % 60).padStart(2, '0')}`;
 ---
 
-<article class="plate" id={`work-${slug}`} aria-labelledby={`plate-${slug}`}>
+<article
+  class="plate"
+  id={`work-${slug}`}
+  aria-labelledby={`plate-${slug}`}
+  data-preview={preview ? '' : undefined}
+>
   <a class="screen" href={page} tabindex="-1" aria-hidden="true">
     <img
       src={project.shot}
@@ -36,6 +51,21 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
       decoding="async"
       style={`view-transition-name: shot-${slug}`}
     />
+    {
+      preview && (
+        <video
+          class="preview"
+          src={preview}
+          muted
+          loop
+          playsinline
+          preload="none"
+          disablepictureinpicture
+          width="800"
+          height="500"
+        />
+      )
+    }
   </a>
   <div class="about">
     <p class="n" aria-hidden="true">{String(number).padStart(2, '0')}</p>
@@ -62,7 +92,14 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
           {
             project.repo ? (
               <>
-                <a href={project.repo}>{repoLabel}</a> on GitHub
+                <a
+                  href={project.repo}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`${repoLabel} (opens in a new tab)`}
+                  set:text={repoLabel}
+                />{' '}
+                on GitHub
               </>
             ) : (
               'Private'
@@ -72,8 +109,28 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
       </div>
     </dl>
     <p class="ways">
-      <a class="control" href={project.url}>
+      {
+        project.film && (
+          <a
+            class="control watch"
+            href={`${page}#film`}
+            data-film={project.film}
+            data-poster={project.filmPoster}
+            data-captions={project.filmCaptions}
+            data-shape={project.filmShape}
+            data-title={project.title}
+          >
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12">
+              <path d="M2 1v10l9-5z" fill="currentColor" />
+            </svg>
+            Watch the intro
+            {length && <span class="length">{length}</span>}
+          </a>
+        )
+      }
+      <a class="control" href={project.url} target="_blank" rel="noopener">
         Open {project.host}
+        <span class="visually-hidden"> (opens in a new tab)</span>
         <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M3 1h8v8M11 1 1 11" stroke="currentColor" stroke-width="1.75"></path>
         </svg>
@@ -92,26 +149,22 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
     padding-block: var(--space-4) var(--space-6);
     border-top: var(--rule-strong) solid var(--ink);
   }
-  .screen img {
-    transition: filter 200ms ease;
+  /* The preview sits exactly over the still and fades in once it is really playing, so a slow network
+     shows the still rather than a black box. */
+  .screen {
+    position: relative;
   }
-  @media (hover: hover) and (pointer: fine) {
-    .screen img {
-      filter: grayscale(1);
-    }
+  .preview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 240ms var(--ease-out);
   }
-  .plate:focus-within .screen img {
-    filter: none;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .plate:hover .screen img {
-      filter: none;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .screen img {
-      transition: none;
-    }
+  .plate.playing .preview {
+    opacity: 1;
   }
   .about {
     min-width: 0;
@@ -143,6 +196,10 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
     font-size: 1.0625rem;
     line-height: 1.55;
   }
+  .watch .length {
+    font-variant-numeric: tabular-nums;
+    font-weight: 400;
+  }
   .ways {
     display: flex;
     flex-wrap: wrap;
@@ -158,3 +215,31 @@ const repoLabel = project.repo?.replace(/^https:\/\/github\.com\//, '');
     }
   }
 </style>
+
+<script>
+  // Plays a plate's preview while a mouse is on the plate. Only for a fine pointer, and never when the
+  // reader asked for less motion; the video downloads on the first hover, not before.
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  for (const plate of document.querySelectorAll<HTMLElement>('.plate[data-preview]')) {
+    const video = plate.querySelector<HTMLVideoElement>('video.preview');
+    if (!video) continue;
+    plate.addEventListener('pointerenter', () => {
+      if (!fine.matches || still.matches) return;
+      video
+        .play()
+        .then(() => {
+          // the pointer may have left while it was loading
+          if (plate.matches(':hover')) plate.classList.add('playing');
+          else video.pause();
+        })
+        .catch(() => {
+          /* blocked or failed: the still stays, which is fine */
+        });
+    });
+    plate.addEventListener('pointerleave', () => {
+      plate.classList.remove('playing');
+      video.pause();
+    });
+  }
+</script>

@@ -11,6 +11,7 @@ shot: /shots/sideshot.jpg
 film: /film/sideshot.mp4
 filmPoster: /film/sideshot.jpg
 filmCaptions: /film/sideshot.vtt
+filmLength: 37
 filmShape: landscape
 filmCaption: "Thirty-six seconds, narrated: a pull request that changes a pricing card, and SideShot putting
   its before and after into the pull request."

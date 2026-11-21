@@ -12,6 +12,7 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "shots": "node scripts/shots.mjs",
+    "previews": "node scripts/previews.mjs",
     "og": "node scripts/og.mjs"
   },
   "dependencies": {

@@ -1,12 +1,14 @@
 ---
 /*
- * The home page: whose work this is, in one heavy-ruled masthead, then a contents list of every app by kind,
+ * The home page: whose work this is, in one heavy-ruled masthead with the blog's portrait print, then a cover
+ * of every screen at once, then a contents list of every app by kind,
  * then the work itself as a catalogue of plates, one section per kind, strongest evidence for a client
  * first. Then how all of it gets made, and the newest writing from the blog.
  */
 import Base from '../layouts/Base.astro';
 import Plate from '../components/Plate.astro';
 import { getWork, kinds } from '../lib/projects';
+import { thumbOf } from '../lib/media';
 import { latestWriting } from '../lib/writing';
 
 const live = await getWork();
@@ -37,8 +39,18 @@ const groups = kinds
   <main id="main" class="frame">
     <div class="masthead">
       <div class="name">
-        <h1 class="display">Victor Saly</h1>
-        <p class="tagline">I build apps that do one job well.</p>
+        <img
+          class="portrait"
+          src="/portrait.webp"
+          alt="Victor Saly, drawn as a linocut print"
+          width="480"
+          height="480"
+          decoding="async"
+        />
+        <div>
+          <h1 class="display">Victor Saly</h1>
+          <p class="tagline">I build apps that do one job well.</p>
+        </div>
       </div>
       <div class="intro">
         <p class="personal">
@@ -55,6 +67,20 @@ const groups = kinds
           <a class="control" href="https://github.com/victorsaly">GitHub</a>
         </p>
       </div>
+    </div>
+
+    <!-- The cover: every screen at once, like the front of a printed catalogue, before a word is read.
+         It repeats what the contents list says in words, so it is hidden from screen readers and the
+         keyboard; with a mouse, each screen jumps to its plate. -->
+    <div class="cover" aria-hidden="true" style={`--cols: ${Math.ceil(live.length / 2)}`}>
+      {
+        live.map((entry, index) => (
+          <a href={`#work-${entry.id}`} tabindex="-1">
+            <img src={thumbOf(entry.data.shot)} alt="" width="400" height="250" decoding="async" />
+            <span class="n">{pad(index + 1)}</span>
+          </a>
+        ))
+      }
     </div>
 
     <nav class="contents" aria-labelledby="apps">
@@ -138,6 +164,18 @@ const groups = kinds
       )
     }
   </main>
+
+  <!-- The player: one dialog for every plate's Watch the intro. It is a modal because a film with sound
+       wants the reader's whole attention, and Esc or Close hands the page back where they left it. -->
+  <dialog class="player" aria-labelledby="player-title">
+    <div class="bar">
+      <h2 id="player-title">The intro</h2>
+      <button type="button" class="control" data-close>Close</button>
+    </div>
+    <video controls playsinline preload="none">
+      <track kind="captions" srclang="en" label="English" default />
+    </video>
+  </dialog>
 </Base>
 
 <style>
@@ -152,6 +190,21 @@ const groups = kinds
     padding-top: var(--space-4);
     padding-bottom: var(--space-5);
     border-top: var(--rule-heavy) solid var(--ink);
+  }
+  /* The portrait print beside the name, as on the blog's home page. In dark mode a print keeps its paper,
+     dimmed, with a paper margin (the --print tokens), because inverting a linocut turns the face dark. */
+  .name {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+  .portrait {
+    flex: none;
+    width: clamp(6.5rem, 4rem + 9vw, 12rem);
+    height: auto;
+    padding: var(--print-pad);
+    background: var(--print-paper);
+    filter: var(--print-filter);
   }
   .personal {
     font-weight: 700;
@@ -181,6 +234,41 @@ const groups = kinds
   .live .note {
     margin-bottom: var(--space-4);
   }
+  /* The cover: every screen small, two rows on a desk (as many columns as half the projects), each in the
+     hairline frame the plates use, its number under it. Pointing at one draws its frame in the strong rule.
+     On a phone it is one row you swipe. */
+  .cover {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: var(--space-3) var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+  .cover a {
+    display: block;
+    text-decoration: none;
+  }
+  .cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 8 / 5;
+    object-fit: cover;
+    outline: var(--rule-width) solid var(--ink);
+    outline-offset: 0;
+    transition: outline-width var(--duration-press) var(--ease-out);
+  }
+  .cover a:hover img {
+    outline-width: var(--rule-strong);
+  }
+  .cover .n {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--quiet);
+  }
+
   /* The contents: every app, by kind, so the whole body of work reads in one look before the plates. On a
      desk the four kinds stand side by side as columns; on a phone only the kinds show, as jump links. */
   .contents {
@@ -337,6 +425,28 @@ const groups = kinds
       grid-row: auto;
     }
   }
+  @media (max-width: 52rem) {
+    .cover {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 9.5rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      padding: 3px 3px var(--space-2);
+      margin-inline: -3px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--quiet) transparent;
+    }
+    .cover a {
+      scroll-snap-align: start;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover img {
+      transition: none;
+    }
+  }
   /* A phone: the masthead gives up its top margin and the name and tagline sit tighter. */
   @media (max-width: 34rem) {
     .masthead {
@@ -354,4 +464,89 @@ const groups = kinds
       margin-bottom: var(--space-4);
     }
   }
+
+  /* The player, in the page's hand: paper, a strong ink frame, no radius and no shadow. A portrait film
+     gets a tall, narrow player; a landscape one a wide one. */
+  .player {
+    width: min(60rem, calc(100vw - 2 * var(--pad)));
+    max-height: calc(100dvh - 2 * var(--space-4));
+    padding: var(--space-3);
+    border: var(--rule-strong) solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  /* Portrait: the height decides. The film is as tall as the screen allows and the player wraps it. */
+  .player.portrait {
+    width: fit-content;
+    max-width: calc(100vw - 2 * var(--pad));
+  }
+  .player.portrait video {
+    width: auto;
+    height: min(46rem, calc(100dvh - 11rem));
+    max-width: 100%;
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+  }
+  .player.portrait h2 {
+    font-size: 1.125rem;
+  }
+  .player::backdrop {
+    background: rgb(0 0 0 / 0.72);
+  }
+  .player .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .player h2 {
+    margin: 0;
+    font-size: var(--size-h2);
+    line-height: var(--leading-tight);
+  }
+  .player video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 11rem);
+    background: #000;
+  }
 </style>
+
+<script>
+  // Watch the intro: plays a plate's film in the one dialog. The button is a real link to the film on the
+  // project's page, so it still works if this script does not run.
+  const player = document.querySelector<HTMLDialogElement>('dialog.player');
+  const video = player?.querySelector('video');
+  const title = player?.querySelector('h2');
+  const track = video?.querySelector('track');
+  if (player && video && title && typeof player.showModal === 'function') {
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('a.watch[data-film]')) {
+      link.addEventListener('click', (event) => {
+        const { film, poster, captions, shape, title: name } = link.dataset;
+        if (!film) return;
+        event.preventDefault();
+        title.textContent = `${name ?? ''}: the intro`;
+        player.classList.toggle('portrait', shape === 'portrait');
+        if (track) track.src = captions ?? '';
+        video.poster = poster ?? '';
+        video.src = film;
+        player.showModal();
+        void video.play().catch(() => {
+          /* autoplay with sound was refused: the controls are there */
+        });
+      });
+    }
+    // Closing by the button, Esc or a click on the backdrop all stop the film and let go of the file.
+    player.querySelector('[data-close]')?.addEventListener('click', () => player.close());
+    player.addEventListener('click', (event) => {
+      if (event.target === player) player.close();
+    });
+    player.addEventListener('close', () => {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    });
+  }
+</script>

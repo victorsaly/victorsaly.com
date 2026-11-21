@@ -9,6 +9,12 @@ summary: The website for a hair and beauty salon that has been in Kensington sin
 url: https://www.valentinolondon.co.uk
 host: valentinolondon.co.uk
 shot: /shots/valentino.jpg
+film: /film/valentino.mp4
+filmPoster: /film/valentino.jpg
+filmCaptions: /film/valentino.vtt
+filmShape: portrait
+filmLength: 37
+filmCaption: "Thirty-six seconds, narrated: the launch reel I made for the salon's Instagram, built from the real site. Prices are blurred because they change."
 shotAlt: 'The Valentino Salon home page: "45 Years in Kensington" in a large serif on cream, with Book Now
   and Price List buttons'
 tech:

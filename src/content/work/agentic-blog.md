@@ -11,6 +11,7 @@ shot: /shots/agenticblog.jpg
 film: /film/agentic-blog.mp4
 filmPoster: /film/agentic-blog.jpg
 filmCaptions: /film/agentic-blog.vtt
+filmLength: 60
 filmShape: landscape
 filmCaption: "A minute, narrated: talk for two minutes, and agents turn it into a post you approve before it
   goes live."

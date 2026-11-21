@@ -71,7 +71,7 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
         <h2 class="label" id="story">The story</h2>
         {
           project.film && (
-            <figure class:list={['film', project.filmShape]}>
+            <figure class:list={['film', project.filmShape]} id="film">
               <video
                 src={project.film}
                 poster={project.filmPoster}
@@ -115,7 +115,11 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
           </div>
           <div>
             <dt>Runs at</dt>
-            <dd><a href={project.url}>{project.host}</a></dd>
+            <dd>
+              <a href={project.url} target="_blank" rel="noopener"
+                >{project.host}<span class="visually-hidden"> (opens in a new tab)</span></a
+              >
+            </dd>
           </div>
           <div>
             <dt>Source</dt>
@@ -123,7 +127,14 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
               {
                 project.repo ? (
                   <>
-                    <a href={project.repo}>{repoLabel}</a> on GitHub
+                    <a
+                      href={project.repo}
+                      target="_blank"
+                      rel="noopener"
+                      aria-label={`${repoLabel} (opens in a new tab)`}
+                      set:text={repoLabel}
+                    />{' '}
+                    on GitHub
                   </>
                 ) : (
                   'Private'
@@ -133,8 +144,9 @@ const [message = project.summary, ...rest] = project.summary.split(/(?<=[.!?])\s
           </div>
         </dl>
         <p class="ways">
-          <a class="control filled" href={project.url}>
+          <a class="control filled" href={project.url} target="_blank" rel="noopener">
             Open {project.host}
+            <span class="visually-hidden"> (opens in a new tab)</span>
             <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M3 1h8v8M11 1 1 11" stroke="currentColor" stroke-width="1.75"></path>
             </svg>

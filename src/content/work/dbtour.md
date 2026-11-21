@@ -12,6 +12,7 @@ shot: /shots/dbtour.jpg
 film: /film/dbtour.mp4
 filmPoster: /film/dbtour.jpg
 filmCaptions: /film/dbtour.vtt
+filmLength: 94
 filmShape: landscape
 filmCaption: "A minute and a half, narrated: from one command to a documented SQL Server database, then the same
   tour for an AI agent. Filmed on a demo database with made-up rows."
