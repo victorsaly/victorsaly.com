@@ -28,16 +28,16 @@ plainly that all of it is his own work, separate from his job at Storm Technolog
 day job than that one line; LinkedIn, linked from the masthead and the footer, covers the rest.
 
 Live projects (each has a page at `/work/<slug>`): Delulu Beats, Shut The Cube, CorrelateAI, FeedMe AI,
-LiliArt, Lili's Story World, Oliver Math, Valentino Salon (a salon's site), Cloisto (a Mac app for
+LiliArt, Lili's Story World, Oliver Math, Valentino Salon (a salon's site), Colour Varia (a client's app site, moved off Webflow), Cloisto (a Mac app for
 accountants), the Analyst Agent (a team course capstone I led), and the Agentic Blog with Roadbook, the framework under it.
-Valentino Salon and Cloisto have private source, so their Source row says "Private". Every project has a
+Valentino Salon, Colour Varia and Cloisto have private source, so their Source row says "Private". Every project has a
 `kind`, and the home page groups the work by it, strongest evidence for a client first: For clients and
 customers, Games, For my kids, AI tools (the list and order are in `src/lib/projects.ts`). A contents list,
 "The apps, by kind", sits under the masthead and names every project; the header links to apps.victorsaly.com.
 Only finished projects with a live link and a screenshot are shown; the source-only list (PayBatch, World
 Leaders Game, dbschema-markdown, Oliver Vocabulary, Shut The Box 2018) was taken off on 2026-11-21 and is in
-the git history. Colour Varia waits for the client's
-sign-off and Sussed is still being built; both stay off until then. Lab_Agents stays off until it is finished. Each project is a
+the git history. Sussed is still being built and stays off until
+it is finished. Lab_Agents stays off until it is finished. Each project is a
 Markdown file in `src/content/work/`; the home page also shows the newest three posts from the blog's feed.
 
 ## What must stay true
