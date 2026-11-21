@@ -32,6 +32,7 @@ const SITES = {
   sideshot: { url: 'https://skills.victorsaly.com/sideshot', scheme: 'light' },
   dbtour: { url: 'https://skills.victorsaly.com/dbtour' },
   cloisto: { url: 'https://cloisto.com', scheme: 'light' },
+  analyst: { url: 'https://victorsaly.github.io/business-analyst-agent-demo/demo/' },
   valentino: { url: 'https://www.valentinolondon.co.uk', click: /^reject$/i, settle: 1500 },
 };
 
