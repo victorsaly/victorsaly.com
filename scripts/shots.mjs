@@ -33,7 +33,6 @@ const SITES = {
   agenticblog: { url: 'https://blog.victorsaly.com', scheme: 'light' },
   sideshot: { url: 'https://skills.victorsaly.com/sideshot', scheme: 'light' },
   dbtour: { url: 'https://skills.victorsaly.com/dbtour' },
-  merlive: { url: 'https://skills.victorsaly.com/merlive', scheme: 'light' },
   cloisto: { url: 'https://cloisto.com', scheme: 'light' },
   analyst: { url: 'https://victorsaly.github.io/business-analyst-agent-demo/demo/' },
   colourvaria: { url: 'https://www.colourvaria.com', click: /^reject/i, settle: 2500 },
